@@ -4,23 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BTB Lacrosse — Long Island's Premier Youth Lacrosse Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0a0a0a;
-  --card: #111111;
-  --card-hover: #161616;
-  --nav: rgba(26, 26, 26, 0.85);
-  --border: #222222;
-  --border-light: #333333;
+  --bg: #000000;
+  --card: #0a0a0a;
+  --card-hover: #111111;
+  --nav: rgba(0, 0, 0, 0.9);
+  --border: #1a1a1a;
+  --border-light: #2a2a2a;
   --text: #ffffff;
-  --text-muted: #999999;
-  --text-dim: #666666;
-  --cyan: #00e5ff;
-  --cyan-dim: rgba(0, 229, 255, 0.15);
-  --blue: #3b82f6;
-  --blue-dim: rgba(59, 130, 246, 0.15);
+  --text-muted: #DADADA;
+  --text-dim: #4A4A4A;
+  --red: #D22630;
+  --red-dim: rgba(210, 38, 48, 0.15);
+  --red-glow: rgba(210, 38, 48, 0.3);
+  --steel: #4A4A4A;
+  --light-grey: #DADADA;
+  --cyan: #D22630;
+  --cyan-dim: rgba(210, 38, 48, 0.15);
+  --blue: #D22630;
+  --blue-dim: rgba(210, 38, 48, 0.15);
   --radius: 16px;
   --radius-sm: 10px;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -29,11 +36,16 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+h1, h2, h3, .section-title, .nav-logo, .footer-logo {
+  font-family: 'Anton', 'Bebas Neue', Impact, sans-serif;
+  text-transform: uppercase;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -67,7 +79,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   white-space: nowrap;
 }
 
-.nav-logo span { color: var(--cyan); }
+.nav-logo span { color: var(--red); }
 
 .nav-links {
   display: flex;
@@ -209,9 +221,9 @@ button { cursor: pointer; border: none; font-family: inherit; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 229, 255, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 30% 100%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(0, 229, 255, 0.04) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(210, 38, 48, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 30% 100%, rgba(210, 38, 48, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(210, 38, 48, 0.04) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -235,13 +247,13 @@ button { cursor: pointer; border: none; font-family: inherit; }
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--cyan);
+  background: var(--red);
   animation: pulse-dot 2s ease infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,229,255,0.4); }
-  50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(0,229,255,0); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(210,38,48,0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(210,38,48,0); }
 }
 
 .hero h1 {
@@ -287,25 +299,26 @@ button { cursor: pointer; border: none; font-family: inherit; }
 }
 
 .btn-cyan {
-  background: var(--cyan);
-  color: #000;
-}
-
-.btn-cyan:hover {
-  background: #33ebff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 229, 255, 0.3);
-}
-
-.btn-blue {
-  background: var(--blue);
+  background: var(--red);
   color: #fff;
 }
 
-.btn-blue:hover {
-  background: #5b9bf7;
+.btn-cyan:hover {
+  background: #e63540;
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 30px var(--red-glow);
+}
+
+.btn-blue {
+  background: transparent;
+  color: #fff;
+  border: 2px solid var(--red);
+}
+
+.btn-blue:hover {
+  background: var(--red);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--red-glow);
 }
 
 .btn-outline {
@@ -350,10 +363,8 @@ button { cursor: pointer; border: none; font-family: inherit; }
 .stat-number {
   font-size: 28px;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'Anton', Impact, sans-serif;
+  color: var(--red);
 }
 
 .stat-label {
@@ -634,7 +645,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  background: var(--red);
 }
 
 @media (max-width: 600px) {
@@ -654,15 +665,15 @@ button { cursor: pointer; border: none; font-family: inherit; }
 }
 
 .avatar.director {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  color: #000;
+  background: var(--red);
+  color: #fff;
   width: 80px;
   height: 80px;
   font-size: 24px;
 }
 
-.avatar.cyan { background: var(--cyan-dim); color: var(--cyan); }
-.avatar.blue { background: var(--blue-dim); color: var(--blue); }
+.avatar.cyan { background: var(--red-dim); color: var(--red); }
+.avatar.blue { background: var(--red-dim); color: var(--red); }
 
 .director-info h3 {
   font-size: 22px;
@@ -672,7 +683,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
 
 .director-info .role {
   font-size: 14px;
-  color: var(--cyan);
+  color: var(--red);
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -768,7 +779,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   width: 24px;
   height: 24px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--cyan-dim), var(--blue-dim));
+  background: var(--red-dim);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -793,7 +804,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  background: var(--red);
 }
 
 .cta-card h3 {
@@ -815,7 +826,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   gap: 8px;
   font-size: 16px;
   font-weight: 600;
-  color: var(--cyan);
+  color: var(--red);
   margin-bottom: 24px;
 }
 
@@ -824,8 +835,8 @@ button { cursor: pointer; border: none; font-family: inherit; }
   align-items: center;
   gap: 8px;
   padding: 14px 32px;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  color: #000;
+  background: var(--red);
+  color: #fff;
   font-size: 15px;
   font-weight: 700;
   border-radius: 12px;
@@ -834,7 +845,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
 
 .cta-website:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 229, 255, 0.25);
+  box-shadow: 0 8px 30px var(--red-glow);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -853,7 +864,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   margin-bottom: 8px;
 }
 
-.footer-logo span { color: var(--cyan); }
+.footer-logo span { color: var(--red); }
 
 .footer-tagline {
   font-size: 14px;
@@ -920,7 +931,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
 <!-- NAVIGATION                                         -->
 <!-- ═══════════════════════════════════════════════════ -->
 <nav class="nav">
-  <div class="nav-logo">BTB <span>LACROSSE</span></div>
+  <div class="nav-logo" style="display:flex;align-items:center;gap:10px"><img src="btb-badge.png" alt="BTB" style="height:40px;width:40px;border-radius:50%;object-fit:cover"> BTB <span>LACROSSE</span></div>
   <ul class="nav-links">
     <li><a href="#hero">Home</a></li>
     <li><a href="#about">About</a></li>
@@ -951,6 +962,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
 <!-- HERO                                               -->
 <!-- ═══════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
+  <img src="btb-logo.png" alt="BTB Lacrosse" style="width:140px;height:auto;margin-bottom:24px;position:relative;filter:drop-shadow(0 0 30px rgba(210,38,48,0.4))">
   <div class="hero-badge">
     <span class="dot"></span>
     AI-POWERED LACROSSE ACADEMY
