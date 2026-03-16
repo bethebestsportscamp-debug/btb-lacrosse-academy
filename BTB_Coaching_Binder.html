@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Girls Championship Coaching Binder</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--card:#141414;--border:#222;--accent:#00e5ff;
+  --text:#e0e0e0;--text-dim:#888;--attack:#ff4444;--midfield:#4488ff;
+  --defense:#44cc66;--goalie:#ffcc00;--radius:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#0d0d0d,#1a1a1a);border-bottom:2px solid var(--accent);padding:20px 24px;text-align:center;position:sticky;top:0;z-index:100}
+.header h1{font-size:clamp(16px,3.5vw,28px);font-weight:800;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.header .subtitle{font-size:12px;color:var(--accent);letter-spacing:2px;margin-top:4px;text-transform:uppercase}
+
+/* TABS */
+.tab-nav{display:flex;gap:4px;padding:8px 12px;background:#111;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:76px;z-index:99}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:10px 18px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text-dim);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tab-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+
+/* CONTENT */
+.tab-content{display:none;padding:20px;max-width:1200px;margin:0 auto;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SEARCH */
+.search-bar{width:100%;padding:12px 16px;background:#1a1a1a;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;margin-bottom:20px;outline:none;transition:border-color .2s}
+.search-bar:focus{border-color:var(--accent)}
+.search-bar::placeholder{color:var(--text-dim)}
+
+/* SECTION TITLE */
+.section-title{font-size:20px;font-weight:700;color:#fff;margin:24px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
+.section-title:first-child{margin-top:0}
+
+/* TABLES */
+.term-table{width:100%;border-collapse:separate;border-spacing:0;margin-bottom:24px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.term-table thead th{background:#1a1a1a;color:var(--accent);font-weight:700;padding:14px 16px;text-align:left;font-size:13px;text-transform:uppercase;letter-spacing:1px}
+.term-table tbody td{padding:12px 16px;border-top:1px solid var(--border);font-size:14px}
+.term-table tbody tr{background:var(--card);transition:background .15s}
+.term-table tbody tr:hover{background:#1e1e1e}
+.term-table .term-name{color:var(--accent);font-weight:600;white-space:nowrap;min-width:100px}
+
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color .2s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--accent);color:#000;font-weight:800;font-size:13px;border-radius:8px;margin-bottom:8px}
+.card-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px}
+.card-desc{font-size:14px;color:var(--text-dim);margin-bottom:12px;line-height:1.6}
+.card ul{list-style:none;padding:0}
+.card ul li{font-size:13px;color:var(--text);padding:4px 0;padding-left:16px;position:relative}
+.card ul li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--accent);border-radius:50%}
+.card .used-by{margin-top:10px;font-size:12px;color:var(--accent);font-style:italic}
+
+/* FIELD DIAGRAM */
+.field-diagram{width:100%;max-width:280px;margin:12px auto;aspect-ratio:3/4;position:relative;background:#1a2a1a;border:2px solid #2a5a2a;border-radius:12px;overflow:hidden}
+.field-diagram .goal-circle{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);width:60px;height:40px;border:2px solid #3a6a3a;border-radius:50%;opacity:.6}
+.field-diagram .crease{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);width:80px;height:50px;border:2px solid #3a6a3a;border-radius:50% 50% 0 0;opacity:.5}
+.field-diagram .center-line{position:absolute;top:40%;left:10%;right:10%;height:1px;background:#3a6a3a;opacity:.4}
+.field-diagram .player{position:absolute;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;transform:translate(-50%,-50%);z-index:2;text-shadow:0 1px 2px rgba(0,0,0,.8)}
+.field-diagram .player.attack{background:var(--attack)}
+.field-diagram .player.midfield{background:var(--midfield)}
+.field-diagram .player.defense{background:var(--defense)}
+.field-diagram .player.goalie{background:var(--goalie);color:#000}
+
+/* LEGEND */
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;padding:10px;background:#111;border-radius:10px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim)}
+.legend-dot{width:12px;height:12px;border-radius:50%}
+
+/* PRACTICE PLANS */
+.practice-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.practice-card .practice-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
+.practice-card .practice-duration{font-size:13px;color:var(--accent);margin-bottom:14px}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;padding:8px 0 8px 16px;font-size:14px}
+.timeline-item::before{content:'';position:absolute;left:-20px;top:14px;width:10px;height:10px;background:var(--accent);border-radius:50%;border:2px solid var(--bg)}
+.timeline-item .time-label{color:var(--accent);font-weight:600;font-size:12px;margin-right:8px}
+
+/* SCOUTING FORM */
+.scout-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1px}
+.form-input,.form-select,.form-textarea{background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-size:14px;outline:none;font-family:inherit;transition:border-color .2s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
+.form-textarea{min-height:100px;resize:vertical}
+.form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.form-section-title{font-size:15px;font-weight:700;color:#fff;margin:20px 0 12px;padding-top:16px;border-top:1px solid var(--border)}
+.form-section-title:first-child{margin-top:0;padding-top:0;border-top:none}
+.btn{padding:12px 28px;background:var(--accent);color:#000;font-weight:700;font-size:14px;border:none;border-radius:12px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px}
+.btn:hover{background:#33eeff;transform:translateY(-1px)}
+.btn.btn-sm{padding:8px 16px;font-size:12px;border-radius:8px}
+.btn.btn-danger{background:#ff4444}
+.btn.btn-danger:hover{background:#ff6666}
+
+/* SAVED REPORTS */
+.saved-reports{margin-top:24px}
+.report-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.report-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.report-name{font-weight:700;color:#fff;font-size:15px}
+.report-date{font-size:12px;color:var(--text-dim)}
+.report-detail{font-size:13px;color:var(--text-dim);padding:2px 0}
+.report-detail span{color:var(--text)}
+
+/* DRAW SECTION */
+.draw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:24px}
+.draw-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.draw-card h4{color:#fff;font-size:15px;margin-bottom:8px}
+.draw-card p{font-size:13px;color:var(--text-dim);line-height:1.6}
+.strategy-code{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--accent);color:#000;font-weight:800;font-size:14px;border-radius:8px;margin-right:8px}
+
+/* RIDE/CLEAR LIST */
+.system-list{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.system-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s}
+.system-item:hover{border-color:var(--accent)}
+.system-item .sys-num{flex-shrink:0;width:32px;height:32px;background:var(--accent);color:#000;font-weight:800;font-size:14px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.system-item .sys-body h4{color:#fff;font-size:15px;margin-bottom:4px}
+.system-item .sys-body p{font-size:13px;color:var(--text-dim);line-height:1.5}
+
+/* WING DIAGRAM */
+.wing-diagram{width:100%;max-width:400px;margin:16px auto;aspect-ratio:2/1;position:relative;background:#1a2a1a;border:2px solid #2a5a2a;border-radius:12px;overflow:hidden}
+.wing-diagram .center-circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border:2px solid #3a6a3a;border-radius:50%}
+.wing-diagram .player{position:absolute;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;transform:translate(-50%,-50%);z-index:2;text-shadow:0 1px 2px rgba(0,0,0,.8);background:var(--accent)}
+.wing-diagram .label{position:absolute;font-size:10px;color:var(--text-dim);font-weight:600;transform:translate(-50%,-50%);text-align:center}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .header{padding:14px 16px}
+  .tab-nav{padding:6px 8px;top:62px}
+  .tab-btn{padding:8px 14px;font-size:12px}
+  .tab-content{padding:14px}
+  .card-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .draw-grid{grid-template-columns:1fr}
+  .term-table{font-size:13px}
+  .term-table thead th,.term-table tbody td{padding:10px 12px}
+}
+@media(max-width:480px){
+  .tab-btn{padding:7px 10px;font-size:11px}
+}
+.hidden{display:none!important}
+.no-results{text-align:center;padding:40px;color:var(--text-dim);font-size:15px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>BTB Girls Championship Coaching Binder</h1>
+  <div class="subtitle">Women's Lacrosse -- 4 Attack / 3 Midfield / 4 Defense / 1 Goalie</div>
+</div>
+
+<nav class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="terminology">BTB Terminology</button>
+  <button class="tab-btn" data-tab="offense">Offensive Systems</button>
+  <button class="tab-btn" data-tab="defense">Defensive Packages</button>
+  <button class="tab-btn" data-tab="rides">Ride Systems</button>
+  <button class="tab-btn" data-tab="clears">Clear Systems</button>
+  <button class="tab-btn" data-tab="draw">Draw Control</button>
+  <button class="tab-btn" data-tab="practice">Practice Plans</button>
+  <button class="tab-btn" data-tab="scouting">Scouting System</button>
+</nav>
+
+<!-- ===================== TAB 1: TERMINOLOGY ===================== -->
+<div class="tab-content active" id="tab-terminology">
+  <input type="text" class="search-bar" placeholder="Search terminology..." data-search="terminology">
+
+  <div class="section-title">Offensive Terms</div>
+  <table class="term-table" data-searchable>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td class="term-name">Initiator</td><td>Primary dodger starting the offense; the player who initiates the action with a dodge</td></tr>
+      <tr><td class="term-name">Drift</td><td>Off-ball movement away from the dodge to create spacing and passing lanes</td></tr>
+      <tr><td class="term-name">Fill</td><td>Replace open space after a teammate cuts through; maintain offensive structure</td></tr>
+      <tr><td class="term-name">Cut Through</td><td>Attack player moving across the crease area to create scoring opportunities</td></tr>
+      <tr><td class="term-name">Two-Player Game</td><td>Pick and slip action between two offensive players to create advantages</td></tr>
+      <tr><td class="term-name">Swing</td><td>Ball movement across the top of the formation to shift the defense</td></tr>
+      <tr><td class="term-name">Skip</td><td>Cross-field pass that skips over adjacent players to exploit weak-side openings</td></tr>
+      <tr><td class="term-name">Crease Flash</td><td>Quick crease cut by an attacker to get open for a feed near the goal</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Defensive Terms</div>
+  <table class="term-table" data-searchable>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td class="term-name">Ball You</td><td>Defender marking the ball carrier; communicates primary on-ball responsibility</td></tr>
+      <tr><td class="term-name">Adjacent</td><td>Next defender responsible to slide and provide help when ball defender is beaten</td></tr>
+      <tr><td class="term-name">Crease</td><td>Defender protecting the middle/crease area; anchors the interior defense</td></tr>
+      <tr><td class="term-name">Jump Slide</td><td>Early aggressive slide before the dodge is completed to cut off the attacker</td></tr>
+      <tr><td class="term-name">Recover</td><td>Defender returning to their original assignment after a slide or rotation</td></tr>
+      <tr><td class="term-name">Bump</td><td>Defensive switch where a defender bumps to a new assignment during rotation</td></tr>
+      <tr><td class="term-name">Lock</td><td>Defender denies a pass to their mark; face-guarding to take away options</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Ride Terms</div>
+  <table class="term-table" data-searchable>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td class="term-name">Contain</td><td>Slow the clear down without applying direct pressure; maintain defensive shape</td></tr>
+      <tr><td class="term-name">Trap</td><td>Force a double team on the ball carrier to create a turnover opportunity</td></tr>
+      <tr><td class="term-name">Funnel</td><td>Push the clear toward the sideline to limit passing options and space</td></tr>
+      <tr><td class="term-name">Hot</td><td>The player applying direct pressure on the ball carrier during the ride</td></tr>
+      <tr><td class="term-name">Release</td><td>Defender leaving the ride to get back and set up defensively</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Clear Terms</div>
+  <table class="term-table" data-searchable>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td class="term-name">Break</td><td>Fast clear up field to transition quickly before the ride sets up</td></tr>
+      <tr><td class="term-name">Wheel</td><td>Ball rotates through the defense in a circular pattern to find an opening</td></tr>
+      <tr><td class="term-name">Reverse</td><td>Clear switches field direction to exploit the weak side of the ride</td></tr>
+      <tr><td class="term-name">Outlet</td><td>First passing option on a clear; the designated receiver near the goalie</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Draw Terms</div>
+  <table class="term-table" data-searchable>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td class="term-name">Clamp</td><td>First stick control technique; push stick down over the ball on the draw</td></tr>
+      <tr><td class="term-name">Rake</td><td>Pull the ball backward toward your own side on the draw</td></tr>
+      <tr><td class="term-name">Push</td><td>Send the ball forward past the opponent on the draw</td></tr>
+      <tr><td class="term-name">Self</td><td>Center controls their own draw; wins and possesses in one motion</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Sub Terms</div>
+  <table class="term-table" data-searchable>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td class="term-name">On Ball Sub</td><td>Substitution during live play while the team has possession</td></tr>
+      <tr><td class="term-name">Dead Ball Sub</td><td>Substitution during a whistle or stoppage of play</td></tr>
+      <tr><td class="term-name">Midline Sub</td><td>Substitution at the midfield line; used for midfielders transitioning on/off</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===================== TAB 2: OFFENSIVE SYSTEMS ===================== -->
+<div class="tab-content" id="tab-offense">
+  <input type="text" class="search-bar" placeholder="Search offensive systems..." data-search="offense">
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--attack)"></div>Attack</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--midfield)"></div>Midfield</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--defense)"></div>Defense</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--goalie)"></div>Goalie</div>
+  </div>
+
+  <div class="card-grid" id="offenseGrid">
+
+    <!-- Offense 1: 3-2-2 Motion -->
+    <div class="card" data-searchable>
+      <div class="card-num">1</div>
+      <div class="card-title">3-2-2 Motion</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:18%;left:30%">M1</div>
+        <div class="player midfield" style="top:18%;left:50%">M2</div>
+        <div class="player midfield" style="top:18%;left:70%">M3</div>
+        <div class="player attack" style="top:38%;left:25%">A1</div>
+        <div class="player attack" style="top:38%;left:75%">A2</div>
+        <div class="player attack" style="top:62%;left:25%">A3</div>
+        <div class="player attack" style="top:62%;left:75%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Most common women's lacrosse offense</li>
+        <li>Triangle passing creates constant ball movement</li>
+        <li>Dodge and drift spacing principles</li>
+        <li>Continuous crease movement and cuts</li>
+      </ul>
+      <div class="used-by">Used by: Maryland, Northwestern</div>
+    </div>
+
+    <!-- Offense 2: 2-4-1 -->
+    <div class="card" data-searchable>
+      <div class="card-num">2</div>
+      <div class="card-title">2-4-1</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player attack" style="top:20%;left:35%">A1</div>
+        <div class="player attack" style="top:20%;left:65%">A2</div>
+        <div class="player midfield" style="top:42%;left:20%">M1</div>
+        <div class="player midfield" style="top:42%;left:40%">M2</div>
+        <div class="player midfield" style="top:42%;left:60%">M3</div>
+        <div class="player attack" style="top:42%;left:80%">A3</div>
+        <div class="player attack" style="top:70%;left:50%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Large driving lanes for dodging midfielders</li>
+        <li>Four across the middle creates width</li>
+        <li>Low attacker works as crease option</li>
+        <li>Effective against zone defenses</li>
+      </ul>
+      <div class="used-by">Used by: Various NCAA D1 programs</div>
+    </div>
+
+    <!-- Offense 3: Stack -->
+    <div class="card" data-searchable>
+      <div class="card-num">3</div>
+      <div class="card-title">Stack</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:18%;left:30%">M1</div>
+        <div class="player midfield" style="top:18%;left:50%">M2</div>
+        <div class="player midfield" style="top:18%;left:70%">M3</div>
+        <div class="player attack" style="top:38%;left:28%">A1</div>
+        <div class="player attack" style="top:50%;left:28%">A2</div>
+        <div class="player attack" style="top:62%;left:28%">A3</div>
+        <div class="player attack" style="top:68%;left:70%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Three attackers stacked on one side</li>
+        <li>Isolates elite dodgers in space</li>
+        <li>Sequential cuts off the stack</li>
+        <li>Creates confusion in slide responsibilities</li>
+      </ul>
+      <div class="used-by">Used by: UNC, Northwestern</div>
+    </div>
+
+    <!-- Offense 4: Double Crease -->
+    <div class="card" data-searchable>
+      <div class="card-num">4</div>
+      <div class="card-title">Double Crease</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:18%;left:30%">M1</div>
+        <div class="player midfield" style="top:18%;left:50%">M2</div>
+        <div class="player midfield" style="top:18%;left:70%">M3</div>
+        <div class="player attack" style="top:38%;left:25%">A1</div>
+        <div class="player attack" style="top:38%;left:75%">A2</div>
+        <div class="player attack" style="top:65%;left:38%">A3</div>
+        <div class="player attack" style="top:65%;left:62%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Two attackers stationed near the crease</li>
+        <li>Creates slide confusion for defense</li>
+        <li>Cross-crease passes for high percentage shots</li>
+        <li>Forces defenders to communicate constantly</li>
+      </ul>
+      <div class="used-by">Used by: Various NCAA programs</div>
+    </div>
+
+    <!-- Offense 5: Invert -->
+    <div class="card" data-searchable>
+      <div class="card-num">5</div>
+      <div class="card-title">Invert Offense</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player attack" style="top:15%;left:30%">A1</div>
+        <div class="player attack" style="top:15%;left:50%">A2</div>
+        <div class="player attack" style="top:15%;left:70%">A3</div>
+        <div class="player midfield" style="top:42%;left:25%">M1</div>
+        <div class="player midfield" style="top:42%;left:50%">M2</div>
+        <div class="player midfield" style="top:42%;left:75%">M3</div>
+        <div class="player attack" style="top:65%;left:50%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Attackers initiate from top positions</li>
+        <li>Midfielders fill underneath</li>
+        <li>Mismatches created by positional switches</li>
+        <li>Attackers use speed advantage at the top</li>
+      </ul>
+      <div class="used-by">Used by: Boston College</div>
+    </div>
+
+    <!-- Offense 6: Two Player Game -->
+    <div class="card" data-searchable>
+      <div class="card-num">6</div>
+      <div class="card-title">Two Player Game</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:18%;left:30%">M1</div>
+        <div class="player midfield" style="top:18%;left:70%">M2</div>
+        <div class="player midfield" style="top:28%;left:50%">M3</div>
+        <div class="player attack" style="top:40%;left:35%">A1</div>
+        <div class="player attack" style="top:46%;left:50%">A2</div>
+        <div class="player attack" style="top:55%;left:30%">A3</div>
+        <div class="player attack" style="top:65%;left:60%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Heavy pick and slip usage</li>
+        <li>On-ball and off-ball screens</li>
+        <li>Ball carrier uses teammate pick to get free</li>
+        <li>Requires disciplined off-ball movement</li>
+      </ul>
+      <div class="used-by">Used by: UNC</div>
+    </div>
+
+    <!-- Offense 7: Crease Rotation -->
+    <div class="card" data-searchable>
+      <div class="card-num">7</div>
+      <div class="card-title">Crease Rotation</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:18%;left:30%">M1</div>
+        <div class="player midfield" style="top:18%;left:50%">M2</div>
+        <div class="player midfield" style="top:18%;left:70%">M3</div>
+        <div class="player attack" style="top:38%;left:22%">A1</div>
+        <div class="player attack" style="top:38%;left:78%">A2</div>
+        <div class="player attack" style="top:58%;left:40%">A3</div>
+        <div class="player attack" style="top:72%;left:55%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Crease player constantly rotates positions</li>
+        <li>Confuses defensive slide packages</li>
+        <li>Creates open looks near the goal</li>
+        <li>Requires smart reads from crease attacker</li>
+      </ul>
+      <div class="used-by">Used by: Various NCAA programs</div>
+    </div>
+
+    <!-- Offense 8: High Low Attack -->
+    <div class="card" data-searchable>
+      <div class="card-num">8</div>
+      <div class="card-title">High Low Attack</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:15%;left:30%">M1</div>
+        <div class="player midfield" style="top:15%;left:50%">M2</div>
+        <div class="player midfield" style="top:15%;left:70%">M3</div>
+        <div class="player attack" style="top:32%;left:50%">A1</div>
+        <div class="player attack" style="top:42%;left:72%">A2</div>
+        <div class="player attack" style="top:68%;left:42%">A3</div>
+        <div class="player attack" style="top:68%;left:58%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>High attacker feeds crease cutters</li>
+        <li>Vertical passing game creates seams</li>
+        <li>Low attackers time cuts with high feeds</li>
+        <li>Effective against flat defensive sets</li>
+      </ul>
+      <div class="used-by">Used by: Various NCAA programs</div>
+    </div>
+
+    <!-- Offense 9: Fast Break Transition -->
+    <div class="card" data-searchable>
+      <div class="card-num">9</div>
+      <div class="card-title">Fast Break Transition</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:12%;left:50%">M1</div>
+        <div class="player attack" style="top:30%;left:30%">A1</div>
+        <div class="player attack" style="top:30%;left:70%">A2</div>
+        <div class="player attack" style="top:55%;left:50%">A3</div>
+        <div class="player defense" style="top:50%;left:30%">D1</div>
+        <div class="player defense" style="top:50%;left:70%">D2</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>3v2 and 4v3 advantage situations</li>
+        <li>Attack the defense before it is set</li>
+        <li>Quick ball movement to find the open player</li>
+        <li>Decisive finishing in transition</li>
+      </ul>
+      <div class="used-by">Used by: All top NCAA programs</div>
+    </div>
+
+    <!-- Offense 10: Delay / Stall -->
+    <div class="card" data-searchable>
+      <div class="card-num">10</div>
+      <div class="card-title">Delay / Stall Offense</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="center-line"></div>
+        <div class="player midfield" style="top:15%;left:25%">M1</div>
+        <div class="player midfield" style="top:15%;left:50%">M2</div>
+        <div class="player midfield" style="top:15%;left:75%">M3</div>
+        <div class="player attack" style="top:35%;left:20%">A1</div>
+        <div class="player attack" style="top:35%;left:80%">A2</div>
+        <div class="player attack" style="top:55%;left:35%">A3</div>
+        <div class="player attack" style="top:55%;left:65%">A4</div>
+        <div class="player goalie" style="top:90%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Late game possession management</li>
+        <li>Spread formation to use the full field</li>
+        <li>Only take high percentage shots</li>
+        <li>Force defense to come out and chase</li>
+      </ul>
+      <div class="used-by">Used by: All programs (situational)</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== TAB 3: DEFENSIVE PACKAGES ===================== -->
+<div class="tab-content" id="tab-defense">
+  <input type="text" class="search-bar" placeholder="Search defensive packages..." data-search="defense">
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--attack)"></div>Attack (Opponent)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--defense)"></div>Defense</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--goalie)"></div>Goalie</div>
+  </div>
+
+  <div class="card-grid" id="defenseGrid">
+
+    <!-- Defense 1: Adjacent Slide -->
+    <div class="card" data-searchable>
+      <div class="card-num">1</div>
+      <div class="card-title">Adjacent Slide</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:25%;left:50%">A</div>
+        <div class="player defense" style="top:30%;left:50%">D1</div>
+        <div class="player attack" style="top:35%;left:75%">A</div>
+        <div class="player defense" style="top:40%;left:72%">D2</div>
+        <div class="player attack" style="top:55%;left:65%">A</div>
+        <div class="player defense" style="top:58%;left:60%">D3</div>
+        <div class="player attack" style="top:55%;left:35%">A</div>
+        <div class="player defense" style="top:58%;left:38%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Most common women's lax defense</li>
+        <li>Nearest defender slides to help on ball</li>
+        <li>Second adjacent rotates to cover</li>
+        <li>Maintains defensive shape through rotation</li>
+      </ul>
+    </div>
+
+    <!-- Defense 2: Double Slide -->
+    <div class="card" data-searchable>
+      <div class="card-num">2</div>
+      <div class="card-title">Double Slide</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:25%;left:40%">A</div>
+        <div class="player defense" style="top:30%;left:42%">D1</div>
+        <div class="player attack" style="top:35%;left:70%">A</div>
+        <div class="player defense" style="top:38%;left:65%">D2</div>
+        <div class="player defense" style="top:60%;left:50%">D3</div>
+        <div class="player attack" style="top:55%;left:30%">A</div>
+        <div class="player defense" style="top:58%;left:33%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Second defender protects crease after first slide</li>
+        <li>Layered defensive help system</li>
+        <li>Prevents easy crease goals on passes</li>
+        <li>Requires disciplined recovery rotations</li>
+      </ul>
+    </div>
+
+    <!-- Defense 3: Early Slide -->
+    <div class="card" data-searchable>
+      <div class="card-num">3</div>
+      <div class="card-title">Early Slide</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:28%;left:45%">A</div>
+        <div class="player defense" style="top:32%;left:48%">D1</div>
+        <div class="player defense" style="top:30%;left:65%">D2</div>
+        <div class="player attack" style="top:40%;left:75%">A</div>
+        <div class="player defense" style="top:55%;left:55%">D3</div>
+        <div class="player defense" style="top:60%;left:35%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Used against elite dodgers</li>
+        <li>Aggressive early help before dodge develops</li>
+        <li>Takes away one-on-one opportunities</li>
+        <li>Risks leaving shooters open if slow to recover</li>
+      </ul>
+    </div>
+
+    <!-- Defense 4: Crease Slide -->
+    <div class="card" data-searchable>
+      <div class="card-num">4</div>
+      <div class="card-title">Crease Slide</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:25%;left:45%">A</div>
+        <div class="player defense" style="top:30%;left:48%">D1</div>
+        <div class="player attack" style="top:40%;left:72%">A</div>
+        <div class="player defense" style="top:43%;left:68%">D2</div>
+        <div class="player defense" style="top:62%;left:50%">D3</div>
+        <div class="player attack" style="top:58%;left:35%">A</div>
+        <div class="player defense" style="top:55%;left:30%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Crease defender slides first to the ball</li>
+        <li>Most aggressive slide package</li>
+        <li>Quick help from inside out</li>
+        <li>Requires fast recovery to crease area</li>
+      </ul>
+    </div>
+
+    <!-- Defense 5: Zone Defense -->
+    <div class="card" data-searchable>
+      <div class="card-num">5</div>
+      <div class="card-title">Zone Defense</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player defense" style="top:30%;left:35%">D1</div>
+        <div class="player defense" style="top:30%;left:65%">D2</div>
+        <div class="player defense" style="top:50%;left:35%">D3</div>
+        <div class="player defense" style="top:50%;left:65%">D4</div>
+        <div class="player attack" style="top:22%;left:50%">A</div>
+        <div class="player attack" style="top:40%;left:75%">A</div>
+        <div class="player attack" style="top:60%;left:50%">A</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Protects the middle of the field</li>
+        <li>Area-based coverage rather than player-to-player</li>
+        <li>Effective against teams that rely on cutting</li>
+        <li>Vulnerable to perimeter shooting</li>
+      </ul>
+    </div>
+
+    <!-- Defense 6: Lock Off -->
+    <div class="card" data-searchable>
+      <div class="card-num">6</div>
+      <div class="card-title">Lock Off</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:30%;left:35%;border:2px solid #fff">A*</div>
+        <div class="player defense" style="top:28%;left:28%">D1</div>
+        <div class="player attack" style="top:35%;left:65%">A</div>
+        <div class="player defense" style="top:38%;left:62%">D2</div>
+        <div class="player defense" style="top:55%;left:50%">D3</div>
+        <div class="player defense" style="top:60%;left:35%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Used against star attackers</li>
+        <li>Deny the ball completely -- face guard</li>
+        <li>Force offense to run through weaker players</li>
+        <li>Lock defender stays with assignment everywhere</li>
+      </ul>
+    </div>
+
+    <!-- Defense 7: Jump Slide -->
+    <div class="card" data-searchable>
+      <div class="card-num">7</div>
+      <div class="card-title">Jump Slide</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:28%;left:45%">A</div>
+        <div class="player defense" style="top:32%;left:48%">D1</div>
+        <div class="player defense" style="top:25%;left:68%">D2</div>
+        <div class="player attack" style="top:38%;left:72%">A</div>
+        <div class="player defense" style="top:52%;left:55%">D3</div>
+        <div class="player defense" style="top:58%;left:35%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Aggressive early help before dodge starts</li>
+        <li>Defender "jumps" toward ball before contact</li>
+        <li>Disrupts offensive timing and rhythm</li>
+        <li>Requires quick recovery and communication</li>
+      </ul>
+    </div>
+
+    <!-- Defense 8: Switch Defense -->
+    <div class="card" data-searchable>
+      <div class="card-num">8</div>
+      <div class="card-title">Switch Defense</div>
+      <div class="field-diagram">
+        <div class="crease"></div>
+        <div class="goal-circle"></div>
+        <div class="player attack" style="top:30%;left:42%">A1</div>
+        <div class="player attack" style="top:30%;left:55%">A2</div>
+        <div class="player defense" style="top:34%;left:42%">D1</div>
+        <div class="player defense" style="top:34%;left:55%">D2</div>
+        <div class="player defense" style="top:52%;left:60%">D3</div>
+        <div class="player defense" style="top:55%;left:38%">D4</div>
+        <div class="player goalie" style="top:88%;left:50%">G</div>
+      </div>
+      <ul>
+        <li>Used against picks and screens</li>
+        <li>Defenders switch assignments on contact</li>
+        <li>Eliminates the need to fight over screens</li>
+        <li>Risk of size/speed mismatches after switch</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== TAB 4: RIDE SYSTEMS ===================== -->
+<div class="tab-content" id="tab-rides">
+  <input type="text" class="search-bar" placeholder="Search ride systems..." data-search="rides">
+
+  <div class="section-title">Ride Systems</div>
+  <div class="system-list" id="rideList">
+    <div class="system-item" data-searchable>
+      <div class="sys-num">1</div>
+      <div class="sys-body">
+        <h4>Pressure Ride</h4>
+        <p>Full pressure on the ball carrier and all adjacent passing options. Every defender within one pass attacks their mark. High intensity, high turnover potential, but risky if broken.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">2</div>
+      <div class="sys-body">
+        <h4>10 Ride</h4>
+        <p>A specifically named player (the "10") applies primary pressure on the ball carrier. Remaining riders position themselves to cut off passing lanes while the 10 forces the action.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">3</div>
+      <div class="sys-body">
+        <h4>Contain Ride</h4>
+        <p>No direct pressure on the ball. The ride slows the clear down, maintains shape, and forces the clearing team to use the clock. Low risk, used when protecting a lead.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">4</div>
+      <div class="sys-body">
+        <h4>Midline Trap</h4>
+        <p>Allow the clear to develop, then trap the ball carrier as they cross the midfield line. Uses the midfield line as an extra defender. Effective against teams that clear through the middle.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">5</div>
+      <div class="sys-body">
+        <h4>Corner Trap</h4>
+        <p>Force the ball carrier toward the sideline or endline corner and trap with a second rider. Uses the boundary as an extra defender. High turnover potential in the corners.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">6</div>
+      <div class="sys-body">
+        <h4>Double Ride</h4>
+        <p>Two riders converge on the ball carrier simultaneously. Extremely aggressive -- forces quick decisions. Leaves an open player, so requires excellent off-ball riding by teammates.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">7</div>
+      <div class="sys-body">
+        <h4>Zone Ride</h4>
+        <p>Area-based ride coverage. Riders own zones on the field rather than matching up with specific players. Good against structured clearing patterns. Requires communication.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">8</div>
+      <div class="sys-body">
+        <h4>Shadow Ride</h4>
+        <p>Match specific riders to specific clearing players based on scouting. The best rider shadows the opponent's best clearing option. Disrupts their primary outlet.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">9</div>
+      <div class="sys-body">
+        <h4>Delayed Ride</h4>
+        <p>Let the clear begin without pressure, then apply pressure once the clearing team commits to a pattern. Baits the clear into a predictable shape before attacking it.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">10</div>
+      <div class="sys-body">
+        <h4>Turnover Ride</h4>
+        <p>Immediate full-field pressure applied right after a turnover. Capitalizes on the opponent being out of position. Sprint to nearest player and deny the clear before it organizes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TAB 5: CLEAR SYSTEMS ===================== -->
+<div class="tab-content" id="tab-clears">
+  <input type="text" class="search-bar" placeholder="Search clear systems..." data-search="clears">
+
+  <div class="section-title">Clear Systems</div>
+  <div class="system-list" id="clearList">
+    <div class="system-item" data-searchable>
+      <div class="sys-num">1</div>
+      <div class="sys-body">
+        <h4>Break Clear</h4>
+        <p>Fast clear up the field immediately after a save or change of possession. Goalie outlets quickly to a defender who pushes the ball up field before the ride sets up. Speed over structure.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">2</div>
+      <div class="sys-body">
+        <h4>Wheel Clear</h4>
+        <p>Ball rotates through the defense in a circular pattern. Defenders pass to the next defender in a wheel motion, stretching the ride and finding gaps. Structured and reliable.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">3</div>
+      <div class="sys-body">
+        <h4>Reverse Clear</h4>
+        <p>Clear switches field direction against ride pressure. When the ride overloads one side, the clearing team reverses the ball to exploit the weak side. Requires quick, accurate passing.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">4</div>
+      <div class="sys-body">
+        <h4>Goalie Carry</h4>
+        <p>Goalie carries the ball to midfield personally. Effective when the ride drops off the goalie. Creates a numerical advantage as the goalie becomes an extra ball carrier.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">5</div>
+      <div class="sys-body">
+        <h4>Two-Pass Clear</h4>
+        <p>Quick two-pass clear designed to get through the ride with minimal touches. Goalie to outlet, outlet to midfielder streaking up field. Simple and fast.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">6</div>
+      <div class="sys-body">
+        <h4>Midfield Break</h4>
+        <p>A midfielder drops back toward the defensive end to receive the clear pass. Creates an extra option in the defensive third and uses the midfielder's speed to push the ball forward.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">7</div>
+      <div class="sys-body">
+        <h4>Corner Clear</h4>
+        <p>Use the corners of the field to escape pressure. Defenders spread to the corners, creating wide passing lanes. The boundary provides protection from rides coming from the middle.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">8</div>
+      <div class="sys-body">
+        <h4>Spread Clear</h4>
+        <p>Spread formation across the entire width and depth of the field. Creates maximum spacing and forces the ride to cover a lot of ground. Find gaps in the ride coverage.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">9</div>
+      <div class="sys-body">
+        <h4>Quick Clear</h4>
+        <p>Immediate clear after a save -- the goalie outlets before the ride even sets up. Requires pre-planned positions and instant recognition from defenders. Capitalizes on transition chaos.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num">10</div>
+      <div class="sys-body">
+        <h4>Slow Control</h4>
+        <p>Possession-style clear. No rush to get the ball up field. Move the ball deliberately, wait for the ride to break down, and find the open pass. Used against aggressive rides.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TAB 6: DRAW CONTROL ===================== -->
+<div class="tab-content" id="tab-draw">
+  <input type="text" class="search-bar" placeholder="Search draw control..." data-search="draw">
+
+  <div class="section-title">Draw Techniques</div>
+  <div class="draw-grid">
+    <div class="draw-card" data-searchable>
+      <h4>Clamp</h4>
+      <p>Push your stick down over the ball on the whistle. The most common draw technique. Goal is to trap the ball and gain immediate control. Requires timing and wrist strength.</p>
+    </div>
+    <div class="draw-card" data-searchable>
+      <h4>Rake</h4>
+      <p>Pull the ball backward toward your own side on the draw. Effective when you want to direct the ball to a wing player behind you. Requires a quick backward motion after the whistle.</p>
+    </div>
+    <div class="draw-card" data-searchable>
+      <h4>Push</h4>
+      <p>Send the ball forward past the opponent on the draw. Directs the ball toward your offensive wing players. Good when your wings are faster and positioned ahead of the opponent's.</p>
+    </div>
+    <div class="draw-card" data-searchable>
+      <h4>Self Control</h4>
+      <p>Center wins and possesses the ball in one motion. The draw taker controls the ball to themselves rather than directing it to a wing. Requires elite stick skills and body positioning.</p>
+    </div>
+    <div class="draw-card" data-searchable>
+      <h4>Directional Draw</h4>
+      <p>Pre-planned draw direction based on scouting and wing strengths. The center aims the ball toward the wing with the best chance of possession. Uses hand signals or verbal codes.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Wing Positioning</div>
+  <div class="wing-diagram">
+    <div class="center-circle"></div>
+    <div class="player" style="top:50%;left:50%;background:var(--accent)">C</div>
+    <div class="player" style="top:50%;left:18%;background:var(--midfield)">LW</div>
+    <div class="player" style="top:50%;left:82%;background:var(--midfield)">RW</div>
+    <div class="player" style="top:25%;left:35%;background:var(--attack)">A</div>
+    <div class="player" style="top:25%;left:65%;background:var(--attack)">A</div>
+    <div class="player" style="top:75%;left:35%;background:var(--defense)">D</div>
+    <div class="player" style="top:75%;left:65%;background:var(--defense)">D</div>
+    <div class="label" style="top:50%;left:18%">Left<br>Wing</div>
+    <div class="label" style="top:88%;left:18%">Left Wing</div>
+    <div class="label" style="top:88%;left:82%">Right Wing</div>
+    <div class="label" style="top:88%;left:50%">Center Circle</div>
+  </div>
+  <div class="legend" style="justify-content:center;margin-top:8px">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Center</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--midfield)"></div>Wings</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--attack)"></div>Attack Side</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--defense)"></div>Defense Side</div>
+  </div>
+
+  <div class="section-title">Strategy Codes</div>
+  <div class="system-list">
+    <div class="system-item" data-searchable>
+      <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">P</div>
+      <div class="sys-body">
+        <h4>Push</h4>
+        <p>Direct the draw forward. Center pushes ball ahead toward offensive wings. Used when your attack-side wings are faster or better positioned.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">B</div>
+      <div class="sys-body">
+        <h4>Back / Pull</h4>
+        <p>Rake the draw backward toward your defensive wings. Used when you have an advantage on the defensive side of the circle or want to play it safe.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">S</div>
+      <div class="sys-body">
+        <h4>Self</h4>
+        <p>Center controls the draw to herself. No directional play -- the center wins and possesses. Called when your center has a clear skill advantage.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">L</div>
+      <div class="sys-body">
+        <h4>Left</h4>
+        <p>Direct the draw to the left wing. Specific directional call when the left wing has a positioning or matchup advantage.</p>
+      </div>
+    </div>
+    <div class="system-item" data-searchable>
+      <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">R</div>
+      <div class="sys-body">
+        <h4>Right</h4>
+        <p>Direct the draw to the right wing. Specific directional call when the right wing has a positioning or matchup advantage.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Teaching Progression</div>
+  <div class="card" style="max-width:100%">
+    <ul>
+      <li><strong>Stage 1 -- Grip & Stance:</strong> Teach proper hand placement, body positioning, and foot alignment at the center circle before any live draws.</li>
+      <li><strong>Stage 2 -- Timing:</strong> Practice reacting to the whistle. The draw is won or lost in the first tenth of a second. Repetition builds muscle memory.</li>
+      <li><strong>Stage 3 -- Technique:</strong> Introduce clamp, rake, and push techniques individually. Master one before adding the next.</li>
+      <li><strong>Stage 4 -- Directional Control:</strong> Once technique is solid, practice directing draws to specific wings. Add hand signals and verbal codes.</li>
+      <li><strong>Stage 5 -- Live Reps:</strong> Full speed draws with wing players. Practice ground ball recovery, body positioning, and transition after the draw.</li>
+      <li><strong>Stage 6 -- Scouting & Adjustments:</strong> Study opponent tendencies. Adjust technique and direction based on the opposing center's habits.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== TAB 7: PRACTICE PLANS ===================== -->
+<div class="tab-content" id="tab-practice">
+  <input type="text" class="search-bar" placeholder="Search practice plans..." data-search="practice">
+
+  <!-- Practice 1 -->
+  <div class="practice-card" data-searchable>
+    <div class="practice-title">Practice 1: Fundamentals Focus</div>
+    <div class="practice-duration">Total Time: 85 minutes</div>
+    <div class="timeline">
+      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, jogging, ladder footwork</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Stickwork -- Partner passing (right/left hand), wall ball, catching on the move</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> Ground Balls -- 1v1 ground ball drills, boxing out, scooping through</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> 4v3 Drill -- Offensive advantage drill, fast ball movement, finish at goal</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> Defense Install -- Adjacent slide walkthrough, live 6v6 with coaching stops</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Scrimmage -- Full field controlled scrimmage with coaching points</div>
+    </div>
+  </div>
+
+  <!-- Practice 2 -->
+  <div class="practice-card" data-searchable>
+    <div class="practice-title">Practice 2: Offensive Install</div>
+    <div class="practice-duration">Total Time: 90 minutes</div>
+    <div class="timeline">
+      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, ball handling, high knees with cradling</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> Stickwork -- Quick stick passing, one-touch catches, off-hand work</div>
+      <div class="timeline-item"><span class="time-label">25 min</span> Offense Install -- 3-2-2 Motion walkthrough, triangle passing, dodge and drift</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> 2-Player Games -- Pick and roll, give and go, pick and slip progressions</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> Scrimmage -- Offensive focus scrimmage, must run 3 passes before shooting</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> Conditioning -- Sprints, shuttle runs, cool down stretch</div>
+    </div>
+  </div>
+
+  <!-- Practice 3 -->
+  <div class="practice-card" data-searchable>
+    <div class="practice-title">Practice 3: Defensive Focus</div>
+    <div class="practice-duration">Total Time: 90 minutes</div>
+    <div class="timeline">
+      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, defensive stance slides, reaction drills</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Footwork Drills -- Defensive footwork ladders, drop steps, hip turns, closing out</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> Slide Recognition -- 3v2 / 4v3 slide drill, communication emphasis, adjacent slide reps</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Defensive Rotations -- Full 7v7 rotation walkthrough, recovery drills, crease defense</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> 6v6 Live -- Live play with defensive coaching stops, rewarding communication</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> Film Review -- Quick video review of defensive principles on tablet/screen</div>
+    </div>
+  </div>
+
+  <!-- Practice 4 -->
+  <div class="practice-card" data-searchable>
+    <div class="practice-title">Practice 4: Draw & Transition</div>
+    <div class="practice-duration">Total Time: 90 minutes</div>
+    <div class="timeline">
+      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, sprint work, reaction starts</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> Draw Drills -- Clamp/rake/push technique, wing positioning, live draw reps</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Fast Break Drill -- 3v2 and 4v3 transition, outlet passing, finishing in transition</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Ride / Clear -- Pressure ride vs. break clear reps, clearing under pressure</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> Transition Scrimmage -- Draw to goal scrimmage, every possession starts with a draw</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> Cool Down -- Light jog, static stretching, team huddle</div>
+    </div>
+  </div>
+
+  <!-- Practice 5 -->
+  <div class="practice-card" data-searchable>
+    <div class="practice-title">Practice 5: Game Prep</div>
+    <div class="practice-duration">Total Time: 90 minutes</div>
+    <div class="timeline">
+      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, game-speed movements, pre-game routine</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> Stickwork -- Game-speed passing, shooting on the move, quick release shots</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Offensive Review -- Walk through primary offense, review reads and triggers</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Defensive Review -- Walk through defensive packages, review slide assignments</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> Special Units -- Draw unit reps, ride/clear reps, EMO/woman-down situations</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> Controlled Scrimmage -- Game-like scrimmage with officials' signals and sub patterns</div>
+      <div class="timeline-item"><span class="time-label">5 min</span> Walk Through -- Final walk through of game plan, Q&A, team break</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TAB 8: SCOUTING SYSTEM ===================== -->
+<div class="tab-content" id="tab-scouting">
+
+  <div class="section-title">New Scout Report</div>
+  <div class="scout-form" id="scoutForm">
+    <div class="form-section-title">General Information</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Opponent Name</label>
+        <input type="text" class="form-input" id="scoutOpponent" placeholder="Enter opponent name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-input" id="scoutDate">
+      </div>
+    </div>
+
+    <div class="form-section-title">Offense</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Initiator Position</label>
+        <select class="form-select" id="scoutInitiator">
+          <option value="">Select position...</option>
+          <option value="A1 High Left">A1 -- High Left</option>
+          <option value="A2 High Right">A2 -- High Right</option>
+          <option value="A3 Low Left">A3 -- Low Left</option>
+          <option value="A4 Low Right">A4 -- Low Right</option>
+          <option value="M1 Top Left">M1 -- Top Left</option>
+          <option value="M2 Top Center">M2 -- Top Center</option>
+          <option value="M3 Top Right">M3 -- Top Right</option>
+          <option value="Multiple Initiators">Multiple Initiators</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Dodging Hand Preference</label>
+        <select class="form-select" id="scoutDodgingHand">
+          <option value="">Select preference...</option>
+          <option value="Right Dominant">Right Dominant</option>
+          <option value="Left Dominant">Left Dominant</option>
+          <option value="Both Hands">Both Hands (Switch)</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Crease Cutter Tendencies</label>
+        <select class="form-select" id="scoutCreaseCutter">
+          <option value="">Select tendency...</option>
+          <option value="Left to Right">Cuts Left to Right</option>
+          <option value="Right to Left">Cuts Right to Left</option>
+          <option value="Both Directions">Both Directions</option>
+          <option value="Posts Up">Posts Up / Stays Planted</option>
+          <option value="Flash and Replace">Flash and Replace</option>
+          <option value="Minimal Crease Movement">Minimal Crease Movement</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section-title">Defense</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Slide Package</label>
+        <select class="form-select" id="scoutSlidePackage">
+          <option value="">Select package...</option>
+          <option value="Adjacent">Adjacent Slide</option>
+          <option value="Double">Double Slide</option>
+          <option value="Early">Early Slide</option>
+          <option value="Crease">Crease Slide</option>
+          <option value="Zone">Zone Defense</option>
+          <option value="Lock Off">Lock Off</option>
+          <option value="Jump">Jump Slide</option>
+          <option value="Switch">Switch Defense</option>
+          <option value="Mixed">Mixed / Multiple</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Slide Timing</label>
+        <select class="form-select" id="scoutSlideTiming">
+          <option value="">Select timing...</option>
+          <option value="Early / Aggressive">Early / Aggressive</option>
+          <option value="On Time">On Time</option>
+          <option value="Late / Passive">Late / Passive</option>
+          <option value="Inconsistent">Inconsistent</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Ride Pressure Level</label>
+        <select class="form-select" id="scoutRidePressure">
+          <option value="">Select pressure level...</option>
+          <option value="Full Pressure">Full Pressure</option>
+          <option value="Moderate Pressure">Moderate Pressure</option>
+          <option value="Contain / Passive">Contain / Passive</option>
+          <option value="Varies by Situation">Varies by Situation</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section-title">Draw Control</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Dominant Center</label>
+        <input type="text" class="form-input" id="scoutDrawCenter" placeholder="Player # or name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Draw Technique</label>
+        <select class="form-select" id="scoutDrawTechnique">
+          <option value="">Select technique...</option>
+          <option value="Clamp">Clamp</option>
+          <option value="Rake">Rake</option>
+          <option value="Push">Push</option>
+          <option value="Self Control">Self Control</option>
+          <option value="Varies">Varies</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Wing Tendencies</label>
+        <select class="form-select" id="scoutWingTendency">
+          <option value="">Select tendency...</option>
+          <option value="Strong Left Wing">Strong Left Wing</option>
+          <option value="Strong Right Wing">Strong Right Wing</option>
+          <option value="Balanced">Balanced Both Sides</option>
+          <option value="Push Forward">Push Ball Forward</option>
+          <option value="Pull Back">Pull Ball Back</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section-title">Additional Notes</div>
+    <div class="form-group full" style="margin-bottom:20px">
+      <textarea class="form-textarea" id="scoutNotes" placeholder="Key observations, player numbers to watch, special situations..."></textarea>
+    </div>
+
+    <div style="display:flex;gap:12px">
+      <button class="btn" onclick="saveScoutReport()">Save Scout Report</button>
+      <button class="btn btn-sm" style="background:#333;color:var(--text)" onclick="clearScoutForm()">Clear Form</button>
+    </div>
+  </div>
+
+  <div class="section-title">Saved Scout Reports</div>
+  <div id="savedReports">
+    <div class="no-results" id="noReports">No saved scout reports yet. Fill out the form above to create one.</div>
+  </div>
+</div>
+
+<script>
+// ========== TAB NAVIGATION ==========
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(tc => tc.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+  });
+});
+
+// ========== SEARCH FUNCTIONALITY ==========
+document.querySelectorAll('.search-bar').forEach(bar => {
+  bar.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    const tabId = this.dataset.search;
+    const container = document.getElementById('tab-' + tabId);
+    const searchables = container.querySelectorAll('[data-searchable]');
+
+    searchables.forEach(item => {
+      if (!query) {
+        item.classList.remove('hidden');
+        return;
+      }
+      const text = item.textContent.toLowerCase();
+      if (text.includes(query)) {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+  });
+});
+
+// ========== SCOUTING SYSTEM ==========
+function saveScoutReport() {
+  const opponent = document.getElementById('scoutOpponent').value.trim();
+  const date = document.getElementById('scoutDate').value;
+
+  if (!opponent) {
+    alert('Please enter an opponent name.');
+    return;
+  }
+
+  const report = {
+    id: Date.now(),
+    opponent: opponent,
+    date: date || 'No date',
+    initiator: document.getElementById('scoutInitiator').value,
+    dodgingHand: document.getElementById('scoutDodgingHand').value,
+    creaseCutter: document.getElementById('scoutCreaseCutter').value,
+    slidePackage: document.getElementById('scoutSlidePackage').value,
+    slideTiming: document.getElementById('scoutSlideTiming').value,
+    ridePressure: document.getElementById('scoutRidePressure').value,
+    drawCenter: document.getElementById('scoutDrawCenter').value,
+    drawTechnique: document.getElementById('scoutDrawTechnique').value,
+    wingTendency: document.getElementById('scoutWingTendency').value,
+    notes: document.getElementById('scoutNotes').value
+  };
+
+  let reports = JSON.parse(localStorage.getItem('btb_scout_reports') || '[]');
+  reports.unshift(report);
+  localStorage.setItem('btb_scout_reports', JSON.stringify(reports));
+
+  clearScoutForm();
+  renderReports();
+}
+
+function clearScoutForm() {
+  document.getElementById('scoutOpponent').value = '';
+  document.getElementById('scoutDate').value = '';
+  document.getElementById('scoutInitiator').value = '';
+  document.getElementById('scoutDodgingHand').value = '';
+  document.getElementById('scoutCreaseCutter').value = '';
+  document.getElementById('scoutSlidePackage').value = '';
+  document.getElementById('scoutSlideTiming').value = '';
+  document.getElementById('scoutRidePressure').value = '';
+  document.getElementById('scoutDrawCenter').value = '';
+  document.getElementById('scoutDrawTechnique').value = '';
+  document.getElementById('scoutWingTendency').value = '';
+  document.getElementById('scoutNotes').value = '';
+}
+
+function deleteReport(id) {
+  if (!confirm('Delete this scout report?')) return;
+  let reports = JSON.parse(localStorage.getItem('btb_scout_reports') || '[]');
+  reports = reports.filter(r => r.id !== id);
+  localStorage.setItem('btb_scout_reports', JSON.stringify(reports));
+  renderReports();
+}
+
+function renderReports() {
+  const container = document.getElementById('savedReports');
+  const reports = JSON.parse(localStorage.getItem('btb_scout_reports') || '[]');
+
+  if (reports.length === 0) {
+    container.innerHTML = '<div class="no-results" id="noReports">No saved scout reports yet. Fill out the form above to create one.</div>';
+    return;
+  }
+
+  let html = '';
+  reports.forEach(r => {
+    const dateStr = r.date && r.date !== 'No date' ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) : 'No date';
+    html += `
+      <div class="report-card">
+        <div class="report-header">
+          <div class="report-name">${escapeHtml(r.opponent)}</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="report-date">${dateStr}</div>
+            <button class="btn btn-sm btn-danger" onclick="deleteReport(${r.id})">Delete</button>
+          </div>
+        </div>
+        ${r.initiator ? `<div class="report-detail">Initiator: <span>${escapeHtml(r.initiator)}</span></div>` : ''}
+        ${r.dodgingHand ? `<div class="report-detail">Dodging Hand: <span>${escapeHtml(r.dodgingHand)}</span></div>` : ''}
+        ${r.creaseCutter ? `<div class="report-detail">Crease Cutter: <span>${escapeHtml(r.creaseCutter)}</span></div>` : ''}
+        ${r.slidePackage ? `<div class="report-detail">Slide Package: <span>${escapeHtml(r.slidePackage)}</span></div>` : ''}
+        ${r.slideTiming ? `<div class="report-detail">Slide Timing: <span>${escapeHtml(r.slideTiming)}</span></div>` : ''}
+        ${r.ridePressure ? `<div class="report-detail">Ride Pressure: <span>${escapeHtml(r.ridePressure)}</span></div>` : ''}
+        ${r.drawCenter ? `<div class="report-detail">Draw Center: <span>${escapeHtml(r.drawCenter)}</span></div>` : ''}
+        ${r.drawTechnique ? `<div class="report-detail">Draw Technique: <span>${escapeHtml(r.drawTechnique)}</span></div>` : ''}
+        ${r.wingTendency ? `<div class="report-detail">Wing Tendency: <span>${escapeHtml(r.wingTendency)}</span></div>` : ''}
+        ${r.notes ? `<div class="report-detail" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">Notes: <span>${escapeHtml(r.notes)}</span></div>` : ''}
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  renderReports();
+  // Set default date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('scoutDate').value = today;
+});
+</script>
+
+</body>
+</html>

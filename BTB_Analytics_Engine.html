@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Women's Lacrosse — Analytics Engine</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090b;--card:#09090b;--border:rgba(255,255,255,0.08);
+  --text:#fff;--text-muted:rgba(255,255,255,0.55);--text-dim:rgba(255,255,255,0.35);
+  --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;
+  --amber:#f59e0b;--radius:22px;
+  --hero-gradient:linear-gradient(90deg,#b91c1c,#dc2626,#ea580c);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+a{color:var(--green);text-decoration:none}
+
+/* ── Container ── */
+.container{max-width:1320px;margin:0 auto;padding:0 24px}
+
+/* ── Hero ── */
+.hero{background:var(--hero-gradient);padding:64px 0 56px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,var(--bg),transparent)}
+.hero h1{font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.5px;margin-bottom:12px;text-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.hero p{font-size:clamp(0.95rem,1.8vw,1.15rem);opacity:0.92;max-width:640px;margin:0 auto;line-height:1.7}
+
+/* ── Section ── */
+.section{padding:48px 0}
+.section-title{font-size:1.15rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:28px;color:var(--text-muted)}
+
+/* ── KPI Strip ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:-36px;position:relative;z-index:2}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 20px;text-align:center;transition:transform 0.25s,box-shadow 0.25s}
+.kpi-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
+.kpi-label{font-size:0.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px}
+.kpi-value{font-size:2.2rem;font-weight:800;letter-spacing:-1px}
+.kpi-sub{font-size:0.75rem;color:var(--text-dim);margin-top:4px}
+
+/* ── Team Selector ── */
+.selector-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.selector-wrap label{font-weight:600;font-size:0.95rem}
+.team-select{background:#18181b;color:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:1rem;font-family:var(--font);cursor:pointer;min-width:260px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.team-select:focus{outline:none;border-color:var(--red)}
+
+/* ── Trend Engine ── */
+.trend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.trend-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px}
+.trend-card .trend-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.trend-card .trend-label{font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+.trend-card .trend-value{font-size:1.8rem;font-weight:800}
+.sparkline-wrap{width:100%;height:60px;margin-top:8px}
+.sparkline-wrap svg{width:100%;height:100%}
+
+/* ── Shot Quality ── */
+.shot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.shot-bars{display:flex;flex-direction:column;gap:16px}
+.shot-metric{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px}
+.shot-metric .metric-header{display:flex;justify-content:space-between;margin-bottom:10px}
+.shot-metric .metric-name{font-size:0.88rem;font-weight:600}
+.shot-metric .metric-val{font-size:0.88rem;font-weight:700}
+.bar-track{width:100%;height:10px;background:rgba(255,255,255,0.06);border-radius:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:8px;width:0;transition:width 1s cubic-bezier(0.22,1,0.36,1)}
+.reco-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;display:flex;flex-direction:column;justify-content:center}
+.reco-card h3{font-size:1.1rem;font-weight:700;margin-bottom:12px;color:var(--amber)}
+.reco-card p{color:var(--text-muted);font-size:0.92rem;line-height:1.7}
+
+/* ── Player Impact Table ── */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;background:var(--card)}
+th{text-align:left;padding:16px 20px;font-size:0.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:600}
+td{padding:16px 20px;border-bottom:1px solid var(--border);font-size:0.92rem}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+.badge{display:inline-block;padding:4px 12px;border-radius:8px;font-size:0.78rem;font-weight:700}
+.badge-green{background:rgba(34,197,94,0.15);color:var(--green)}
+.badge-yellow{background:rgba(245,158,11,0.15);color:var(--yellow)}
+.badge-red{background:rgba(239,68,68,0.15);color:var(--red)}
+.pos-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.75rem;font-weight:600;background:rgba(255,255,255,0.06);color:var(--text-muted)}
+
+/* ── Practice Effectiveness ── */
+.practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.practice-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px}
+.practice-card h3{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.practice-focus{font-size:0.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.practice-stat{display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.88rem}
+.practice-stat span:last-child{font-weight:700}
+.practice-bar-track{width:100%;height:8px;background:rgba(255,255,255,0.06);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.practice-bar-fill{height:100%;border-radius:8px;width:0;transition:width 1.2s cubic-bezier(0.22,1,0.36,1)}
+.coach-note{font-size:0.82rem;color:var(--text-dim);font-style:italic;line-height:1.6;border-top:1px solid var(--border);padding-top:12px;margin-top:4px}
+
+/* ── Bottom Cards ── */
+.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.bottom-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px 28px}
+.bottom-card h3{font-size:1rem;font-weight:700;margin-bottom:12px}
+.bottom-card p{font-size:0.88rem;color:var(--text-muted);line-height:1.75}
+
+/* ── Scroll Fade ── */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:48px 0 32px;color:var(--text-dim);font-size:0.78rem;letter-spacing:0.5px}
+
+/* ── Responsive ── */
+@media(max-width:1024px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .trend-grid{grid-template-columns:1fr 1fr}
+  .shot-grid{grid-template-columns:1fr}
+  .practice-grid{grid-template-columns:1fr 1fr}
+  .bottom-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .trend-grid{grid-template-columns:1fr}
+  .practice-grid{grid-template-columns:1fr}
+  .hero{padding:44px 0 40px}
+  .section{padding:32px 0}
+  .container{padding:0 16px}
+  .team-select{min-width:100%;width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ HERO ════════ -->
+<div class="hero">
+  <div class="container">
+    <h1>BTB Women's Lacrosse &mdash; Analytics Engine</h1>
+    <p>Unified performance intelligence across all BTB girls teams. Track trends, measure practice impact, and surface coaching insights in one view.</p>
+  </div>
+</div>
+
+<!-- ════════ KPI STRIP ════════ -->
+<div class="container">
+  <div class="kpi-strip" id="kpiStrip">
+    <div class="kpi-card">
+      <div class="kpi-label">Teams</div>
+      <div class="kpi-value" data-count="4">0</div>
+      <div class="kpi-sub">Active Girls Teams</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Draw Win</div>
+      <div class="kpi-value" id="kpiDraw" data-count="51" data-suffix="%">0%</div>
+      <div class="kpi-sub" id="kpiDrawSub">League Avg: 50%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Clear</div>
+      <div class="kpi-value" id="kpiClear" data-count="77" data-suffix="%">0%</div>
+      <div class="kpi-sub">Target: 80%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Ride Stop</div>
+      <div class="kpi-value" id="kpiRide" data-count="24" data-suffix="%">0%</div>
+      <div class="kpi-sub">Target: 30%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Practice Effectiveness</div>
+      <div class="kpi-value" id="kpiPractice" data-count="71" data-suffix="%">0%</div>
+      <div class="kpi-sub">Across all drills</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ TEAM SELECTOR ════════ -->
+<div class="container">
+  <div class="section">
+    <div class="section-title">Team View</div>
+    <div class="selector-wrap">
+      <label for="teamSelect">Select Team:</label>
+      <select id="teamSelect" class="team-select">
+        <option value="gws">Girls World Series</option>
+        <option value="riptide">2032 Riptide</option>
+        <option value="storm">2033 Storm</option>
+        <option value="snipers">2034 Snipers</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ TREND ENGINE ════════ -->
+<div class="container">
+  <div class="section fade-in">
+    <div class="section-title">Trend Engine &mdash; 5-Game Rolling</div>
+    <div class="trend-grid" id="trendGrid">
+      <div class="trend-card">
+        <div class="trend-header">
+          <span class="trend-label">Draw Win Trend</span>
+          <span class="trend-value" id="trendDrawVal" style="color:var(--amber)">53%</span>
+        </div>
+        <div class="sparkline-wrap" id="sparkDraw"></div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-header">
+          <span class="trend-label">Clear Success Trend</span>
+          <span class="trend-value" id="trendClearVal" style="color:var(--green)">79%</span>
+        </div>
+        <div class="sparkline-wrap" id="sparkClear"></div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-header">
+          <span class="trend-label">Ride Disruption Trend</span>
+          <span class="trend-value" id="trendRideVal" style="color:var(--red)">25%</span>
+        </div>
+        <div class="sparkline-wrap" id="sparkRide"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SHOT QUALITY ENGINE ════════ -->
+<div class="container">
+  <div class="section fade-in">
+    <div class="section-title">Shot Quality Engine</div>
+    <div class="shot-grid">
+      <div class="shot-bars" id="shotBars">
+        <div class="shot-metric" data-val="57" data-thresh-green="65" data-thresh-yellow="58" data-id="soc">
+          <div class="metric-header"><span class="metric-name">Shots on Cage</span><span class="metric-val">57%</span></div>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+        </div>
+        <div class="shot-metric" data-val="41" data-thresh-green="45" data-thresh-yellow="35" data-id="assist">
+          <div class="metric-header"><span class="metric-name">Assisted Shot %</span><span class="metric-val">41%</span></div>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+        </div>
+        <div class="shot-metric" data-val="38" data-thresh-green="42" data-thresh-yellow="32" data-id="inside8m">
+          <div class="metric-header"><span class="metric-name">Inside 8m %</span><span class="metric-val">38%</span></div>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+        </div>
+        <div class="shot-metric" data-val="29" data-thresh-green="25" data-thresh-yellow="35" data-inverted="true" data-id="lowval">
+          <div class="metric-header"><span class="metric-name">Low-Value Shot %</span><span class="metric-val">29%</span></div>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="reco-card" id="recoCard">
+        <h3>Recommendation</h3>
+        <p id="recoText">Shots on cage rate is below the 65% target. Focus on high-percentage shot selection drills inside the 8m arc. Prioritize assisted finishes to improve shot quality and reduce low-value attempts from outside the fan.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PLAYER IMPACT TABLE ════════ -->
+<div class="container">
+  <div class="section fade-in">
+    <div class="section-title">Player Impact Rankings</div>
+    <div class="table-wrap">
+      <table id="playerTable">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Position</th>
+            <th>Impact Score</th>
+            <th>Goal Diff</th>
+            <th>Decision Grade</th>
+          </tr>
+        </thead>
+        <tbody id="playerBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PRACTICE EFFECTIVENESS ════════ -->
+<div class="container">
+  <div class="section fade-in">
+    <div class="section-title">Practice Effectiveness</div>
+    <div class="practice-grid" id="practiceGrid"></div>
+  </div>
+</div>
+
+<!-- ════════ BOTTOM CARDS ════════ -->
+<div class="container">
+  <div class="section fade-in">
+    <div class="bottom-grid">
+      <div class="bottom-card">
+        <h3>What This Engine Completes</h3>
+        <p>Closes the loop between film review, practice design, player development, and recruiting visibility. Every metric connects back to a coaching action. No stat exists in isolation — each one maps to a drill, a conversation, or a roster decision.</p>
+      </div>
+      <div class="bottom-card">
+        <h3>How to Wire It Next</h3>
+        <p>Connect to Airtable backend routes to pull live game data. Wire stat entry forms so coaches can input post-game numbers and see dashboards update in real time. Layer in film-tagged event data for deeper shot-quality breakdowns.</p>
+      </div>
+      <div class="bottom-card">
+        <h3>BTB Operating Standard</h3>
+        <p>Weekly staff meetings start here. Pull up the Analytics Engine, review team trends, identify the top practice focus for the week, and assign ownership. This is how BTB turns data into development and development into results.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">&copy; 2026 Be The Best Lacrosse Club &mdash; Analytics Engine v1.0</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA STORE
+   ═══════════════════════════════════════════ */
+const TEAMS = {
+  gws: {
+    name: 'Girls World Series',
+    draw: [44,46,49,51,53], clear: [68,71,73,76,79], ride: [16,18,19,22,25],
+    kpis: { draw:53, clear:79, ride:25, practice:71 },
+    shots: { soc:57, assist:41, inside8m:38, lowval:29 },
+    reco: 'Shots on cage rate is below the 65% target. Focus on high-percentage shot selection drills inside the 8m arc. Prioritize assisted finishes to improve shot quality and reduce low-value attempts from outside the fan.',
+    players: [
+      { name:'Kendall Himberger', pos:'Midfield', impact:91, diff:'+9', grade:85 },
+      { name:'Alexa Reaves', pos:'Attack', impact:88, diff:'+7', grade:82 },
+      { name:'Hailey Posporlis', pos:'Goalie', impact:86, diff:'+6', grade:81 },
+      { name:'Elizabeth Calvacca', pos:'Defense', impact:84, diff:'+5', grade:80 }
+    ],
+    practices: [
+      { title:'Tactical Reset', focus:'Defense Focus', gain:'+7 clear points', eff:76, note:'Run 4v3 clear sets with ride pressure. Emphasize outlet passing and goalie communication.' },
+      { title:'Draw to Break', focus:'Draw Focus', gain:'+5 draw points', eff:81, note:'Full-speed draw reps with wing reaction drills. Focus on first-step acceleration off the circle.' },
+      { title:'Ride Response', focus:'Ride Focus', gain:'+4 ride stops', eff:68, note:'Live ride situations from defensive clears. Emphasis on forcing bad passes and doubling the ball carrier.' }
+    ]
+  },
+  riptide: {
+    name: '2032 Riptide',
+    draw: [50,52,48,55,57], clear: [80,82,84,83,86], ride: [20,22,25,28,30],
+    kpis: { draw:57, clear:86, ride:30, practice:78 },
+    shots: { soc:64, assist:48, inside8m:44, lowval:22 },
+    reco: 'Strong shooting efficiency approaching elite thresholds. Continue emphasizing ball movement to create assisted shots. Ride disruption is trending well — push for consistency above 30% to dominate possessions.',
+    players: [
+      { name:'Sofia Martinez', pos:'Attack', impact:93, diff:'+11', grade:88 },
+      { name:'Riley Chen', pos:'Midfield', impact:89, diff:'+8', grade:84 },
+      { name:'Avery Thompson', pos:'Defense', impact:85, diff:'+6', grade:79 },
+      { name:'Jordan Blake', pos:'Goalie', impact:83, diff:'+4', grade:77 }
+    ],
+    practices: [
+      { title:'Tactical Reset', focus:'Defense Focus', gain:'+9 clear points', eff:82, note:'High-tempo clear series with live ride. Focus on skip passes and midfield transitions.' },
+      { title:'Draw to Break', focus:'Draw Focus', gain:'+6 draw points', eff:85, note:'Competitive draw reps with varied opponents. Wing timing and ground ball finishing.' },
+      { title:'Ride Response', focus:'Ride Focus', gain:'+6 ride stops', eff:74, note:'Zone ride principles with live clears. Forcing turnovers in the defensive third.' }
+    ]
+  },
+  storm: {
+    name: '2033 Storm',
+    draw: [38,40,42,45,47], clear: [72,70,74,76,78], ride: [18,20,19,21,23],
+    kpis: { draw:47, clear:78, ride:23, practice:68 },
+    shots: { soc:52, assist:36, inside8m:33, lowval:34 },
+    reco: 'Draw control is the primary development area — below 50% means fewer possessions. Reduce low-value shot percentage by running more patient offensive sets. Focus on inside finishes through dodging and cutting.',
+    players: [
+      { name:'Maya Johnson', pos:'Midfield', impact:87, diff:'+7', grade:80 },
+      { name:'Chloe Davis', pos:'Attack', impact:84, diff:'+5', grade:78 },
+      { name:'Emma Wilson', pos:'Defense', impact:82, diff:'+4', grade:76 },
+      { name:'Lily Foster', pos:'Goalie', impact:80, diff:'+3', grade:74 }
+    ],
+    practices: [
+      { title:'Tactical Reset', focus:'Defense Focus', gain:'+6 clear points', eff:72, note:'Emphasis on calm possession under pressure. Teaching patience and spacing in the clear.' },
+      { title:'Draw to Break', focus:'Draw Focus', gain:'+4 draw points', eff:74, note:'Technique-focused draw reps. Building muscle memory on clamp and push motions.' },
+      { title:'Ride Response', focus:'Ride Focus', gain:'+3 ride stops', eff:62, note:'Basic ride structure and assignments. Reading the clear and reacting to ball movement.' }
+    ]
+  },
+  snipers: {
+    name: '2034 Snipers',
+    draw: [55,58,56,60,62], clear: [85,87,88,90,91], ride: [30,32,35,33,36],
+    kpis: { draw:62, clear:91, ride:36, practice:82 },
+    shots: { soc:71, assist:52, inside8m:49, lowval:19 },
+    reco: 'Elite-level metrics across the board. This team is operating at a high standard. Maintain intensity, push for perfection on inside 8m finishing above 50%, and keep low-value shots under 20%.',
+    players: [
+      { name:'Brooklyn Harris', pos:'Attack', impact:95, diff:'+13', grade:91 },
+      { name:'Peyton Clark', pos:'Midfield', impact:92, diff:'+10', grade:87 },
+      { name:'Skylar Reed', pos:'Defense', impact:88, diff:'+8', grade:83 },
+      { name:'Quinn Taylor', pos:'Goalie', impact:86, diff:'+6', grade:81 }
+    ],
+    practices: [
+      { title:'Tactical Reset', focus:'Defense Focus', gain:'+10 clear points', eff:88, note:'Elite-level clear execution. Focus on speed of outlet and secondary break opportunities.' },
+      { title:'Draw to Break', focus:'Draw Focus', gain:'+7 draw points', eff:86, note:'Dominant draw performance. Refining wing play and fast-break conversions.' },
+      { title:'Ride Response', focus:'Ride Focus', gain:'+8 ride stops', eff:78, note:'Aggressive ride packages with double-team triggers. Creating turnovers in transition.' }
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════════
+   SPARKLINE RENDERER
+   ═══════════════════════════════════════════ */
+function drawSparkline(containerId, data, color) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  const w = 260, h = 56, padX = 16, padY = 8;
+  const min = Math.min(...data) - 4;
+  const max = Math.max(...data) + 4;
+  const rangeY = max - min || 1;
+  const stepX = (w - padX * 2) / (data.length - 1);
+
+  const pts = data.map((v, i) => ({
+    x: padX + i * stepX,
+    y: padY + (1 - (v - min) / rangeY) * (h - padY * 2)
+  }));
+
+  const polyline = pts.map(p => `${p.x},${p.y}`).join(' ');
+  const gradId = containerId + 'Grad';
+
+  // Area fill path
+  const areaPath = `M${pts[0].x},${h} ` + pts.map(p => `L${p.x},${p.y}`).join(' ') + ` L${pts[pts.length-1].x},${h} Z`;
+
+  const dots = pts.map(p =>
+    `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="${color}" stroke="#09090b" stroke-width="2"/>`
+  ).join('');
+
+  wrap.innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${color}" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="${areaPath}" fill="url(#${gradId})"/>
+      <polyline points="${polyline}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${dots}
+    </svg>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   COLOR HELPERS
+   ═══════════════════════════════════════════ */
+function metricColor(val, greenThresh, yellowThresh, inverted) {
+  if (inverted) {
+    // Lower is better
+    if (val <= greenThresh) return 'var(--green)';
+    if (val <= yellowThresh) return 'var(--yellow)';
+    return 'var(--red)';
+  }
+  if (val >= greenThresh) return 'var(--green)';
+  if (val >= yellowThresh) return 'var(--yellow)';
+  return 'var(--red)';
+}
+
+function gradeColor(v) {
+  if (v >= 85) return 'badge-green';
+  if (v >= 78) return 'badge-yellow';
+  return 'badge-red';
+}
+
+function impactColor(v) {
+  if (v >= 90) return 'badge-green';
+  if (v >= 84) return 'badge-yellow';
+  return 'badge-red';
+}
+
+function kpiColor(val, target, direction) {
+  // direction: 'up' means higher is better
+  if (direction === 'up') {
+    if (val >= target) return 'var(--green)';
+    if (val >= target * 0.9) return 'var(--yellow)';
+    return 'var(--red)';
+  }
+  return 'var(--text)';
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATED COUNTER
+   ═══════════════════════════════════════════ */
+function animateCounter(el, target, suffix, duration) {
+  suffix = suffix || '';
+  duration = duration || 1200;
+  const start = performance.now();
+  const from = 0;
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(from + (target - from) * eased);
+    el.textContent = current + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ═══════════════════════════════════════════
+   RENDER FUNCTIONS
+   ═══════════════════════════════════════════ */
+function renderKPIs(team) {
+  const d = team.kpis;
+  const drawEl = document.getElementById('kpiDraw');
+  const clearEl = document.getElementById('kpiClear');
+  const rideEl = document.getElementById('kpiRide');
+  const practiceEl = document.getElementById('kpiPractice');
+
+  animateCounter(drawEl, d.draw, '%');
+  animateCounter(clearEl, d.clear, '%');
+  animateCounter(rideEl, d.ride, '%');
+  animateCounter(practiceEl, d.practice, '%');
+
+  // Color coding
+  setTimeout(() => {
+    drawEl.style.color = d.draw >= 55 ? 'var(--green)' : d.draw >= 48 ? 'var(--yellow)' : 'var(--red)';
+    clearEl.style.color = d.clear >= 80 ? 'var(--green)' : d.clear >= 70 ? 'var(--yellow)' : 'var(--red)';
+    rideEl.style.color = d.ride >= 28 ? 'var(--green)' : d.ride >= 20 ? 'var(--yellow)' : 'var(--red)';
+    practiceEl.style.color = d.practice >= 75 ? 'var(--green)' : d.practice >= 65 ? 'var(--yellow)' : 'var(--red)';
+  }, 400);
+}
+
+function renderTrends(team) {
+  drawSparkline('sparkDraw', team.draw, '#f59e0b');
+  drawSparkline('sparkClear', team.clear, '#22c55e');
+  drawSparkline('sparkRide', team.ride, '#ef4444');
+
+  document.getElementById('trendDrawVal').textContent = team.draw[team.draw.length - 1] + '%';
+  document.getElementById('trendClearVal').textContent = team.clear[team.clear.length - 1] + '%';
+  document.getElementById('trendRideVal').textContent = team.ride[team.ride.length - 1] + '%';
+}
+
+function renderShotQuality(team) {
+  const s = team.shots;
+  const metrics = document.querySelectorAll('#shotBars .shot-metric');
+  const vals = [s.soc, s.assist, s.inside8m, s.lowval];
+
+  metrics.forEach((m, i) => {
+    const val = vals[i];
+    const gThresh = parseFloat(m.dataset.threshGreen);
+    const yThresh = parseFloat(m.dataset.threshYellow);
+    const inverted = m.dataset.inverted === 'true';
+    const color = metricColor(val, gThresh, yThresh, inverted);
+    const fill = m.querySelector('.bar-fill');
+    const valSpan = m.querySelector('.metric-val');
+
+    valSpan.textContent = val + '%';
+    fill.style.width = '0';
+    setTimeout(() => {
+      fill.style.width = val + '%';
+      fill.style.background = color;
+    }, 100);
+  });
+
+  document.getElementById('recoText').textContent = team.reco;
+}
+
+function renderPlayers(team) {
+  const tbody = document.getElementById('playerBody');
+  tbody.innerHTML = '';
+  team.players.sort((a, b) => b.impact - a.impact).forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight:600">${p.name}</td>
+      <td><span class="pos-tag">${p.pos}</span></td>
+      <td><span class="badge ${impactColor(p.impact)}">${p.impact}</span></td>
+      <td style="color:var(--green);font-weight:700">${p.diff}</td>
+      <td><span class="badge ${gradeColor(p.grade)}">${p.grade}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderPractices(team) {
+  const grid = document.getElementById('practiceGrid');
+  grid.innerHTML = '';
+  team.practices.forEach(p => {
+    const color = p.eff >= 80 ? 'var(--green)' : p.eff >= 70 ? 'var(--yellow)' : 'var(--red)';
+    const card = document.createElement('div');
+    card.className = 'practice-card';
+    card.innerHTML = `
+      <h3>${p.title}</h3>
+      <div class="practice-focus">${p.focus}</div>
+      <div class="practice-stat"><span>Impact</span><span style="color:var(--green)">${p.gain}</span></div>
+      <div class="practice-stat"><span>Effectiveness</span><span style="color:${color}">${p.eff}%</span></div>
+      <div class="practice-bar-track"><div class="practice-bar-fill" data-width="${p.eff}" style="background:${color}"></div></div>
+      <div class="coach-note">${p.note}</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Animate practice bars
+  setTimeout(() => {
+    document.querySelectorAll('.practice-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }, 200);
+}
+
+function renderAll(teamKey) {
+  const team = TEAMS[teamKey];
+  renderKPIs(team);
+  renderTrends(team);
+  renderShotQuality(team);
+  renderPlayers(team);
+  renderPractices(team);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL OBSERVER
+   ═══════════════════════════════════════════ */
+function initScrollObserver() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+
+        // Animate shot bars within this section
+        const bars = entry.target.querySelectorAll('.bar-fill');
+        bars.forEach(bar => {
+          const parent = bar.closest('.shot-metric');
+          if (parent) {
+            const val = parent.dataset.val;
+            setTimeout(() => { bar.style.width = val + '%'; }, 200);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Initial render
+  renderAll('gws');
+
+  // Animate the static "Teams: 4" KPI
+  const teamsKpi = document.querySelector('.kpi-card .kpi-value[data-count="4"]');
+  if (teamsKpi) animateCounter(teamsKpi, 4, '', 800);
+
+  // Team selector
+  document.getElementById('teamSelect').addEventListener('change', function() {
+    renderAll(this.value);
+  });
+
+  // Scroll animations
+  initScrollObserver();
+});
+</script>
+</body>
+</html>

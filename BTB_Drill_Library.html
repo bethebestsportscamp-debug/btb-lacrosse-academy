@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BTB Girls Lacrosse | Elite Drill Library</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--surface:#141414;--card:#1a1a1a;--border:#2a2a2a;
+  --text:#f0f0f0;--text-dim:#999;--text-muted:#666;
+  --cyan:#00e5ff;--orange:#ff9500;--red:#ff2d55;--pink:#ff375f;
+  --green:#32d74b;--purple:#af82ff;--yellow:#ffd60a;--silver:#e0e0e0;
+  --radius:14px;--transition:0.25s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.6;min-height:100vh;-webkit-tap-highlight-color:transparent}
+
+/* HEADER */
+.header{background:linear-gradient(180deg,#111 0%,var(--bg) 100%);padding:28px 16px 20px;text-align:center;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.header-brand{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:2px}
+.header h1{font-size:clamp(20px,4.5vw,34px);font-weight:800;letter-spacing:-0.5px;margin-bottom:2px}
+.header h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-sub{font-size:13px;color:var(--text-dim);margin-bottom:16px}
+
+/* SEARCH */
+.search-wrap{max-width:560px;margin:0 auto 16px;position:relative}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:18px;pointer-events:none}
+.search-input{width:100%;padding:14px 44px 14px 42px;background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:16px;outline:none;transition:border var(--transition)}
+.search-input:focus{border-color:var(--cyan)}
+.search-input::placeholder{color:var(--text-muted)}
+.search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;display:none;padding:4px}
+.search-clear.visible{display:block}
+
+/* CATEGORY GRID */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:600px;margin:0 auto 12px;padding:0 16px}
+@media(min-width:700px){.cat-grid{grid-template-columns:repeat(9,1fr);max-width:900px;gap:8px}}
+.cat-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 4px;min-height:80px;border-radius:var(--radius);border:2px solid var(--border);background:var(--surface);cursor:pointer;transition:all var(--transition);position:relative;overflow:hidden}
+.cat-btn:active{transform:scale(0.95)}
+.cat-btn .emoji{font-size:28px;line-height:1}
+.cat-btn .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-dim);text-align:center;line-height:1.2}
+.cat-btn .count{font-size:10px;color:var(--text-muted);font-weight:600}
+.cat-btn.active{border-color:var(--cat-color,#fff);background:color-mix(in srgb,var(--cat-color,#fff) 12%,var(--surface));box-shadow:0 0 20px color-mix(in srgb,var(--cat-color,#fff) 30%,transparent)}
+.cat-btn.active .label{color:#fff}
+.cat-btn.active .count{color:var(--cat-color,#fff)}
+
+/* DRILL COUNT BAR */
+.drill-count-bar{text-align:center;padding:8px 16px;font-size:13px;color:var(--text-dim);font-weight:600}
+.drill-count-bar span{color:var(--cyan)}
+
+/* CONTAINER */
+.container{max-width:700px;margin:0 auto;padding:0 12px 80px}
+
+/* DRILL CARD */
+.drill-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:all var(--transition)}
+.drill-card:active{transform:scale(0.99)}
+.drill-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.drill-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.drill-info{flex:1;min-width:0}
+.drill-name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drill-purpose{font-size:12px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drill-meta-row{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.drill-tag{font-size:10px;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,0.06);color:var(--text-dim);font-weight:600;white-space:nowrap}
+.drill-tag.source{background:rgba(175,130,255,0.15);color:var(--purple)}
+.drill-diff{display:flex;gap:3px;align-items:center;flex-shrink:0;margin-left:8px}
+.drill-diff .dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.drill-diff .dot.filled{background:var(--diff-color,var(--cyan))}
+.drill-chevron{color:var(--text-muted);font-size:18px;transition:transform var(--transition);flex-shrink:0;margin-left:4px}
+.drill-card.expanded .drill-chevron{transform:rotate(180deg)}
+
+/* DRILL BODY (expandable) */
+.drill-body{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(.4,0,.2,1)}
+.drill-body-inner{padding:0 16px 18px}
+.drill-section{margin-top:14px}
+.drill-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.drill-section-title::before{content:'';display:block;width:3px;height:12px;border-radius:2px;background:var(--cat-color,var(--cyan))}
+.drill-section p,.drill-section li{font-size:13px;color:var(--text);line-height:1.6}
+.drill-section ul{list-style:none;padding:0}
+.drill-section ul li{padding:3px 0 3px 16px;position:relative}
+.drill-section ul li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--cat-color,var(--cyan));opacity:0.6}
+.correction-box{background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.2);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12px;color:#ff6b8a}
+.correction-box strong{color:var(--red)}
+
+/* VIDEO TABLE (legacy) */
+.video-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12px}
+.video-table th{text-align:left;color:var(--text-dim);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border)}
+.video-table td{padding:6px 8px;color:var(--text);border-bottom:1px solid rgba(255,255,255,0.04)}
+.video-table .ts{color:var(--cyan);font-family:monospace;white-space:nowrap}
+
+/* VIDEO LINK CARDS */
+.video-links{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.video-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:all var(--transition);cursor:pointer}
+.video-link:hover{background:rgba(255,255,255,0.08);border-color:var(--cat-color,var(--cyan));transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.video-link .play-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;background:color-mix(in srgb,var(--cat-color,var(--cyan)) 20%,transparent)}
+.video-link .video-info{flex:1;min-width:0}
+.video-link .video-title{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.video-link .video-source{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:99px;margin-top:3px;background:color-mix(in srgb,var(--cat-color,var(--cyan)) 15%,transparent);color:var(--cat-color,var(--cyan))}
+.video-link .video-arrow{color:var(--text-muted);font-size:14px;flex-shrink:0;transition:transform var(--transition)}
+.video-link:hover .video-arrow{transform:translateX(3px);color:var(--cat-color,var(--cyan))}
+
+/* VIDEO RESOURCES FOOTER */
+.video-resources{max-width:700px;margin:0 auto;padding:40px 16px 20px}
+.video-resources h2{font-size:20px;font-weight:800;text-align:center;margin-bottom:4px}
+.video-resources h2 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.video-resources .subtitle{text-align:center;font-size:13px;color:var(--text-dim);margin-bottom:20px}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.resource-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);text-decoration:none;transition:all var(--transition)}
+.resource-card:hover{border-color:var(--cyan);background:var(--surface);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+.resource-card .rc-icon{font-size:28px;flex-shrink:0}
+.resource-card .rc-info{flex:1;min-width:0}
+.resource-card .rc-name{font-size:14px;font-weight:700;color:var(--text)}
+.resource-card .rc-desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.resource-card .rc-arrow{color:var(--text-muted);font-size:16px;transition:transform var(--transition)}
+.resource-card:hover .rc-arrow{transform:translateX(3px);color:var(--cyan)}
+
+/* SVG DIAGRAMS */
+.diagram-wrap{background:#0d0d0d;border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:8px;text-align:center;overflow-x:auto}
+.diagram-wrap svg{max-width:100%;height:auto}
+
+/* BACK LINK */
+.back-link{display:block;text-align:center;padding:24px 16px;color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:600;transition:color var(--transition)}
+.back-link:hover{color:var(--text)}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.no-results .big{font-size:48px;margin-bottom:12px}
+.no-results p{font-size:15px}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.drill-card{animation:fadeUp 0.3s ease both}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">Be The Best Lacrosse</div>
+  <h1><span>Elite Drill Library</span></h1>
+  <div class="header-sub">Girls Lacrosse Program</div>
+  <div class="search-wrap">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search drills..." autocomplete="off">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">&times;</button>
+  </div>
+</div>
+
+<div class="cat-grid" id="catGrid"></div>
+<div class="drill-count-bar" id="drillCount"></div>
+<div class="container" id="drillList"></div>
+<div class="no-results" id="noResults" style="display:none">
+  <div class="big">&#128269;</div>
+  <p>No drills found. Try a different search.</p>
+</div>
+<div class="video-resources" id="videoResources">
+  <h2><span>Video Resources</span></h2>
+  <p class="subtitle">Curated playlists and channels for girls lacrosse development</p>
+  <div class="resource-grid">
+    <a href="https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP" target="_blank" rel="noopener noreferrer" class="resource-card">
+      <div class="rc-icon">&#127909;</div>
+      <div class="rc-info">
+        <div class="rc-name">Howcast Women's Lacrosse</div>
+        <div class="rc-desc">Full playlist covering passing, dodging, shooting, defense & more</div>
+      </div>
+      <div class="rc-arrow">&#8594;</div>
+    </a>
+    <a href="https://www.youtube.com/playlist?list=PLboADa_6az-YqG_9F0F9-04X-7pmwIe0s" target="_blank" rel="noopener noreferrer" class="resource-card">
+      <div class="rc-icon">&#127891;</div>
+      <div class="rc-info">
+        <div class="rc-name">HGR Coach's Vault</div>
+        <div class="rc-desc">Advanced drills and game strategy from HGR Lacrosse</div>
+      </div>
+      <div class="rc-arrow">&#8594;</div>
+    </a>
+    <a href="https://www.youtube.com/@POWLAX" target="_blank" rel="noopener noreferrer" class="resource-card">
+      <div class="rc-icon">&#9889;</div>
+      <div class="rc-info">
+        <div class="rc-name">POWLAX</div>
+        <div class="rc-desc">Skills tutorials and coaching breakdowns</div>
+      </div>
+      <div class="rc-arrow">&#8594;</div>
+    </a>
+    <a href="https://swaxlax.com/pages/lacrosse-drills-for-girls" target="_blank" rel="noopener noreferrer" class="resource-card">
+      <div class="rc-icon">&#129668;</div>
+      <div class="rc-info">
+        <div class="rc-name">Swax Lax Girls Drills</div>
+        <div class="rc-desc">Training drills library with video demonstrations</div>
+      </div>
+      <div class="rc-arrow">&#8594;</div>
+    </a>
+    <a href="https://www.lax.com/blogs/guides/womens-lacrosse-training-drills-with-taylor-cummings" target="_blank" rel="noopener noreferrer" class="resource-card">
+      <div class="rc-icon">&#11088;</div>
+      <div class="rc-info">
+        <div class="rc-name">Taylor Cummings Training</div>
+        <div class="rc-desc">Pro tips from Tewaaraton Award winner Taylor Cummings</div>
+      </div>
+      <div class="rc-arrow">&#8594;</div>
+    </a>
+    <a href="https://www.whgirlslax.com/player-resources/youth-drills-rules-and-tips/18538" target="_blank" rel="noopener noreferrer" class="resource-card">
+      <div class="rc-icon">&#128218;</div>
+      <div class="rc-info">
+        <div class="rc-name">West Hartford Girls Lax</div>
+        <div class="rc-desc">Youth drills, rules, and tips resource hub</div>
+      </div>
+      <div class="rc-arrow">&#8594;</div>
+    </a>
+  </div>
+</div>
+<a href="BTB_AI_Academy_Dashboard.html" class="back-link">&larr; Back to Dashboard</a>
+
+<script>
+// ============================================================
+// DRILL DATA — ALL 75 DRILLS
+// ============================================================
+const CATEGORIES = [
+  {id:'all',name:'All',emoji:'&#11088;',color:'#888'},
+  {id:'stickwork',name:'Stickwork',emoji:'&#129668;',color:'#00e5ff'},
+  {id:'dodging',name:'Dodging',emoji:'&#9889;',color:'#ff9500'},
+  {id:'defense',name:'Defense',emoji:'&#128737;',color:'#ff2d55'},
+  {id:'draw',name:'Draw',emoji:'&#127919;',color:'#ff375f'},
+  {id:'ride',name:'Ride/Clear',emoji:'&#128260;',color:'#32d74b'},
+  {id:'transition',name:'Transition',emoji:'&#128640;',color:'#af82ff'},
+  {id:'goalie',name:'Goalie',emoji:'&#129351;',color:'#ffd60a'},
+  {id:'offense',name:'Offense',emoji:'&#128214;',color:'#e0e0e0'}
+];
+
+const DRILLS = [
+// ===== STICKWORK (1-10) =====
+{
+  id:1, cat:'stickwork', name:'Triangle Passing',
+  purpose:'Stickwork + spacing awareness',
+  diff:1, players:3, time:10,
+  setup:'3 players form a triangle about 10-12 yards apart. Ball moves around the triangle continuously. Rotate direction every 2 minutes.',
+  points:['Catch with soft hands — give with the stick on reception','Step toward your target on every pass','Keep the triangle shape — move feet, don\'t just reach','Progress to one-touch passing once rhythm is established'],
+  videos:[{title:'Leading Pass Lacrosse Training Drill',url:'https://www.youtube.com/watch?v=YdZ0wQZsle4',source:'Swax Lax'},{title:'3 Man 2 Ball Lacrosse Training Drill',url:'https://www.youtube.com/watch?v=THr1cwYxR-Y',source:'Swax Lax'}],
+  diagram:'tri'
+},
+{
+  id:2, cat:'stickwork', name:'Partner Quick Stick',
+  purpose:'Soft hands and quick release',
+  diff:1, players:2, time:8,
+  setup:'Two players face each other 8-10 yards apart. Rapid catch-and-throw with minimal cradle. Focus on receiving and releasing in one motion.',
+  points:['Absorb the pass — don\'t stab at the ball','Release quickly after the catch, minimal cradling','Stay light on your feet, slight bounce rhythm','Switch to weak hand halfway through'],
+  videos:[{title:'Saints Passing Drill',url:'https://youtu.be/PulhqaYxiWg',source:'Swax Lax'},{title:'Partner Passing Drill',url:'https://youtu.be/b_ich-fBF-0',source:'Swax Lax'}],
+  diagram:'partner'
+},
+{
+  id:3, cat:'stickwork', name:'Wall Ball Progression',
+  purpose:'Stick strength, both hands',
+  diff:1, players:1, time:15,
+  setup:'Solo player at a wall. Progression: 25 right, 25 left, 25 alternating, 15 behind-the-back, 15 quick-stick. Rest 30 seconds between sets.',
+  points:['Throw at a target spot on the wall every time','Cradle once then throw — build the one-cradle habit','Step into each throw with the opposite foot','Keep stick vertical on catches'],
+  videos:[{title:'Wall Ball Technique',url:'https://www.youtube.com/watch?v=WUc1SS4D7hc',source:'YouTube'},{title:'Cradling Fundamentals',url:'https://www.youtube.com/watch?v=Ty6r441_V0k',source:'YouTube'}]
+},
+{
+  id:4, cat:'stickwork', name:'One Hand Passing',
+  purpose:'Weak hand development',
+  diff:2, players:2, time:10,
+  setup:'Partners 8 yards apart. All passes and catches made one-handed. Start with dominant, then switch to non-dominant for double the reps.',
+  points:['Keep top hand firm but relaxed on the throw','Use your wrist snap for power, not your arm','Focus on accuracy before speed','Make this a regular warm-up habit'],
+  videos:[{title:'How to Throw a Long Pass in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'}]
+},
+{
+  id:5, cat:'stickwork', name:'Skip Passing',
+  purpose:'Field vision + distance accuracy',
+  diff:2, players:4, time:10,
+  setup:'4 players in a square, 20+ yards apart. Skip pass diagonally across the square. Rotate after every 4 passes.',
+  points:['Step through aggressively — generate power from legs','Follow through pointing at target','Receiver gives a target with stick head up','Hit the top hand of the receiver — chest height'],
+  videos:[{title:'How to Throw a Pass in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'}],
+  diagram:'square'
+},
+{
+  id:6, cat:'stickwork', name:'Rapid Fire Shooting',
+  purpose:'Shooting speed and variety',
+  diff:2, players:4, time:12,
+  setup:'Line at the top of the arc. Feeder at X. Shooter receives, takes one cradle maximum, and shoots from different angles. Rotate through right, left, and center.',
+  points:['Get your hands up fast — quick stick position','Aim low corners — the hardest save for goalies','Change your release point: overhand, sidearm, underhand','Follow your shot to the cage for rebounds'],
+  videos:[{title:'How to Shoot Overhand in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'Shooting Tips',url:'https://www.youtube.com/watch?v=ROoln9RkyFs',source:'YouTube'}]
+},
+{
+  id:7, cat:'stickwork', name:'Ground Ball Series',
+  purpose:'Contested ground ball pickups',
+  diff:1, players:4, time:10,
+  setup:'Two lines facing each other 5 yards apart. Coach rolls ball between them. Both players compete for the ground ball. Winner attacks, loser defends.',
+  points:['Get low — butt down, hands low on the stick','Scoop through the ball, don\'t stop over it','Protect your stick immediately after the pickup','Accelerate through the pickup — feet never stop'],
+  videos:[{title:'Sleeping Giant Lacrosse Training Drill',url:'https://www.youtube.com/watch?v=VuKS6zxn4uQ',source:'Swax Lax'},{title:'Ground Balls',url:'https://www.youtube.com/watch?v=p3Papg_vIpI',source:'YouTube'}],
+  diagram:'groundball'
+},
+{
+  id:8, cat:'stickwork', name:'Pressure Passing',
+  purpose:'Composure under pressure',
+  diff:2, players:4, time:12,
+  setup:'Two passers with a defender on each. Must complete passes while being actively pressured. Defender can check but not intercept.',
+  points:['Protect your stick with your body — turn your shoulder','Pass away from the defender\'s stick','Fake before you pass to move the defender','Use quick fakes — don\'t wind up'],
+  videos:[{title:'Line Drills',url:'https://youtu.be/CPE2mroSlU0',source:'Swax Lax'},{title:'How to Pass in Lacrosse',url:'https://youtu.be/I0I4495fzw8',source:'POWLAX'}]
+},
+{
+  id:9, cat:'stickwork', name:'Catch Under Pressure',
+  purpose:'Body positioning on reception',
+  diff:2, players:3, time:10,
+  setup:'One feeder, one receiver, one defender on the receiver\'s back. Receiver must create space, present a target, catch and protect.',
+  points:['Seal the defender with your body — get your hips between them and the ball','Present a strong target hand — stick up, visible to the passer','Catch and immediately cradle away from the defender','Move your feet after the catch — don\'t stand still'],
+  videos:[{title:'Catching at All Angles',url:'https://www.youtube.com/watch?v=UyggBPyeQls',source:'YouTube'},{title:'Top 3 Catching Tips',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'}]
+},
+{
+  id:10, cat:'stickwork', name:'Shooting On The Run',
+  purpose:'Finishing in transition',
+  diff:2, players:4, time:12,
+  setup:'Attackers run from midfield. Receive a pass at the top of the arc while running. Must shoot within 2 steps of catching.',
+  points:['Don\'t slow down to catch — keep your speed','Get your hands free and high as you approach the pass','Shoot in stride — don\'t gather and stop','Pick your spot before you catch the ball'],
+  videos:[{title:'Shooting on the Run with Taylor Cummings',url:'https://www.lax.com/blogs/guides/shooting-on-the-run-with-taylor-cummings',source:'Taylor Cummings'},{title:'How to Shoot In Tight',url:'https://youtu.be/9asqNJIPUQI',source:'POWLAX'}]
+},
+// ===== DODGING (11-21) =====
+{
+  id:11, cat:'dodging', name:'Alley Dodges',
+  purpose:'Beat defender 1v1 from alleys',
+  diff:2, players:2, time:12,
+  setup:'Attacker starts at the restraining line on the alley. Defender starts 5 yards inside. 1v1 live to cage. Alternate right and left sides.',
+  points:['Attack the defender\'s top foot — force them to turn','Sell your first move with your eyes and body','Explode past with a burst of speed on the dodge','Finish with a shot or find the crease if caged'],
+  videos:[{title:'How to Dodge in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'Duke Drill',url:'https://youtu.be/KkEjw0h7Cwk',source:'Swax Lax'}],
+  diagram:'alley'
+},
+{
+  id:12, cat:'dodging', name:'Split Dodge Drill',
+  purpose:'Change of direction mastery',
+  diff:1, players:2, time:10,
+  setup:'Attacker starts with the ball at the top of the arc. Cone represents a defender. Practice split dodge: sell one direction, switch hands, go the other way. Add live defender once technique is clean.',
+  points:['Sell the initial direction — make the defender commit','Switch hands at the peak of the move, not after','Keep your feet active — change direction explosively','Protect the stick during the hand switch'],
+  videos:[{title:'How to Split Dodge in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'Beginner Drill: Face Dodge',url:'https://www.youtube.com/watch?v=6YCNqkHqp7g',source:'YouTube'}]
+},
+{
+  id:13, cat:'dodging', name:'Roll Dodge Progression',
+  purpose:'Protect stick while changing direction',
+  diff:2, players:2, time:10,
+  setup:'Attacker approaches from the top. Practice roll dodge technique: plant outside foot, roll back toward the goal, keep stick protected on the inside. Progress from cones to live defender.',
+  points:['Plant hard on the outside foot to sell the direction','Roll tight — stay close to the defender, don\'t drift','Keep your stick on the inside (goal side) during the roll','Accelerate out of the roll — don\'t coast'],
+  videos:[{title:'How to Roll Dodge in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'}]
+},
+{
+  id:14, cat:'dodging', name:'Dodge and Dump',
+  purpose:'Create opportunities for teammates',
+  diff:2, players:4, time:12,
+  setup:'Attacker dodges from top, drawing the slide. Crease player reads the slide and relocates. Dodger dumps the ball to the open crease player for a shot.',
+  points:['Dodge hard enough to draw the slide — half-hearted dodges won\'t draw help','Eyes up as you dodge — see the slide coming','Hit the crease player in stride — lead them','Crease player: move AWAY from the slide, not toward it'],
+  videos:[{title:'3 Dodging Drills in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'Dodging Tips with Taylor Cummings',url:'https://www.lax.com/stories/lax-video/dodging-tips-with-taylor-cummings.html',source:'Taylor Cummings'}],
+  diagram:'dodgedump'
+},
+{
+  id:15, cat:'dodging', name:'Pick and Roll',
+  purpose:'Off-ball screening actions',
+  diff:3, players:4, time:12,
+  setup:'Two attackers, two defenders. Player 1 sets a pick for Player 2. Player 2 uses the pick, Player 1 rolls to the goal. Read the defense and make the right play.',
+  points:['Picker: set a strong, legal pick — feet planted, don\'t move into the defender','User: set up the pick by walking your defender into it','Read the defense: if they switch, roll hard to goal. If they fight through, keep driving','Communication between picker and user is essential'],
+  videos:[{title:'Seawolves Drill',url:'https://youtu.be/OH_HUlnbyQ4',source:'Swax Lax'}]
+},
+{
+  id:16, cat:'dodging', name:'Two Player Game',
+  purpose:'Reading defense in 2-player actions',
+  diff:3, players:4, time:15,
+  setup:'Two attackers work together: pick/slip/feed sequences. 2v2 live. Attackers choose between using the pick, slipping it, or feeding off it based on what the defense gives.',
+  points:['Read the defense FIRST, then choose your action','If they switch — slip or roll','If they hedge — reject and re-drive','Timing is everything — the second action matters most'],
+  videos:[{title:'Seawolves Drill',url:'https://youtu.be/OH_HUlnbyQ4',source:'Swax Lax'}]
+},
+{
+  id:17, cat:'dodging', name:'Isolation Dodge',
+  purpose:'Elite 1v1 finishing ability',
+  diff:3, players:2, time:10,
+  setup:'Clear out one side of the field. Attacker gets a 1v1 island with no help defense. Must beat the defender and finish on cage.',
+  points:['Use the space — attack from distance to build speed','Set up your move early, don\'t dance at the top','Finish strong — expect contact and shoot through it','If the first move doesn\'t work, have a counter ready'],
+  videos:[{title:'How to Rocker Dodge in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'}]
+},
+{
+  id:18, cat:'dodging', name:'Re-Dodge Drill',
+  purpose:'Developing a second move',
+  diff:2, players:2, time:10,
+  setup:'Attacker dodges, gets stopped by the defender, must reset and re-dodge from a new angle. Practice first move (split) into second move (roll), and vice versa.',
+  points:['Don\'t force the first dodge if it\'s not there — reset is smart','Change your angle of attack on the re-dodge','The second move should be different from the first','Speed up on the re-dodge — most defenders relax after the first stop']
+},
+{
+  id:19, cat:'dodging', name:'Crease Roll Drill',
+  purpose:'Crease finishing off rolls',
+  diff:2, players:3, time:10,
+  setup:'Attacker receives a feed near the crease. Defender is on their back. Practice rolling across the crease and finishing in tight space. Feeder at X or wing.',
+  points:['Catch first, then make your move — secure possession','Roll across the crease using the goalie as a screen','Keep your shot low and placed — power isn\'t needed this close','Practice both left and right side finishes']
+},
+{
+  id:20, cat:'dodging', name:'Dodging Angle Progression',
+  purpose:'Improve dodge angles from multiple spots',
+  diff:2, players:2, time:12, source:'Film IQ',
+  setup:'Start at the alley. Dodge 1v1. Then move to a split position. Then inside roll position. Three different starting angles, same defender.',
+  points:['Each angle requires a different primary dodge','Alley = speed dodge, split = change of direction, inside = power','Recognize which dodge works best from which angle','Film study: watch where top players start their dodges'],
+  correction:'Don\'t telegraph your dodge by winding up. Stay balanced and attack decisively from each angle.'
+},
+{
+  id:21, cat:'dodging', name:'Transition Dodge',
+  purpose:'Speed to cage off the catch',
+  diff:3, players:4, time:10,
+  setup:'Player catches on the run at the restraining line. Must dodge immediately — no standing still. Defender picks up at the top of the arc.',
+  points:['Catch facing the goal — don\'t turn your back','Your first two steps after catching should be toward the cage','Attack the space, not the defender','Make a decision in 2 seconds: dodge, pass, or shoot']
+},
+// ===== DEFENSE (22-33) =====
+{
+  id:22, cat:'defense', name:'Mirror Drill',
+  purpose:'Lateral defensive footwork',
+  diff:1, players:2, time:10,
+  setup:'Defender mirrors an attacker moving laterally across a 10-yard space. No sticks first, then add sticks. Defender stays in good position without crossing feet.',
+  points:['Stay in an athletic stance — low, balanced, on your toes','Slide your feet, don\'t cross them','Keep your hips square to the attacker','Hands up, active stick — poke checks only'],
+  videos:[{title:'How to Play On-Ball Defense',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'On Ball Defense',url:'https://www.youtube.com/watch?v=vz5hdrna4IE',source:'YouTube'}],
+  diagram:'mirror'
+},
+{
+  id:23, cat:'defense', name:'Slide Recognition',
+  purpose:'Help defense timing and reads',
+  diff:2, players:6, time:15,
+  setup:'3v3 half-field. When the on-ball defender gets beaten, the adjacent defender must slide. Rotate so everyone practices being the slider.',
+  points:['Slide on the dodge, not on the shot — early is better than late','Call "SLIDE" as you go so your team rotates behind you','Take an angle to cut off the attacker, don\'t chase','After sliding, the next person must fill your spot'],
+  videos:[{title:'Salisbury Call Drill',url:'https://youtu.be/jUlHAUToyhE',source:'Swax Lax'},{title:'Line Bump Drill',url:'https://youtu.be/JMSYMLeE0uQ',source:'Swax Lax'}]
+},
+{
+  id:24, cat:'defense', name:'Crease Defense',
+  purpose:'Defending interior cuts and feeds',
+  diff:2, players:4, time:12,
+  setup:'2v2 on the crease. Attackers try to get open for feeds. Defenders must deny the cut and the pass. Feeder stays outside the 8-meter.',
+  points:['Stay between your player and the ball at all times','Deny the cut with your body — front them','If you lose position, push them below the goal line','Keep one eye on the ball, one eye on your player'],
+  videos:[{title:'Defending a Crease Roll',url:'https://www.youtube.com/watch?v=J2PbNddDsbQ',source:'YouTube'}]
+},
+{
+  id:25, cat:'defense', name:'Communication Drill',
+  purpose:'Team defensive communication',
+  diff:2, players:6, time:12, source:'Film IQ',
+  setup:'Shell defense (3v3 or 4v4). Coach is SILENT — no coaching allowed. Defenders must communicate every call: ball, two, help, slide, etc. Stop play when communication stops.',
+  points:['Every defender talks on EVERY play — silence is failure','Use specific calls: "BALL" for on-ball, "TWO" for two passes away','Volume matters — your teammate needs to hear you','The goalie is the quarterback — she directs traffic'],
+  correction:'If the defense goes quiet, stop the drill. Silence = breakdown. Make them call out before restarting.',
+  videos:[{title:'2 Defensive Drills in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'ABCDs of Defense',url:'https://www.youtube.com/watch?v=TbPSjbd942s',source:'YouTube'}]
+},
+{
+  id:26, cat:'defense', name:'Help and Recover',
+  purpose:'Slide and recover to original mark',
+  diff:2, players:6, time:15,
+  setup:'3v3 half-field. When a defender slides, she must recover back to her original player after the ball moves. Practice the full slide-and-recover cycle.',
+  points:['Sprint to help, then sprint back — no jogging','Recover on the pass — as soon as the ball leaves, GO','Communicate your recovery: "I\'m back!"','The chain of slides only works if everyone recovers'],
+  videos:[{title:'How to Play Off-Ball Defense',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'Off Ball Defense',url:'https://www.youtube.com/watch?v=wmouHokoASU',source:'YouTube'}]
+},
+{
+  id:27, cat:'defense', name:'Double Team Trap',
+  purpose:'Pressure situations with two defenders',
+  diff:3, players:4, time:10,
+  setup:'Attacker receives the ball in a corner. Two defenders converge to trap. Attacker must try to escape. Practice timing the trap together.',
+  points:['Both defenders arrive at the SAME time — staggered traps fail','Mirror your partner\'s stick position — high/low or left/right','Don\'t foul — body position, not hacking','If they split the trap, one defender stays, one recovers'],
+  videos:[{title:'Double Team Defense',url:'https://www.youtube.com/watch?v=YIJCqROqlSQ',source:'YouTube'}]
+},
+{
+  id:28, cat:'defense', name:'Defensive Footwork Ladder',
+  purpose:'Foot speed for defenders',
+  diff:1, players:1, time:8,
+  setup:'Agility ladder or line drill. Progression: lateral shuffles, drop steps, hip turns, sprint-and-chop. 3 rounds of each.',
+  points:['Stay low throughout — don\'t pop up','Quick feet, quiet feet — stay on the balls of your feet','Keep your hands up during the footwork — game realistic','Push the tempo each round — challenge yourself']
+},
+{
+  id:29, cat:'defense', name:'Ground Ball Defense',
+  purpose:'Win possession in defensive situations',
+  diff:2, players:4, time:10,
+  setup:'Ball is rolled into a contested area near the defensive end. Two attackers, two defenders. Defenders must win the ground ball and clear it past the restraining line.',
+  points:['Defenders box out first, then go for the ball','Scoop and immediately protect your stick','Outlet pass as fast as possible — don\'t carry','If you can\'t pick it up clean, kick it to open space']
+},
+{
+  id:30, cat:'defense', name:'Defensive Triangle',
+  purpose:'Off-ball defensive positioning',
+  diff:2, players:6, time:12,
+  setup:'3v3 half-field. Focus on the "triangle" — defenders must see both ball and player at all times. Coach freezes play to check positioning.',
+  points:['Point one hand at the ball, one at your player — that\'s your triangle','Flatten out as the ball gets closer to your side','Open up (get wider) when the ball is far away','Never lose sight of either the ball or your player']
+},
+{
+  id:31, cat:'defense', name:'Defensive Rotation Drill',
+  purpose:'Full team defensive rotation',
+  diff:3, players:8, time:15,
+  setup:'4v4 half-field. When the on-ball defender gets beaten, practice the full rotation: first slide, second slide, crash, fill. Run it slowly first, then at game speed.',
+  points:['First slide goes to the ball','Second slide takes first slide\'s player','Crash fills the crease','Everyone must move simultaneously — not sequentially']
+},
+{
+  id:32, cat:'defense', name:'Approach + Contain',
+  purpose:'Correct defensive approach technique',
+  diff:1, players:2, time:10, source:'Film IQ',
+  setup:'Defender starts 10 yards from attacker. Approaches under control — choppy steps the last 3 yards. No checks until the attacker\'s hands are free. Focus on contain, not kill.',
+  points:['Sprint the first 7 yards, then break down into short choppy steps','Stay low on the approach — don\'t lunge','No check until hands are free — patience','Force them to a direction, then stay connected'],
+  correction:'Biggest mistake: charging in too fast and getting dodged. Break down early and stay balanced.',
+  videos:[{title:'Beginner Drill: Defensive Positioning',url:'https://www.youtube.com/watch?v=K53asmAECxY',source:'YouTube'}]
+},
+{
+  id:33, cat:'defense', name:'Slide & Recover',
+  purpose:'Slide timing and fill patterns',
+  diff:2, players:6, time:12, source:'Film IQ',
+  setup:'3v3. Adjacent defender slides when the on-ball defender is beat. Next defender fills. After the pass, everyone recovers. Emphasis on timing — not too early, not too late.',
+  points:['Slide on the dodge, not on the pass — be proactive','The fill happens THE MOMENT you slide — don\'t wait','Recovery is a sprint, not a jog','Call everything: "SLIDE!", "FILL!", "I\'M BACK!"'],
+  correction:'If slides are late, the whole defense breaks down. Drill the trigger: when you see the dodge beat, GO.',
+  videos:[{title:'Salisbury Call Drill',url:'https://youtu.be/jUlHAUToyhE',source:'Swax Lax'}]
+},
+// ===== DRAW CONTROL (34-43) =====
+{
+  id:34, cat:'draw', name:'Clamp Progression',
+  purpose:'Draw control fundamentals',
+  diff:1, players:2, time:10,
+  setup:'Two players at the center circle. Start with technique (slow motion clamp), progress to half speed, then full speed. 10 draws per round.',
+  points:['Pressure down on the whistle — push the ball to the ground','Quick wrist turn to clamp','Once clamped, rake it to yourself or a teammate','Weight should be forward, on your toes'],
+  videos:[{title:'Draw Control Tips #1',url:'https://www.youtube.com/watch?v=Nt1c9UnHtk4',source:'YouTube'},{title:'How to Take the Draw',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'}],
+  diagram:'drawcircle'
+},
+{
+  id:35, cat:'draw', name:'Rake Draw',
+  purpose:'Alternative draw technique',
+  diff:2, players:2, time:10,
+  setup:'Same center circle setup. Instead of clamping, pull the ball back toward yourself on the whistle. Focus on the pull-back motion.',
+  points:['Quick upward motion on the whistle','Rake toward your body, not to the side','This works best against clampers — they push down, you pull up','Must be fast — the first motion wins'],
+  videos:[{title:'Draw Control Tips #2',url:'https://www.youtube.com/watch?v=r7jVWC4HeY0',source:'YouTube'}]
+},
+{
+  id:36, cat:'draw', name:'Directional Draw',
+  purpose:'Directing the ball to a specific wing',
+  diff:2, players:3, time:10,
+  setup:'Draw taker and two wing players. Practice directing the draw to a specific wing. Call the direction before each draw.',
+  points:['Angle your stick toward the target wing before the whistle','Body position matters — lean slightly toward your target','Wing player must time their run to arrive as the ball does','Practice both left and right sides equally'],
+  videos:[{title:'Draw Control Tips #3',url:'https://www.youtube.com/watch?v=ryZ5gI7H7GM',source:'YouTube'},{title:'Pull Draw',url:'https://www.youtube.com/watch?v=P4XLWi_b_EU',source:'YouTube'}],
+  diagram:'directional'
+},
+{
+  id:37, cat:'draw', name:'Self Draw',
+  purpose:'Self-possession on the draw',
+  diff:2, players:2, time:10,
+  setup:'Standard draw setup. Goal is to win the draw to yourself — not to a wing. Practice popping the ball straight up and catching it.',
+  points:['Pop the ball straight up — short and controlled','Be the first to react to the pop — anticipate, don\'t wait','Secure the catch with two hands','Immediately protect and go — don\'t stand there admiring it'],
+  videos:[{title:'Win The Draw with Taylor Cummings',url:'https://www.lax.com/blogs/stories/win-the-draw-with-taylor-cummings',source:'Taylor Cummings'}]
+},
+{
+  id:38, cat:'draw', name:'Draw Reaction',
+  purpose:'Wing reaction to draw direction',
+  diff:1, players:4, time:10,
+  setup:'Full draw setup with wings. Ball goes up and wings must react to wherever it goes — not just their designated side. Work on reading the ball in the air.',
+  points:['Eyes on the ball, not on the draw takers','React to the ball in the air — adjust your path','Sprint to the ball — first player there wins','Box out opponents as you pursue the ball'],
+  videos:[{title:'Draw Control Overview',url:'https://www.youtube.com/watch?v=PUTqUIAef0A',source:'YouTube'}]
+},
+{
+  id:39, cat:'draw', name:'Wing Timing Drill',
+  purpose:'Team coordination on draws',
+  diff:2, players:4, time:10,
+  setup:'Wings practice timing their cut into the circle. They start outside, cut in when the whistle blows. Focus on not going too early (violation) or too late (lose the ball).',
+  points:['Start at the edge of the circle — toes on the line','GO on the whistle — not before, not a step after','Sprint through the ball, not to the ball','If the ball goes away from you, find a body to box out'],
+  videos:[{title:'The Draw with Taylor Cummings',url:'https://www.lax.com/stories/lax-video/the-draw-with-taylor-cummings/',source:'Taylor Cummings'}]
+},
+{
+  id:40, cat:'draw', name:'Draw Scramble',
+  purpose:'Win 50/50 ground balls off draws',
+  diff:2, players:4, time:8,
+  setup:'Coach tosses the ball into a group of 4 players. It\'s a 50/50 scramble — whoever comes up with it wins. Simulates a messy draw.',
+  points:['Get low and fight for the ball — this is effort over skill','Use your body to create space','If you can\'t pick it up, push it to a teammate','Never give up on a loose ball — effort wins draws']
+},
+{
+  id:41, cat:'draw', name:'Draw and Fast Break',
+  purpose:'Immediate transition off draw wins',
+  diff:3, players:6, time:12,
+  setup:'Full draw setup. Win the draw, outlet immediately, and fast break to the attacking end. Score within 10 seconds of the whistle.',
+  points:['Outlet pass must be immediate — no holding','Wings become the fast break players — sprint','Middle of the field is the fast lane — use it','Communicate: "BREAK!" so everyone knows to push'],
+  diagram:'drawbreak'
+},
+{
+  id:42, cat:'draw', name:'Draw Under Pressure',
+  purpose:'Performing draws against elite opponents',
+  diff:3, players:2, time:10,
+  setup:'1v1 draw against the best draw taker on the team. Competitive reps — track wins and losses. Simulate game pressure.',
+  points:['Control what you can: technique, timing, effort','Study your opponent\'s tendencies — do they clamp or rake?','Stay composed — don\'t change your technique because you lost one','Mental focus: visualize winning the draw before the whistle']
+},
+{
+  id:43, cat:'draw', name:'Draw Circle Competition',
+  purpose:'Competitive draw reps',
+  diff:1, players:4, time:10,
+  setup:'Round-robin draw competition. Track wins. Losers do a conditioning rep. Winners advance. Make it fun and competitive.',
+  points:['Treat every draw like it\'s the game-winner','Celebrate effort, not just wins','Rotate so everyone faces different opponents','Keep score publicly — build competitive fire']
+},
+// ===== RIDE / CLEAR (44-53) =====
+{
+  id:44, cat:'ride', name:'Ride Pressure Drill',
+  purpose:'Force turnovers on the ride',
+  diff:2, players:8, time:12,
+  setup:'Clearing team (4 players) vs riding team (4 players). Clearing team starts in the defensive end. Riding team applies full pressure. Clock: 10 seconds to clear.',
+  points:['Riding team: sprint to your assignment — no jogging','Cut off passing lanes, don\'t just chase the ball','Force them to the sideline — take away the middle','If you don\'t get a turnover, slow them down']
+},
+{
+  id:45, cat:'ride', name:'Midline Trap Drill',
+  purpose:'Midfield pressure to force turnovers',
+  diff:3, players:8, time:12,
+  setup:'Set the trap at the midfield line. Two riders converge as the ball carrier approaches midline. Rest of the ride cuts off outlets.',
+  points:['Time the trap — converge as they cross, not before','The trap only works if outlets are denied','If the ball goes back, CHASE — don\'t let them reset','Communication: call who\'s trapping and who\'s denying']
+},
+{
+  id:46, cat:'ride', name:'Sideline Funnel Drill',
+  purpose:'Contain clears to the sideline',
+  diff:2, players:6, time:12,
+  setup:'Clearing team tries to advance. Riding team angles them to the sideline using body position. Once on the sideline, apply maximum pressure.',
+  points:['Take away the middle of the field with your angle','Don\'t overcommit — just guide them to the sideline','The sideline is an extra defender — use it','Once they\'re trapped on the sideline, converge']
+},
+{
+  id:47, cat:'ride', name:'Clear Breakout Drill',
+  purpose:'Fast transition out of defensive end',
+  diff:2, players:8, time:12,
+  setup:'Goalie makes a save. Clearing team breaks out with speed. First pass is to the near wing, second pass crosses midfield. Time it: under 6 seconds is elite.',
+  points:['Wings sprint to their spots on the save — don\'t wait for the outlet','Goalie: make a strong, accurate outlet — this starts everything','Move the ball, don\'t carry it — two passes to cross midfield','Speed kills — the faster you clear, the less organized the ride'],
+  videos:[{title:'Clears',url:'https://www.youtube.com/watch?v=SXNmDdGym1U',source:'YouTube'}]
+},
+{
+  id:48, cat:'ride', name:'Reverse Clear Drill',
+  purpose:'Escape pressure by reversing field',
+  diff:2, players:8, time:12,
+  setup:'Clearing team gets pressured on one side. Practice reversing the ball through the goalie or a back-side player to escape pressure and clear up the weak side.',
+  points:['When one side is locked, go back — don\'t force it','The reverse pass should be quick and crisp','Weak-side players must be ready — stay engaged','Reversing resets the ride — you get a fresh 10 seconds of advantage']
+},
+{
+  id:49, cat:'ride', name:'Goalie Outlet Drill',
+  purpose:'Goalie distribution skills',
+  diff:1, players:4, time:10,
+  setup:'Goalie makes a save and immediately outlets to one of 3 positioned players. Vary the positions. Focus on accuracy and decision-making.',
+  points:['Goalie: look upfield before you pass — find the best option','Hit the target in stride — lead them','Strong passes — lazy outlets get picked off','Mix up your outlets — don\'t be predictable']
+},
+{
+  id:50, cat:'ride', name:'Two Pass Clear',
+  purpose:'Efficient clearing in two passes',
+  diff:2, players:8, time:12,
+  setup:'Goalie outlets to the first player, who immediately moves it to a player across midfield. Two passes, ball is in the attacking end. Practice speed and precision.',
+  points:['First pass gets the ball out of danger','Second pass crosses midfield — must be accurate','Players must be in position BEFORE the outlet','Every extra pass you take is a chance for the ride to set up']
+},
+{
+  id:51, cat:'ride', name:'Ride Recovery Drill',
+  purpose:'Recovering after a broken ride',
+  diff:2, players:6, time:10,
+  setup:'Ride breaks down — the clear is beaten. Riding players must sprint back and get into defensive position before the attack can set up offense.',
+  points:['Sprint back — full speed, no excuses','Get below the ball — goal-side positioning','Communicate who\'s picking up who','Buy time for the rest of the defense to get set']
+},
+{
+  id:52, cat:'ride', name:'Clear Under Pressure',
+  purpose:'Clearing against a full ride',
+  diff:3, players:10, time:15,
+  setup:'5v5 clearing situation with full-pressure ride. Clearing team must advance past midfield. If the ride forces a turnover, restart from a new save.',
+  points:['Stay calm — panic causes turnovers','Use your safe outlets — don\'t try to be a hero','If nothing is open, take it yourself — slow is okay','Protect the ball at all costs — turnovers in your end are deadly']
+},
+{
+  id:53, cat:'ride', name:'Transition Clear',
+  purpose:'Clear directly into fast break offense',
+  diff:3, players:10, time:12,
+  setup:'Clear the ball and immediately fast break. The clear becomes the offense. No stopping at midfield — go straight to attack.',
+  points:['This is about speed and numbers — push the ball','If you have numbers, GO — don\'t wait for everyone','Fill lanes: one left, one middle, one right','The first pass after midfield should create a scoring chance'],
+  videos:[{title:'Full Field Build Up Drill',url:'https://youtu.be/n_ClntxRugU',source:'Swax Lax'}]
+},
+// ===== TRANSITION (54-65) =====
+{
+  id:54, cat:'transition', name:'3v2 Fast Break',
+  purpose:'Number advantage finishing',
+  diff:2, players:5, time:12,
+  setup:'3 attackers vs 2 defenders. Start from midfield. Attackers push the ball quickly and must score before the defense can set. Run both sides.',
+  points:['Middle player carries the ball — wings fill wide','Attack with speed — don\'t let the defense recover','Pass to the open player — the 2 defenders can\'t cover all 3','Finish strong — take what the defense gives you'],
+  videos:[{title:'Throwback Line Drills',url:'https://youtu.be/hoY-c_qhscY',source:'Swax Lax'}],
+  diagram:'3v2'
+},
+{
+  id:55, cat:'transition', name:'4v3 Transition',
+  purpose:'Decision-making with numbers advantage',
+  diff:2, players:7, time:15,
+  setup:'4 attackers vs 3 defenders from midfield. Extra player must recognize they\'re open and make themselves available.',
+  points:['Identify who\'s open immediately — don\'t overdribble','Move the ball side to side to shift the defense','The extra player should position near the crease','Score quickly — the advantage disappears when help arrives'],
+  videos:[{title:'Full Field Build Up Drill',url:'https://youtu.be/n_ClntxRugU',source:'Swax Lax'}]
+},
+{
+  id:56, cat:'transition', name:'Continuous Transition',
+  purpose:'Conditioning + offensive flow',
+  diff:3, players:12, time:15,
+  setup:'Full field continuous play. When one end scores or turns it over, the ball immediately transitions to the other end. No stoppages. Run for 12-15 minutes straight.',
+  points:['This is as much conditioning as it is tactics','Sprint back on defense — transition D is effort','Push the ball whenever you have numbers','Stay organized even when tired — discipline wins'],
+  videos:[{title:'HGR Coach\'s Vault Playlist',url:'https://www.youtube.com/playlist?list=PLboADa_6az-YqG_9F0F9-04X-7pmwIe0s',source:'HGR Lacrosse'}]
+},
+{
+  id:57, cat:'transition', name:'Turnover Transition',
+  purpose:'Quick counterattack off turnovers',
+  diff:2, players:8, time:12,
+  setup:'Start with a scripted turnover (dropped pass, caused turnover). The team that wins possession immediately pushes in transition. Defense must sprint back.',
+  points:['First player to the ball looks up for the outlet immediately','Sprint the lanes — don\'t cluster','Take what the defense gives — if they\'re scrambling, attack','If no fast break, set up your settled offense quickly']
+},
+{
+  id:58, cat:'transition', name:'Draw to Fast Break',
+  purpose:'Capitalize on draw wins with speed',
+  diff:3, players:8, time:12,
+  setup:'Full draw setup. Win the draw, immediate fast break. The midfielders who win the draw become the fast break attackers. Practice the draw-to-attack connection.',
+  points:['The outlet off the draw must be instant — no delay','Middies: sprint toward the attacking end immediately','Use the whole width of the field — spread out','Score before the defense can set — speed is everything']
+},
+{
+  id:59, cat:'transition', name:'Defense to Offense Drill',
+  purpose:'Full-field awareness and transition',
+  diff:2, players:10, time:15,
+  setup:'Start with a defensive possession. Make a stop (save, turnover, caused error). Immediately transition to offense and attack the other end.',
+  points:['The stop is step one — finish the defensive possession','Communicate the transition: "BREAK! BREAK!"','Defensive players who got the stop become middies pushing the ball','Attack with purpose — know what you want to do before you get there']
+},
+{
+  id:60, cat:'transition', name:'Midfield Break Drill',
+  purpose:'Midfielder-led fast breaks',
+  diff:2, players:6, time:10,
+  setup:'Midfielder catches a clear at midfield. Two other middies fill lanes. Fast break 3v2 to the goal. Emphasize midfielder carrying ability.',
+  points:['The ball carrier takes the middle lane','Wings: sprint wide and stay ahead of the ball','Call for the ball — communication creates passing lanes','Middies must be comfortable shooting in transition']
+},
+{
+  id:61, cat:'transition', name:'Transition Shooting',
+  purpose:'Finishing at full speed',
+  diff:2, players:6, time:12,
+  setup:'Players run from midfield, receive a pass at the top of the arc, and must shoot in stride. Add a token defender to simulate game pressure.',
+  points:['Don\'t slow down to shoot — practice at game speed','Pick your spot before you receive the ball','Shoot in stride — step into the shot without stopping','Low corners and bounce shots are highest percentage in transition'],
+  videos:[]
+},
+{
+  id:62, cat:'transition', name:'Ride Turnover Attack',
+  purpose:'Aggressive transition off forced turnovers',
+  diff:3, players:10, time:12,
+  setup:'Riding team forces a turnover. Immediately transition to attack the goal. Practice the ride-to-offense switch.',
+  points:['When you cause the turnover, GO — don\'t celebrate','The closest player picks up the ball, others sprint to attack','You already outnumber them — they\'re still in "clear" mode','Finish the play — turnovers are wasted if you don\'t score']
+},
+{
+  id:63, cat:'transition', name:'Full Field Transition',
+  purpose:'End-to-end game simulation',
+  diff:3, players:12, time:15,
+  setup:'Full field, 6v6 game-like conditions. Ball starts at one end. Play it out. When possession changes, full transition the other way. Play to 5 goals.',
+  points:['This is as close to game conditions as you can get in practice','Every transition is an opportunity — push the pace','Communicate on both ends of the field','Play smart — don\'t force things, but don\'t be passive either']
+},
+{
+  id:64, cat:'transition', name:'Transition Read Drill',
+  purpose:'Fast reads in transition situations',
+  diff:2, players:7, time:12, source:'Film IQ',
+  setup:'4v3 continuous. After each score or save, the ball transitions and a new player enters to create the next 4v3. Players must read who\'s open instantly.',
+  points:['Read the defense in the first 2 seconds — that tells you everything','If the defense is scrambling, attack immediately','If they\'re set, slow down and run offense','The extra player must make themselves visible — don\'t hide behind defenders'],
+  correction:'Don\'t telegraph your passes in transition. Look one way, pass the other. Defenders are reacting, not anticipating.'
+},
+{
+  id:65, cat:'transition', name:'Two-Way Middie Circuit',
+  purpose:'Complete two-way midfielder development',
+  diff:3, players:4, time:12, source:'Film IQ',
+  setup:'Station circuit: Station 1 — dodge and shoot. Station 2 — ride the ball carrier. Station 3 — recover to defense. 90 seconds per station, 3 rounds.',
+  points:['This is about being a complete midfielder — offense AND defense','The transition between stations is the point — no rest','Ride with the same intensity you dodge with','Recovery sprint is the hardest part — embrace it'],
+  correction:'Middies who only want to play offense will struggle. This drill rewards two-way effort.'
+},
+// ===== GOALIE (66-70) =====
+{
+  id:66, cat:'goalie', name:'Arc & Reset',
+  purpose:'Goalie arc movement fundamentals',
+  diff:1, players:4, time:10, source:'Film IQ',
+  setup:'Ball moves around the arc. Goalie tracks the ball, stepping and resetting their arc position. Shooters hold, then shoot randomly. Goalie resets after every save.',
+  points:['Step to the ball — lead with your top hand','Reset your arc after every pass — don\'t drift','Keep your shoulders square to the shooter','After the save, immediately look for the outlet'],
+  correction:'Don\'t follow the ball with just your eyes. Your feet must move with the ball, maintaining proper arc position.',
+  videos:[{title:'Walk the Line Drill for Lacrosse Goalies',url:'https://www.youtube.com/watch?v=rHh_3EGWXXs',source:'Lax Goalie Rat'},{title:'GK Five Step Arc',url:'https://www.youtube.com/watch?v=JKDkotlntx0',source:'YouTube'}],
+  diagram:'goalieArc'
+},
+{
+  id:67, cat:'goalie', name:'Eyes Before Hands',
+  purpose:'Tracking the ball before making the save',
+  diff:2, players:2, time:10, source:'Film IQ',
+  setup:'Shooter fires from various angles. Rule: the goalie must track the ball with her eyes FIRST, then move her hands. If she moves before she sees it, it doesn\'t count.',
+  points:['See the ball leave the stick — that\'s your trigger','Don\'t guess — react to what you see','Track the ball all the way into your stick','Quiet feet until you read the shot — then explode'],
+  correction:'Goalies who guess will get beat by fakes and changes of plane. See it first, save it second.',
+  videos:[{title:'Freeze Drill for Lacrosse Goalies',url:'https://www.youtube.com/watch?v=tpmXAaHZRIA',source:'Lax Goalie Rat'},{title:'Step and Targeting Drill',url:'https://www.youtube.com/watch?v=q5ej_USPaJw',source:'YouTube'}]
+},
+{
+  id:68, cat:'goalie', name:'Command the Defense',
+  purpose:'Goalie-led defensive communication',
+  diff:2, players:6, time:12, source:'Film IQ',
+  setup:'Half-field defense. The goalie makes EVERY call: who has ball, who\'s two, where the slide is coming from, when to recover. If the goalie goes quiet, stop the drill.',
+  points:['You see the whole field — use that advantage','Call ball, two, help, slide, recover — constantly','Be loud and specific: player names or numbers','If you\'re not talking, you\'re not doing your job'],
+  correction:'A quiet goalie is a liability. This drill builds the habit of constant communication. Stop play every time she goes silent.',
+  videos:[{title:'3 Notre Dame GK Drills',url:'https://www.youtube.com/watch?v=beb0SRR_zeY',source:'YouTube'}]
+},
+{
+  id:69, cat:'goalie', name:'Goalie Stance & Step',
+  purpose:'Save mechanics fundamentals',
+  diff:1, players:2, time:10,
+  setup:'Goalie in the cage. Coach/player holds ball at different positions. Goalie gets in stance, steps to the ball, makes the save, resets. Focus on mechanics, not speed.',
+  points:['Athletic stance: knees bent, hands up, weight on balls of feet','Step to the ball — lead with the stick-side foot','Save with your body behind the stick — don\'t reach','Reset immediately — get back to your stance'],
+  videos:[{title:'GK Proper Stance and Form',url:'https://www.youtube.com/watch?v=QBu6LmOzpD4',source:'YouTube'},{title:'Goalie Warm-Up Drill',url:'https://www.youtube.com/watch?v=G8HXbqUgLas',source:'YouTube'}]
+},
+{
+  id:70, cat:'goalie', name:'Goalie Catching Basics',
+  purpose:'Handling shots from all distances',
+  diff:1, players:2, time:10,
+  setup:'Start close (5 yards), soft tosses. Progress back to 10, then 15 yards with harder throws. Focus on catching technique before worrying about hard shots.',
+  points:['Soft hands — absorb the ball, don\'t fight it','Catch in front of your body, not to the side','Move your feet to get in front of the ball','Progress from slow tosses to hard shots over time'],
+  videos:[{title:'Bucket Drill for Lacrosse Goalies',url:'https://www.youtube.com/watch?v=f02vgW2vcrc',source:'Lax Goalie Rat'},{title:'High Drill for Lacrosse Goalies',url:'https://www.youtube.com/watch?v=47RooKBkAos',source:'Lax Goalie Rat'}]
+},
+// ===== OFFENSE SYSTEMS (71-75) =====
+{
+  id:71, cat:'offense', name:'Off-Ball Timing',
+  purpose:'Timing and off-ball movement',
+  diff:2, players:6, time:15, source:'Film IQ',
+  setup:'3v3 + crease, but you can ONLY score on assisted goals. No unassisted shots allowed. Forces off-ball movement and on-ball passing.',
+  points:['Move with purpose — every cut should have a reason','Time your cut to when the ball carrier is ready to pass','Create space for your teammates by clearing out','Off-ball players must be a threat — defenders should worry about you'],
+  correction:'If players are standing around watching the ball, stop the drill. Everyone must be moving with purpose at all times.',
+  videos:[{title:'How to Run a Motion Offense in Women\'s Lacrosse',url:'https://www.youtube.com/playlist?list=PLLALQuK1NDrik8mvM2Sfs1I7ekqTjWUnP',source:'Howcast'},{title:'Cutting into the 8M',url:'https://www.youtube.com/watch?v=Qj-x6tEbIfs',source:'YouTube'}],
+  diagram:'offball'
+},
+{
+  id:72, cat:'offense', name:'Crease Read & Relocate',
+  purpose:'Reading the crease and making smart cuts',
+  diff:2, players:4, time:12, source:'Film IQ',
+  setup:'Crease player receives a pass. Reads the defense: if doubled, pass back out. If single covered, finish. If open space, cut to it. Emphasis on reading before acting.',
+  points:['Catch first, then read — don\'t pre-decide','If the defense collapses on you, the ball should move out','Relocate after every action — don\'t park on the crease','Create a passing lane for the ball carrier — be an option'],
+  correction:'Crease players who catch and immediately shoot without reading will miss better opportunities. Read the picture first.',
+  videos:[{title:'Shooting, Shot Fakes',url:'https://www.youtube.com/watch?v=VZgfHXX1Gas',source:'YouTube'}]
+},
+{
+  id:73, cat:'offense', name:'Decision Window Drill',
+  purpose:'Quick decisions after the dodge',
+  diff:3, players:4, time:12, source:'Film IQ',
+  setup:'3-second rule: after a dodge, you have 3 seconds to shoot, pass, or re-dodge. If you hold it longer than 3 seconds, it\'s a turnover. Forces quick, decisive play.',
+  points:['The 3-second window simulates game pressure — defenses recover fast','First look: can I shoot? Second look: is someone open? Third: re-dodge','Don\'t force a bad shot to beat the clock — a good pass counts','This builds the habit of playing with urgency'],
+  correction:'Players who hold the ball too long in games let the defense recover. This drill fixes that habit.'
+},
+{
+  id:74, cat:'offense', name:'4v3 Exchange Drill',
+  purpose:'Offensive reads + defensive slides',
+  diff:2, players:7, time:15,
+  setup:'4 attackers vs 3 defenders inside the 8-meter. Attackers exchange positions (cuts, screens, picks) to create open looks. Defenders must communicate and rotate.',
+  points:['Exchange with purpose — every cut should free someone up','Set real screens — don\'t just run by each other','The open player should be attacking when they get the ball','If the defense switches, exploit the mismatch'],
+  videos:[{title:'Seawolves Drill',url:'https://youtu.be/OH_HUlnbyQ4',source:'Swax Lax'}],
+  diagram:'4v3exchange'
+},
+{
+  id:75, cat:'offense', name:'Crease Finishing Drill',
+  purpose:'Scoring from the crease area',
+  diff:2, players:4, time:10,
+  setup:'Feeder from the wing or X. Crease player works to get open, receives the feed, and finishes. Practice high feeds, low feeds, bounce passes, and quick-sticks.',
+  points:['Get your feet set before the feed arrives','Catch and shoot in one motion — quick-stick when possible','Low shots beat goalies from in close — aim low','Practice with both hands — you don\'t always get your strong side'],
+  videos:[]
+}
+];
+
+// ============================================================
+// SVG DIAGRAM GENERATORS
+// ============================================================
+function getDiagram(type, color) {
+  const c = color || '#00e5ff';
+  const dims = 'viewBox="0 0 320 200" width="320" height="200"';
+  const styles = `<style>text{font:bold 10px sans-serif;fill:#ccc}.player{fill:${c};stroke:${c}}.def{fill:none;stroke:#ff4466;stroke-width:2}.arrow{stroke:${c};stroke-width:2;fill:none;marker-end:url(#ah)}.field{stroke:#333;stroke-width:1;fill:none}.ball{fill:#ffd60a}</style><defs><marker id="ah" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><path d="${c === '#e0e0e0' ? 'M0,0 L6,2 L0,4' : 'M0,0 L6,2 L0,4'}" fill="${c}"/></marker></defs>`;
+  const diagrams = {
+    tri: `<svg ${dims}>${styles}<circle cx="160" cy="40" r="8" class="player"/><circle cx="80" cy="160" r="8" class="player"/><circle cx="240" cy="160" r="8" class="player"/><path d="M160,50 L85,150" class="arrow"/><path d="M90,160 L230,160" class="arrow"/><path d="M235,150 L165,50" class="arrow"/><text x="150" y="30">P1</text><text x="60" y="175">P2</text><text x="245" y="175">P3</text><text x="130" y="110" fill="#666">10-12 yds</text></svg>`,
+    partner: `<svg ${dims}>${styles}<circle cx="100" cy="100" r="8" class="player"/><circle cx="220" cy="100" r="8" class="player"/><path d="M110,95 L210,95" class="arrow"/><path d="M210,105 L110,105" class="arrow" style="stroke-dasharray:6,3"/><text x="90" y="85">P1</text><text x="210" y="85">P2</text><text x="140" y="80" fill="#666">8-10 yds</text><circle cx="160" cy="95" r="4" class="ball"/></svg>`,
+    square: `<svg ${dims}>${styles}<circle cx="80" cy="40" r="8" class="player"/><circle cx="240" cy="40" r="8" class="player"/><circle cx="80" cy="160" r="8" class="player"/><circle cx="240" cy="160" r="8" class="player"/><rect x="75" y="35" width="170" height="130" class="field" rx="4"/><path d="M90,45 L230,155" class="arrow" style="stroke-dasharray:8,4"/><path d="M230,45 L90,155" class="arrow" style="stroke-dasharray:8,4"/><text x="135" y="100" fill="#666">Skip Pass</text><text x="60" y="35">P1</text><text x="245" y="35">P2</text><text x="60" y="170">P3</text><text x="245" y="170">P4</text></svg>`,
+    groundball: `<svg ${dims}>${styles}<circle cx="120" cy="80" r="8" class="player"/><circle cx="200" cy="80" r="8" class="player"/><circle cx="120" cy="140" r="8" class="player"/><circle cx="200" cy="140" r="8" class="player"/><circle cx="160" cy="110" r="5" class="ball"/><path d="M128,87 L153,105" class="arrow"/><path d="M192,87 L167,105" class="arrow"/><text x="140" y="25" fill="#666">Coach rolls ball</text><path d="M160,35 L160,100" class="arrow" style="stroke:#ffd60a;stroke-dasharray:4,3"/><text x="95" y="75">L1</text><text x="205" y="75">L2</text></svg>`,
+    alley: `<svg ${dims}>${styles}<path d="M160,180 A100,100 0 0,1 260,80" class="field"/><path d="M160,180 A100,100 0 0,0 60,80" class="field"/><rect x="140" y="175" width="40" height="25" class="field"/><circle cx="250" cy="60" r="8" class="player"/><circle cx="220" cy="90" r="8" class="def"/><path d="M245,68 L200,120" class="arrow"/><text x="255" y="55">ATT</text><text x="195" y="85" fill="#ff4466">DEF</text><text x="145" y="172" fill="#666">GOAL</text></svg>`,
+    dodgedump: `<svg ${dims}>${styles}<rect x="140" y="175" width="40" height="25" class="field"/><path d="M160,180 A100,100 0 0,1 260,80" class="field"/><path d="M160,180 A100,100 0 0,0 60,80" class="field"/><circle cx="160" cy="40" r="8" class="player"/><circle cx="160" cy="140" r="8" class="player"/><circle cx="140" cy="70" r="8" class="def"/><path d="M160,50 L158,60" class="arrow"/><text x="165" y="35">Dodger</text><text x="165" y="148" fill="${c}">Crease</text><text x="105" y="68" fill="#ff4466">DEF</text><path d="M158,65 L158,130" class="arrow" style="stroke-dasharray:6,3"/><text x="70" y="100" fill="#666">Dump pass</text><path d="M130,95 L155,130" class="arrow" style="stroke:#ffd60a"/></svg>`,
+    mirror: `<svg ${dims}>${styles}<circle cx="100" cy="100" r="8" class="player"/><circle cx="180" cy="100" r="8" class="def"/><path d="M60,100 L280,100" class="field" style="stroke-dasharray:4,4"/><path d="M95,92 L70,80" class="arrow"/><path d="M175,92 L150,80" class="arrow" style="stroke:#ff4466"/><path d="M105,108 L130,120" class="arrow"/><path d="M185,108 L210,120" class="arrow" style="stroke:#ff4466"/><text x="85" y="80">ATT</text><text x="180" y="80" fill="#ff4466">DEF mirrors</text><text x="100" y="160" fill="#666">10-yard lateral space</text></svg>`,
+    drawcircle: `<svg ${dims}>${styles}<circle cx="160" cy="100" r="60" class="field"/><circle cx="145" cy="100" r="8" class="player"/><circle cx="175" cy="100" r="8" class="def"/><circle cx="80" cy="60" r="6" class="player" style="opacity:0.6"/><circle cx="240" cy="60" r="6" class="player" style="opacity:0.6"/><circle cx="80" cy="140" r="6" class="def" style="opacity:0.6"/><circle cx="240" cy="140" r="6" class="def" style="opacity:0.6"/><circle cx="160" cy="100" r="3" class="ball"/><text x="65" y="50">Wing</text><text x="225" y="50">Wing</text><text x="130" y="85" fill="${c}">Draw</text></svg>`,
+    directional: `<svg ${dims}>${styles}<circle cx="160" cy="100" r="50" class="field"/><circle cx="150" cy="100" r="8" class="player"/><circle cx="170" cy="100" r="8" class="def"/><circle cx="70" cy="70" r="7" class="player"/><path d="M148,92 L80,75" class="arrow" style="stroke:#ffd60a;stroke-width:3"/><text x="55" y="60">Target Wing</text><text x="100" y="150" fill="#666">Direct the draw HERE</text></svg>`,
+    drawbreak: `<svg ${dims}>${styles}<circle cx="80" cy="100" r="30" class="field"/><circle cx="75" cy="100" r="6" class="player"/><circle cx="50" cy="80" r="5" class="player" style="opacity:0.7"/><path d="M90,95 L180,60" class="arrow" style="stroke:#ffd60a;stroke-width:3"/><circle cx="190" cy="55" r="6" class="player"/><path d="M200,55 L270,40" class="arrow"/><rect x="280" y="25" width="30" height="40" class="field"/><text x="35" y="70">Draw Win</text><text x="130" y="50" fill="#ffd60a">OUTLET</text><text x="220" y="35" fill="#666">Fast Break</text></svg>`,
+    '3v2': `<svg ${dims}>${styles}<rect x="140" y="175" width="40" height="25" class="field"/><circle cx="160" cy="40" r="8" class="player"/><circle cx="80" cy="80" r="8" class="player"/><circle cx="240" cy="80" r="8" class="player"/><circle cx="130" cy="120" r="8" class="def"/><circle cx="190" cy="120" r="8" class="def"/><path d="M160,50 L160,100" class="arrow"/><path d="M85,88 L125,112" class="arrow" style="stroke-dasharray:5,3"/><path d="M235,88 L195,112" class="arrow" style="stroke-dasharray:5,3"/><text x="145" y="30">Ball</text><text x="55" y="75">Wing</text><text x="245" y="75">Wing</text><text x="110" y="135" fill="#ff4466">D1</text><text x="195" y="135" fill="#ff4466">D2</text></svg>`,
+    goalieArc: `<svg ${dims}>${styles}<rect x="130" y="165" width="60" height="35" class="field"/><path d="M80,165 Q160,80 240,165" class="field" style="stroke-dasharray:6,3"/><circle cx="160" cy="155" r="8" style="fill:#ffd60a;stroke:#ffd60a"/><circle cx="100" cy="110" r="6" class="player" style="opacity:0.6"/><circle cx="160" cy="85" r="6" class="player" style="opacity:0.6"/><circle cx="220" cy="110" r="6" class="player" style="opacity:0.6"/><path d="M160,147 L160,95" class="arrow" style="stroke:#ffd60a;stroke-dasharray:4,3"/><path d="M153,150 L108,115" class="arrow" style="stroke:#ffd60a;stroke-dasharray:4,3"/><text x="140" y="175" fill="#666">GOAL</text><text x="148" y="148" fill="#000" style="font-size:8px">GK</text><text x="120" y="60" fill="#666">Arc movement</text></svg>`,
+    offball: `<svg ${dims}>${styles}<rect x="140" y="175" width="40" height="25" class="field"/><path d="M160,180 A100,100 0 0,1 260,80" class="field"/><path d="M160,180 A100,100 0 0,0 60,80" class="field"/><circle cx="80" cy="70" r="7" class="player"/><circle cx="160" cy="50" r="7" class="player"/><circle cx="240" cy="70" r="7" class="player"/><circle cx="160" cy="140" r="7" class="player"/><path d="M85,78 L150,135" class="arrow" style="stroke-dasharray:5,3"/><path d="M235,78 L170,135" class="arrow" style="stroke-dasharray:5,3"/><path d="M155,58 L155,130" class="arrow" style="stroke-dasharray:5,3"/><text x="135" y="45">Ball</text><text x="145" y="155" fill="${c}">Crease</text><text x="60" y="60">Cut</text><text x="235" y="60">Cut</text></svg>`,
+    '4v3exchange': `<svg ${dims}>${styles}<rect x="140" y="175" width="40" height="25" class="field"/><path d="M160,180 A90,90 0 0,1 250,90" class="field"/><path d="M160,180 A90,90 0 0,0 70,90" class="field"/><circle cx="100" cy="80" r="7" class="player"/><circle cx="160" cy="50" r="7" class="player"/><circle cx="220" cy="80" r="7" class="player"/><circle cx="160" cy="135" r="7" class="player"/><circle cx="130" cy="110" r="6" class="def"/><circle cx="190" cy="110" r="6" class="def"/><circle cx="160" cy="85" r="6" class="def"/><path d="M105,88 L150,125" class="arrow" style="stroke-dasharray:4,3"/><path d="M215,88 L170,125" class="arrow" style="stroke-dasharray:4,3"/><text x="85" y="70">A1</text><text x="145" y="45">A2</text><text x="225" y="70">A3</text><text x="145" y="155" fill="${c}">A4</text></svg>`
+  };
+  return diagrams[type] || null;
+}
+
+// ============================================================
+// APP STATE & DOM
+// ============================================================
+let activeCat = localStorage.getItem('btb_drill_cat') || 'all';
+let searchTerm = '';
+let expandedId = null;
+
+const catGrid = document.getElementById('catGrid');
+const drillList = document.getElementById('drillList');
+const drillCount = document.getElementById('drillCount');
+const noResults = document.getElementById('noResults');
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+
+// ============================================================
+// BUILD CATEGORY BUTTONS
+// ============================================================
+function buildCatButtons() {
+  let html = '';
+  CATEGORIES.forEach(cat => {
+    const count = cat.id === 'all' ? DRILLS.length : DRILLS.filter(d => d.cat === cat.id).length;
+    const isActive = activeCat === cat.id ? ' active' : '';
+    html += `<button class="cat-btn${isActive}" data-cat="${cat.id}" style="--cat-color:${cat.color}" onclick="selectCat('${cat.id}')">
+      <span class="emoji">${cat.emoji}</span>
+      <span class="label">${cat.name}</span>
+      <span class="count">${count}</span>
+    </button>`;
+  });
+  catGrid.innerHTML = html;
+}
+
+// ============================================================
+// SELECT CATEGORY
+// ============================================================
+function selectCat(catId) {
+  activeCat = catId;
+  localStorage.setItem('btb_drill_cat', catId);
+  expandedId = null;
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === catId);
+  });
+  renderDrills();
+  window.scrollTo({top: document.querySelector('.drill-count-bar').offsetTop - 120, behavior:'smooth'});
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+searchInput.addEventListener('input', function() {
+  searchTerm = this.value.toLowerCase().trim();
+  searchClear.classList.toggle('visible', searchTerm.length > 0);
+  expandedId = null;
+  renderDrills();
+});
+function clearSearch() {
+  searchInput.value = '';
+  searchTerm = '';
+  searchClear.classList.remove('visible');
+  expandedId = null;
+  renderDrills();
+  searchInput.focus();
+}
+
+// ============================================================
+// FILTER DRILLS
+// ============================================================
+function getFilteredDrills() {
+  let filtered = DRILLS;
+  if (activeCat !== 'all') {
+    filtered = filtered.filter(d => d.cat === activeCat);
+  }
+  if (searchTerm) {
+    filtered = filtered.filter(d => {
+      const searchable = [
+        d.name, d.purpose, d.setup, d.cat,
+        ...(d.points || []),
+        ...(d.videos || []).map(v => v.title),
+        ...(d.videos || []).map(v => v.source || ''),
+        d.source || '',
+        d.correction || ''
+      ].join(' ').toLowerCase();
+      return searchTerm.split(' ').every(term => searchable.includes(term));
+    });
+  }
+  return filtered;
+}
+
+// ============================================================
+// GET CATEGORY INFO
+// ============================================================
+function getCatInfo(catId) {
+  return CATEGORIES.find(c => c.id === catId) || CATEGORIES[0];
+}
+
+// ============================================================
+// DIFFICULTY TEXT
+// ============================================================
+function diffText(d) {
+  return d === 1 ? 'Beginner' : d === 2 ? 'Intermediate' : 'Advanced';
+}
+function diffColor(d) {
+  return d === 1 ? '#32d74b' : d === 2 ? '#ffd60a' : '#ff2d55';
+}
+
+// ============================================================
+// RENDER DRILLS
+// ============================================================
+function renderDrills() {
+  const filtered = getFilteredDrills();
+  drillCount.innerHTML = `Showing <span>${filtered.length}</span> of <span>${DRILLS.length}</span> drills`;
+
+  if (filtered.length === 0) {
+    drillList.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+
+  let html = '';
+  filtered.forEach((d, i) => {
+    const cat = getCatInfo(d.cat);
+    const isExpanded = expandedId === d.id;
+    const dc = diffColor(d.diff);
+
+    html += `<div class="drill-card${isExpanded ? ' expanded' : ''}" style="animation-delay:${i * 0.03}s;--cat-color:${cat.color}">
+      <div class="drill-header" onclick="toggleDrill(${d.id})">
+        <div class="drill-dot" style="background:${cat.color}"></div>
+        <div class="drill-info">
+          <div class="drill-name">${d.name}</div>
+          <div class="drill-purpose">${d.purpose}</div>
+          <div class="drill-meta-row">
+            <span class="drill-tag">${d.players} player${d.players!==1?'s':''}</span>
+            <span class="drill-tag">${d.time} min</span>
+            <span class="drill-tag" style="background:${dc}22;color:${dc}">${diffText(d.diff)}</span>
+            ${d.source ? `<span class="drill-tag source">${d.source}</span>` : ''}
+          </div>
+        </div>
+        <div class="drill-diff">
+          ${[1,2,3].map(n => `<div class="dot${n<=d.diff?' filled':''}" style="--diff-color:${dc}"></div>`).join('')}
+        </div>
+        <div class="drill-chevron">&#9662;</div>
+      </div>
+      <div class="drill-body" id="body-${d.id}">
+        <div class="drill-body-inner">
+          ${renderDrillBody(d, cat)}
+        </div>
+      </div>
+    </div>`;
+  });
+  drillList.innerHTML = html;
+
+  if (isExpanded) {
+    requestAnimationFrame(() => {
+      const body = document.getElementById('body-' + expandedId);
+      if (body) body.style.maxHeight = body.scrollHeight + 'px';
+    });
+  }
+}
+
+function renderDrillBody(d, cat) {
+  let html = '';
+
+  // Setup
+  html += `<div class="drill-section">
+    <div class="drill-section-title">Setup</div>
+    <p>${d.setup}</p>
+  </div>`;
+
+  // Coaching Points
+  if (d.points && d.points.length) {
+    html += `<div class="drill-section">
+      <div class="drill-section-title">Coaching Points</div>
+      <ul>${d.points.map(p => `<li>${p}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  // Diagram
+  const diag = d.diagram ? getDiagram(d.diagram, cat.color) : null;
+  if (diag) {
+    html += `<div class="drill-section">
+      <div class="drill-section-title">Diagram</div>
+      <div class="diagram-wrap">${diag}</div>
+    </div>`;
+  }
+
+  // Video References (Watch & Learn)
+  if (d.videos && d.videos.length && d.videos.some(v => v.url)) {
+    html += `<div class="drill-section">
+      <div class="drill-section-title">Watch & Learn</div>
+      <div class="video-links">`;
+    d.videos.forEach(v => {
+      if (v.url) {
+        html += `<a href="${v.url}" target="_blank" rel="noopener noreferrer" class="video-link">
+          <div class="play-icon">&#9654;</div>
+          <div class="video-info">
+            <div class="video-title">${v.title}</div>
+            <span class="video-source">${v.source || 'YouTube'}</span>
+          </div>
+          <div class="video-arrow">&#8594;</div>
+        </a>`;
+      }
+    });
+    html += `</div></div>`;
+  }
+
+  // Common Correction
+  if (d.correction) {
+    html += `<div class="correction-box"><strong>Common Correction:</strong> ${d.correction}</div>`;
+  }
+
+  return html;
+}
+
+// ============================================================
+// TOGGLE DRILL EXPAND/COLLAPSE
+// ============================================================
+function toggleDrill(id) {
+  const wasExpanded = expandedId === id;
+
+  // Collapse any currently expanded
+  if (expandedId !== null) {
+    const oldBody = document.getElementById('body-' + expandedId);
+    const oldCard = oldBody?.closest('.drill-card');
+    if (oldBody) oldBody.style.maxHeight = '0';
+    if (oldCard) oldCard.classList.remove('expanded');
+  }
+
+  if (wasExpanded) {
+    expandedId = null;
+    return;
+  }
+
+  expandedId = id;
+  const body = document.getElementById('body-' + id);
+  const card = body?.closest('.drill-card');
+  if (body) {
+    card.classList.add('expanded');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    // Scroll card into view
+    setTimeout(() => {
+      card.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 100);
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildCatButtons();
+renderDrills();
+</script>
+</body>
+</html>

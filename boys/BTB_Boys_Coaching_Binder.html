@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Boys Championship Coaching Binder</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--card:#141414;--border:#222;--accent:#3b82f6;--text:#e5e5e5;--muted:#888;--radius:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);border-bottom:2px solid var(--accent);padding:20px 16px;text-align:center}
+header h1{font-size:clamp(18px,4vw,28px);font-weight:800;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p{color:var(--muted);font-size:13px;margin-top:4px;letter-spacing:1px}
+.tab-bar{display:flex;gap:4px;padding:8px 12px;overflow-x:auto;background:#0d0d0d;border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:10px 16px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.5px;text-transform:uppercase}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-btn:hover:not(.active){border-color:var(--accent);color:var(--text)}
+.tab-content{display:none;padding:16px;max-width:1200px;margin:0 auto;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.search-box{width:100%;padding:10px 16px;border-radius:10px;border:1px solid var(--border);background:#1a1a1a;color:var(--text);font-size:14px;margin-bottom:16px;outline:none;transition:border-color .2s}
+.search-box:focus{border-color:var(--accent)}
+.section-title{font-size:20px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:inline-block}
+.sub-title{font-size:16px;font-weight:600;color:var(--accent);margin:20px 0 10px}
+table{width:100%;border-collapse:collapse;margin-bottom:24px}
+th{background:var(--accent);color:#fff;padding:10px 14px;text-align:left;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:top}
+tr:hover td{background:#1a1a2e}
+td:first-child{font-weight:600;color:var(--accent);white-space:nowrap;width:140px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.card-num{background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;flex-shrink:0}
+.card-title{font-size:17px;font-weight:700;flex:1}
+.card-tag{font-size:11px;color:var(--muted);background:#1a1a1a;padding:3px 8px;border-radius:6px}
+.card-desc{color:#ccc;font-size:14px;line-height:1.6;margin-bottom:12px}
+.card-ref{font-size:12px;color:var(--muted)}
+.card-ref a{color:var(--accent);text-decoration:none}
+.card-ref a:hover{text-decoration:underline}
+.field-diagram{width:100%;max-width:360px;margin:12px auto;display:block}
+.field-diagram svg{width:100%;height:auto}
+.timeline{position:relative;padding-left:28px;margin:12px 0}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--accent)}
+.tl-item{position:relative;margin-bottom:12px}
+.tl-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.tl-time{font-size:12px;color:var(--accent);font-weight:600}
+.tl-label{font-size:14px;color:var(--text)}
+.tl-dur{font-size:11px;color:var(--muted);margin-left:6px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#1a1a1a;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{min-height:80px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:inline-block;padding:12px 24px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.5px}
+.btn:hover{background:#2563eb;transform:translateY(-1px)}
+.btn-danger{background:#ef4444}
+.btn-danger:hover{background:#dc2626}
+.saved-reports{margin-top:24px}
+.report-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.report-info{font-size:14px}
+.report-info strong{color:var(--accent)}
+.hidden{display:none !important}
+@media(max-width:600px){
+.form-row{grid-template-columns:1fr}
+td:first-child{width:auto;white-space:normal}
+.card{padding:14px}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>BTB Boys Championship Coaching Binder</h1>
+<p>Men's Lacrosse &bull; 10v10 &bull; 3 Attack / 3 Midfield / 3 Defense / 1 Goalie</p>
+</header>
+
+<nav class="tab-bar" id="tabBar">
+<button class="tab-btn active" data-tab="terminology">Terminology</button>
+<button class="tab-btn" data-tab="offense">Offense (10)</button>
+<button class="tab-btn" data-tab="defense">Defense (8)</button>
+<button class="tab-btn" data-tab="rides">Rides (8)</button>
+<button class="tab-btn" data-tab="clears">Clears (8)</button>
+<button class="tab-btn" data-tab="faceoff">Face-Offs</button>
+<button class="tab-btn" data-tab="practice">Practice Plans</button>
+<button class="tab-btn" data-tab="scouting">Scouting</button>
+</nav>
+
+<!-- ==================== TAB 1: TERMINOLOGY ==================== -->
+<div class="tab-content active" id="terminology">
+<input type="text" class="search-box" placeholder="Search terminology..." onkeyup="searchTable(this,'terminology')">
+<div class="section-title">BTB Terminology</div>
+
+<div class="sub-title">Offensive Terms</div>
+<table class="term-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td>Initiator</td><td>Primary dodger starting the offense</td></tr>
+<tr><td>X</td><td>Position behind the goal (6 o'clock)</td></tr>
+<tr><td>Island</td><td>Dodging from up top, between the boxes</td></tr>
+<tr><td>Alley</td><td>Space between GLE and the restraining line</td></tr>
+<tr><td>Two-Man Game</td><td>Pick/roll action between two players</td></tr>
+<tr><td>Skip</td><td>Cross-field pass skipping adjacent players</td></tr>
+<tr><td>Invert</td><td>Attack playing up top, middies behind the cage</td></tr>
+<tr><td>Seal</td><td>Setting a screen to free a cutter</td></tr>
+<tr><td>Dump</td><td>Quick pass to crease after a dodge draws a slide</td></tr>
+<tr><td>Feed</td><td>Pass from behind goal (X) to crease/8m area</td></tr>
+<tr><td>EMO</td><td>Extra Man Offense — man-up advantage</td></tr>
+</tbody></table>
+
+<div class="sub-title">Defensive Terms</div>
+<table class="term-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td>Slide</td><td>Help defender leaving mark to stop the ball carrier</td></tr>
+<tr><td>Adjacent</td><td>Nearest defender responsible for the first slide</td></tr>
+<tr><td>Crease Slide</td><td>Crease defender slides first to the ball</td></tr>
+<tr><td>Hot</td><td>First slide defender — ready to leave and help</td></tr>
+<tr><td>2-Slide</td><td>Second rotation defender after the first slide</td></tr>
+<tr><td>Check</td><td>Stick check on ball carrier (poke, slap, wrap)</td></tr>
+<tr><td>Body</td><td>Legal body check to disrupt the ball carrier</td></tr>
+<tr><td>Recovery</td><td>Getting back to your man after sliding</td></tr>
+<tr><td>Lock Off</td><td>Denying a pass to a specific player</td></tr>
+<tr><td>Man Down</td><td>Playing short-handed during a penalty</td></tr>
+</tbody></table>
+
+<div class="sub-title">Ride Terms</div>
+<table class="term-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td>10-Man Ride</td><td>Named pressure ride — Virginia/UNC style full press</td></tr>
+<tr><td>Zone Ride</td><td>Area-based ride coverage, protect zones not men</td></tr>
+<tr><td>Press</td><td>Full-field pressure on the clearing team</td></tr>
+<tr><td>Release</td><td>Letting the clear go, setting up half-field defense</td></tr>
+<tr><td>Funnel</td><td>Push clear toward the sideline to trap</td></tr>
+<tr><td>Hot</td><td>First pressure player on the ball carrier</td></tr>
+</tbody></table>
+
+<div class="sub-title">Clear Terms</div>
+<table class="term-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td>Break Clear</td><td>Fast outlet up field — push tempo immediately</td></tr>
+<tr><td>2-3-2 Clear</td><td>Modern standard college clear formation</td></tr>
+<tr><td>Wheel</td><td>Ball rotates through defense to find outlet</td></tr>
+<tr><td>Goalie Clear</td><td>Goalie carries or outlets the ball personally</td></tr>
+<tr><td>Adjacent Clear</td><td>Defense passes around horn to find open outlet</td></tr>
+<tr><td>Midfield Break</td><td>Midfielder drops back to receive outlet pass</td></tr>
+</tbody></table>
+
+<div class="sub-title">Face-Off Terms (Boys Only)</div>
+<table class="term-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td>Clamp</td><td>Primary face-off move — cover the ball with stick head</td></tr>
+<tr><td>Plunger</td><td>Push the ball forward off the whistle</td></tr>
+<tr><td>Motorcycle</td><td>Twist and pull technique to gain possession</td></tr>
+<tr><td>Wing</td><td>Players positioned on the wing lines at the X</td></tr>
+<tr><td>Possession</td><td>Controlled ball after the initial face-off</td></tr>
+<tr><td>Ground Ball</td><td>Loose ball after the initial face-off contest</td></tr>
+</tbody></table>
+
+<div class="sub-title">Substitution Terms</div>
+<table class="term-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td>On the Fly</td><td>Sub during live play through the substitution box</td></tr>
+<tr><td>Horn Sub</td><td>Sub on the whistle/horn stoppage</td></tr>
+<tr><td>Dead Ball Sub</td><td>Sub during any stoppage of play</td></tr>
+<tr><td>Midfield Line</td><td>Substitution box area at midfield</td></tr>
+</tbody></table>
+</div>
+
+<!-- ==================== TAB 2: OFFENSE ==================== -->
+<div class="tab-content" id="offense">
+<input type="text" class="search-box" placeholder="Search offensive systems..." onkeyup="searchCards(this,'offense')">
+<div class="section-title">Offensive Systems</div>
+
+<div class="card" data-search="1-4-1 set isolation two-man game virginia duke">
+<div class="card-header"><span class="card-num">1</span><span class="card-title">1-4-1 Set</span><span class="card-tag">Primary</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="150" cy="200" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="218" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A1-X</text>
+<circle cx="60" cy="155" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="60" y="173" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A2</text>
+<circle cx="240" cy="155" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="240" y="173" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A3</text>
+<circle cx="150" cy="50" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="40" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M1</text>
+<circle cx="60" cy="90" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="60" y="80" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M2</text>
+<circle cx="240" cy="90" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="240" y="80" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M3</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/><text x="165" y="178" fill="#facc15" font-size="8">G</text>
+</svg></div>
+<div class="card-desc">Most common NCAA offense. A1 at X behind goal, A2/A3 on wings at GLE, M1 up top, M2/M3 on wings high. Creates isolation dodging and 2-man game opportunities. Ball starts at X or up top.</div>
+<div class="card-ref">Used by: Virginia, Duke</div>
+</div>
+
+<div class="card" data-search="2-3-1 set dodging middies maryland hopkins">
+<div class="card-header"><span class="card-num">2</span><span class="card-title">2-3-1 Set</span><span class="card-tag">Primary</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="150" cy="200" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="218" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A1-X</text>
+<circle cx="120" cy="155" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="120" y="173" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A2-C</text>
+<circle cx="180" cy="155" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="180" y="173" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A3-C</text>
+<circle cx="80" cy="60" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="80" y="50" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M1</text>
+<circle cx="150" cy="60" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="50" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M2</text>
+<circle cx="220" cy="60" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="220" y="50" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M3</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">A1 at X, A2/A3 on crease, M1/M2/M3 spread across the top. Strong for dodging middies from up top. Crease players create traffic and scoring opportunities inside.</div>
+<div class="card-ref">Used by: Maryland, Hopkins</div>
+</div>
+
+<div class="card" data-search="3-3 set balanced motion cutting syracuse">
+<div class="card-header"><span class="card-num">3</span><span class="card-title">3-3 Set</span><span class="card-tag">Balanced</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="150" cy="195" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="213" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A1</text>
+<circle cx="60" cy="155" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="60" y="173" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A2</text>
+<circle cx="240" cy="155" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="240" y="173" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A3</text>
+<circle cx="80" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="80" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M1</text>
+<circle cx="150" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M2</text>
+<circle cx="220" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="220" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M3</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">A1/A2/A3 low around the cage, M1/M2/M3 high across the top. Balanced look good for motion offense, cutting patterns, and ball movement. Equal threat from all positions.</div>
+<div class="card-ref">Used by: Syracuse</div>
+</div>
+
+<div class="card" data-search="invert offense mismatch attack midfield notre dame">
+<div class="card-header"><span class="card-num">4</span><span class="card-title">Invert Offense</span><span class="card-tag">Mismatch</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="80" cy="55" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="80" y="45" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A1↑</text>
+<circle cx="150" cy="55" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="45" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A2↑</text>
+<circle cx="220" cy="55" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="220" y="45" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A3↑</text>
+<circle cx="150" cy="195" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="213" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M1↓</text>
+<circle cx="60" cy="155" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="60" y="173" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M2↓</text>
+<circle cx="240" cy="155" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="240" y="173" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M3↓</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">Attack plays up top (normally midfield positions), middies play behind the cage (normally attack positions). Forces defensive mismatches — long poles covering smaller attackmen up top, short sticks behind.</div>
+<div class="card-ref">Used by: Notre Dame</div>
+</div>
+
+<div class="card" data-search="motion offense continuous cutting screening ball movement">
+<div class="card-header"><span class="card-num">5</span><span class="card-title">Motion Offense</span><span class="card-tag">Flow</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="150" cy="195" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+<circle cx="60" cy="145" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+<circle cx="240" cy="145" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+<circle cx="220" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+<path d="M60 145 Q100 100 150 55" stroke="#facc15" stroke-width="1.5" fill="none" stroke-dasharray="4" marker-end="url(#arrowY)"/>
+<path d="M220 55 Q260 100 240 145" stroke="#facc15" stroke-width="1.5" fill="none" stroke-dasharray="4"/>
+<defs><marker id="arrowY" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#facc15"/></marker></defs>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">Continuous cutting, screening, and ball movement. No set plays — read the defense and react. Players interchange positions, creating confusion. Requires high lacrosse IQ and stick skills.</div>
+<div class="card-ref">Used by: Most college programs as base concept</div>
+</div>
+
+<div class="card" data-search="two-man game pick roll island dodge adjacent">
+<div class="card-header"><span class="card-num">6</span><span class="card-title">2-Man Game</span><span class="card-tag">Core Action</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="150" cy="55" r="9" fill="#3b82f6" stroke="#fff" stroke-width="2"/><text x="150" y="42" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">Ball</text>
+<circle cx="120" cy="80" r="7" fill="#3b82f6" stroke="#facc15" stroke-width="2"/><text x="105" y="78" text-anchor="middle" fill="#facc15" font-size="9" font-weight="bold">Pick</text>
+<path d="M150 64 Q140 72 128 82" stroke="#facc15" stroke-width="2" fill="none" marker-end="url(#arrowY)"/>
+<circle cx="60" cy="145" r="6" fill="#ef4444" stroke="#fff" stroke-width="1"/>
+<circle cx="240" cy="145" r="6" fill="#ef4444" stroke="#fff" stroke-width="1"/>
+<circle cx="150" cy="195" r="6" fill="#ef4444" stroke="#fff" stroke-width="1"/>
+<circle cx="220" cy="55" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1"/>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">Pick/roll action between two players. Ball carrier dodges from up top (island) while adjacent player sets a pick. Read the switch: if they switch, roll to goal. If they trail, turn the corner. Primary modern college action.</div>
+<div class="card-ref">Used by: Every NCAA program — foundational action</div>
+</div>
+
+<div class="card" data-search="west genny offense quick ball movement fast-paced">
+<div class="card-header"><span class="card-num">7</span><span class="card-title">West Genny Offense</span><span class="card-tag">Tempo</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="150" cy="195" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+<circle cx="60" cy="140" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+<circle cx="240" cy="140" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+<circle cx="220" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+<path d="M150 195 L60 140" stroke="#fff" stroke-width="1" stroke-dasharray="3"/>
+<path d="M60 140 L80 55" stroke="#fff" stroke-width="1" stroke-dasharray="3"/>
+<path d="M80 55 L220 55" stroke="#fff" stroke-width="1" stroke-dasharray="3"/>
+<path d="M220 55 L240 140" stroke="#fff" stroke-width="1" stroke-dasharray="3"/>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">Quick ball movement drill turned offense concept. Ball moves rapidly around the formation — X to wing to top to opposite wing. Fast-paced, forces defense to rotate constantly. Shoot when the slide is late.</div>
+<div class="card-ref">West Genesee style — high-tempo passing</div>
+</div>
+
+<div class="card" data-search="emo extra man offense 3-3 man-up power play">
+<div class="card-header"><span class="card-num">8</span><span class="card-title">EMO 3-3 Set</span><span class="card-tag">Man-Up</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="80" cy="145" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="80" y="163" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">C1</text>
+<circle cx="150" cy="145" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="163" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">C2</text>
+<circle cx="220" cy="145" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="220" y="163" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">C3</text>
+<circle cx="80" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="80" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">T1</text>
+<circle cx="150" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">T2</text>
+<circle cx="220" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="220" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">T3</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<text x="150" y="110" text-anchor="middle" fill="#facc15" font-size="10" font-weight="bold">6 v 5</text>
+</svg></div>
+<div class="card-desc">Extra man offense: 3 up top (T1/T2/T3), 3 around crease (C1/C2/C3). Read the slide — when defense commits, move the ball to the open man. Quick ball movement forces 5 defenders to cover 6.</div>
+<div class="card-ref">Video: <a href="https://www.youtube.com/watch?v=9hHalOHFpzI" target="_blank">POWLAX EMO 3-3</a></div>
+</div>
+
+<div class="card" data-search="fast break transition 4v3 3v2 tempo push">
+<div class="card-header"><span class="card-num">9</span><span class="card-title">Fast Break Offense</span><span class="card-tag">Transition</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="80" cy="95" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="80" y="85" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M1</text>
+<circle cx="150" cy="50" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="40" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">Ball</text>
+<circle cx="220" cy="95" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="220" y="85" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M3</text>
+<circle cx="150" cy="145" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="163" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A1</text>
+<circle cx="120" cy="165" r="6" fill="#22c55e" stroke="#fff" stroke-width="1"/><text x="110" y="158" fill="#22c55e" font-size="8">D1</text>
+<circle cx="150" cy="170" r="6" fill="#22c55e" stroke="#fff" stroke-width="1"/><text x="163" y="168" fill="#22c55e" font-size="8">D2</text>
+<circle cx="180" cy="165" r="6" fill="#22c55e" stroke="#fff" stroke-width="1"/><text x="193" y="158" fill="#22c55e" font-size="8">D3</text>
+<path d="M150 57 L150 138" stroke="#facc15" stroke-width="2" fill="none" stroke-dasharray="4" marker-end="url(#arrowY)"/>
+<text x="150" y="115" text-anchor="middle" fill="#facc15" font-size="10" font-weight="bold">4 v 3</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">4v3 or 3v2 transition advantage. Push tempo immediately after saves, turnovers, or face-off wins. Ball carrier attacks, fill lanes wide, look for early shots. Don't force it — if no shot, settle into half-field offense.</div>
+<div class="card-ref">Key: Push within 5 seconds of possession</div>
+</div>
+
+<div class="card" data-search="stall delay offense 4 corners possession late game">
+<div class="card-header"><span class="card-num">10</span><span class="card-title">Stall / Delay Offense</span><span class="card-tag">Late Game</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="220" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="160" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="185" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<line x1="0" y1="110" x2="300" y2="110" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="40" cy="40" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="40" y="30" text-anchor="middle" fill="#ef4444" font-size="8">Corner</text>
+<circle cx="260" cy="40" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="260" y="30" text-anchor="middle" fill="#3b82f6" font-size="8">Corner</text>
+<circle cx="40" cy="180" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="40" y="198" text-anchor="middle" fill="#ef4444" font-size="8">Corner</text>
+<circle cx="260" cy="180" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="260" y="198" text-anchor="middle" fill="#3b82f6" font-size="8">Corner</text>
+<circle cx="150" cy="55" r="7" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="45" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="bold">M1</text>
+<circle cx="150" cy="195" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="213" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">A1</text>
+<circle cx="150" cy="175" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+</svg></div>
+<div class="card-desc">Late game possession strategy. Spread to 4 corners with 1 behind and 1 up top. Control tempo, burn clock. Only attack on high-percentage looks. Force defense to chase — draw penalties.</div>
+<div class="card-ref">Used when: Leading late, clock management situations</div>
+</div>
+</div>
+
+<!-- ==================== TAB 3: DEFENSE ==================== -->
+<div class="tab-content" id="defense">
+<input type="text" class="search-box" placeholder="Search defensive packages..." onkeyup="searchCards(this,'defense')">
+<div class="section-title">Defensive Packages</div>
+
+<div class="card" data-search="adjacent slide nearest defender first common">
+<div class="card-header"><span class="card-num">1</span><span class="card-title">Adjacent Slide</span><span class="card-tag">Primary</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<circle cx="150" cy="40" r="8" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="28" text-anchor="middle" fill="#fff" font-size="8">BALL</text>
+<circle cx="145" cy="55" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="70" r="6" fill="#22c55e" stroke="#facc15" stroke-width="2"/><text x="65" y="65" fill="#facc15" font-size="8" font-weight="bold">HOT</text>
+<circle cx="220" cy="70" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="120" cy="130" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="105" y="128" fill="#facc15" font-size="8">2-Slide</text>
+<circle cx="180" cy="130" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<path d="M80 70 Q115 50 142 43" stroke="#facc15" stroke-width="2" fill="none" stroke-dasharray="4" marker-end="url(#arrowY)"/>
+</svg></div>
+<div class="card-desc">First slide comes from the nearest (adjacent) defender to the ball. Most common college slide package. Adjacent defender is "hot" — responsible for stopping the dodge. 2-slide fills from crease or backside.</div>
+<div class="card-ref">Standard at every level of men's lacrosse</div>
+</div>
+
+<div class="card" data-search="crease slide crease defender first rotate">
+<div class="card-header"><span class="card-num">2</span><span class="card-title">Crease Slide</span><span class="card-tag">Primary</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<circle cx="150" cy="40" r="8" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="28" text-anchor="middle" fill="#fff" font-size="8">BALL</text>
+<circle cx="145" cy="55" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="70" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="220" cy="70" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="130" r="6" fill="#22c55e" stroke="#facc15" stroke-width="2"/><text x="165" y="125" fill="#facc15" font-size="8" font-weight="bold">HOT</text>
+<circle cx="180" cy="130" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<path d="M150 130 Q150 85 148 48" stroke="#facc15" stroke-width="2" fill="none" stroke-dasharray="4" marker-end="url(#arrowY)"/>
+</svg></div>
+<div class="card-desc">Crease defender slides first to the ball carrier, regardless of position. Others rotate to fill crease. Creates a longer slide but keeps perimeter defenders on their men. Good vs. strong dodging teams.</div>
+<div class="card-ref">Common at youth/high school levels</div>
+</div>
+
+<div class="card" data-search="backer slide behind dodger top dodge">
+<div class="card-header"><span class="card-num">3</span><span class="card-title">Backer Slide</span><span class="card-tag">Situational</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<circle cx="150" cy="40" r="8" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="28" text-anchor="middle" fill="#fff" font-size="8">BALL</text>
+<circle cx="145" cy="55" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="70" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="220" cy="70" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="95" r="6" fill="#22c55e" stroke="#facc15" stroke-width="2"/><text x="165" y="93" fill="#facc15" font-size="8" font-weight="bold">HOT</text>
+<circle cx="180" cy="130" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<path d="M150 95 Q150 68 148 48" stroke="#facc15" stroke-width="2" fill="none" stroke-dasharray="4" marker-end="url(#arrowY)"/>
+</svg></div>
+<div class="card-desc">Defender behind/below the dodger slides up to meet the ball. Used primarily against top-side dodges. The backer approaches from behind — ball carrier doesn't see the slide coming. Effective vs. island dodgers.</div>
+<div class="card-ref">Used vs. elite top-side dodgers</div>
+</div>
+
+<div class="card" data-search="double slide two defenders backside open aggressive">
+<div class="card-header"><span class="card-num">4</span><span class="card-title">Double Slide</span><span class="card-tag">Aggressive</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<circle cx="150" cy="40" r="8" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="150" y="28" text-anchor="middle" fill="#fff" font-size="8">BALL</text>
+<circle cx="145" cy="55" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="70" r="6" fill="#22c55e" stroke="#facc15" stroke-width="2"/><text x="65" y="60" fill="#facc15" font-size="8">1st</text>
+<circle cx="220" cy="70" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="120" cy="120" r="6" fill="#22c55e" stroke="#facc15" stroke-width="2"/><text x="100" y="118" fill="#facc15" font-size="8">2nd</text>
+<circle cx="180" cy="130" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<path d="M80 70 Q115 50 142 43" stroke="#facc15" stroke-width="2" fill="none" stroke-dasharray="4" marker-end="url(#arrowY)"/>
+<path d="M120 120 Q130 95 140 48" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-dasharray="4"/>
+</svg></div>
+<div class="card-desc">Two defenders slide aggressively to the ball, creating a trap. Leaves backside open — requires remaining defenders to rotate quickly. High risk, high reward. Forces turnovers against less skilled ball handlers.</div>
+<div class="card-ref">Situational — use against weaker offensive teams</div>
+</div>
+
+<div class="card" data-search="zone defense area protect middle brine 3-3">
+<div class="card-header"><span class="card-num">5</span><span class="card-title">Zone Defense (3-3)</span><span class="card-tag">Zone</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<rect x="80" y="50" width="140" height="100" rx="8" fill="none" stroke="#facc15" stroke-width="1" stroke-dasharray="4"/>
+<circle cx="80" cy="65" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="55" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="220" cy="65" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="100" cy="125" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="130" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="200" cy="125" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<text x="150" y="98" text-anchor="middle" fill="#facc15" font-size="10" font-weight="bold">ZONE</text>
+</svg></div>
+<div class="card-desc">Area-based defense — 3 defenders high, 3 low. Protect the middle of the field and the crease. Defenders guard zones, not men. Effective against teams that rely on dodging. Vulnerable to quick ball movement and shooting from outside.</div>
+<div class="card-ref">Brine zone / 3-3 zone concept</div>
+</div>
+
+<div class="card" data-search="man down box and 1 penalty five defenders chaser">
+<div class="card-header"><span class="card-num">6</span><span class="card-title">Man Down: Box and 1</span><span class="card-tag">Man Down</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<rect x="90" y="60" width="120" height="80" rx="4" fill="none" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4"/>
+<circle cx="90" cy="60" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="210" cy="60" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="90" cy="140" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="210" cy="140" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="40" r="6" fill="#22c55e" stroke="#facc15" stroke-width="2"/><text x="150" y="30" text-anchor="middle" fill="#facc15" font-size="8" font-weight="bold">CHASER</text>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<text x="150" y="105" text-anchor="middle" fill="#facc15" font-size="10" font-weight="bold">BOX</text>
+</svg></div>
+<div class="card-desc">5 defenders total: 4 in a box formation protecting the crease area + 1 chaser who pressures the ball. Box rotates to ball side. Chaser denies easy looks and disrupts offensive flow. Used when opponent has one dominant shooter.</div>
+<div class="card-ref">Video: <a href="https://youtu.be/pev8Lh9e6ng" target="_blank">POWLAX Box and 1</a></div>
+</div>
+
+<div class="card" data-search="man down house zone five defenders protect house">
+<div class="card-header"><span class="card-num">7</span><span class="card-title">Man Down: House Zone</span><span class="card-tag">Man Down</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<path d="M80 130 L150 50 L220 130 Z" fill="none" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4"/>
+<circle cx="150" cy="55" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="95" cy="110" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="205" cy="110" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="120" cy="135" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="180" cy="135" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<text x="150" y="105" text-anchor="middle" fill="#facc15" font-size="9" font-weight="bold">HOUSE</text>
+</svg></div>
+<div class="card-desc">5 defenders protect "the house" — the high-danger area in front of the goal. Zone-based: rotate to the ball, collapse inside. Give up outside shots, deny crease and close-range looks. Strong vs. teams that feed the crease.</div>
+<div class="card-ref">Video: <a href="https://youtu.be/9B-DbHoCERg" target="_blank">POWLAX House Zone</a></div>
+</div>
+
+<div class="card" data-search="man down 5-man rotation rotate ball five defenders">
+<div class="card-header"><span class="card-num">8</span><span class="card-title">Man Down: 5-Man Rotation</span><span class="card-tag">Man Down</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="200" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<rect x="100" y="140" width="100" height="50" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="165" r="20" fill="none" stroke="#555" stroke-width="1"/>
+<circle cx="150" cy="50" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="80" cy="85" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="220" cy="85" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="100" cy="135" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="200" cy="135" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/>
+<path d="M150 56 Q180 70 214 82" stroke="#facc15" stroke-width="1.5" fill="none" stroke-dasharray="3" marker-end="url(#arrowY)"/>
+<path d="M220 91 Q210 115 204 130" stroke="#facc15" stroke-width="1.5" fill="none" stroke-dasharray="3" marker-end="url(#arrowY)"/>
+<path d="M194 138 Q150 145 106 138" stroke="#facc15" stroke-width="1.5" fill="none" stroke-dasharray="3" marker-end="url(#arrowY)"/>
+</svg></div>
+<div class="card-desc">5 defenders rotate continuously toward the ball. As ball moves, the entire unit shifts. Every player takes a turn being "top" and "crease." Requires communication and conditioning. Denies clean looks everywhere.</div>
+<div class="card-ref">Video: <a href="https://youtu.be/4Oo9tYaryDw" target="_blank">POWLAX 5-Man Rotation</a></div>
+</div>
+</div>
+
+<!-- ==================== TAB 4: RIDES ==================== -->
+<div class="tab-content" id="rides">
+<input type="text" class="search-box" placeholder="Search ride systems..." onkeyup="searchCards(this,'rides')">
+<div class="section-title">Ride Systems</div>
+
+<div class="card" data-search="10-man ride full pressure named virginia unc loyola">
+<div class="card-header"><span class="card-num">1</span><span class="card-title">10-Man Ride</span><span class="card-tag">Full Press</span></div>
+<div class="card-desc">Full pressure ride — every player has a named assignment. Ball carrier gets immediate pressure. Adjacent players deny outlets. Midfielders seal off midfield. High-energy, forces turnovers in the clearing end. Requires elite conditioning and discipline.</div>
+<div class="card-ref">Used by: Virginia, UNC, Loyola &bull; Video: <a href="https://youtu.be/bjIKPeCmhwc" target="_blank">POWLAX 10-Man Ride</a></div>
+</div>
+
+<div class="card" data-search="3-3 deep zone ride zone protect midfield">
+<div class="card-header"><span class="card-num">2</span><span class="card-title">3-3 Deep Zone Ride</span><span class="card-tag">Zone</span></div>
+<div class="card-desc">Zone-based ride: 3 players high (around the clearing team), 3 players deep (protecting midfield). Don't chase the ball — guard zones and passing lanes. Forces the clear into the middle where help is waiting. Lower energy than full press.</div>
+<div class="card-ref">Video: <a href="https://youtu.be/13lgO57WErA" target="_blank">POWLAX 3-3 Zone Ride</a></div>
+</div>
+
+<div class="card" data-search="windshield wiper ride shift side ball">
+<div class="card-header"><span class="card-num">3</span><span class="card-title">Windshield Wiper Ride</span><span class="card-tag">Shift</span></div>
+<div class="card-desc">Defenders shift side to side based on ball position — like a windshield wiper. When ball is on the right, the entire ride unit shifts right. Forces the clear to reverse field, buying time. Effective against slow clear teams.</div>
+<div class="card-ref">Good for: Teams with athletic midfielders</div>
+</div>
+
+<div class="card" data-search="goalie ride pressure triggered goalie call communication">
+<div class="card-header"><span class="card-num">4</span><span class="card-title">Goalie Ride</span><span class="card-tag">Triggered</span></div>
+<div class="card-desc">Ride is triggered by the goalie's call after a save. Goalie reads the clear and calls the ride based on what he sees. If goalie sees a vulnerable clear, he calls "FIRE" for full press. If not, calls "RELEASE" to get back on defense.</div>
+<div class="card-ref">Key: Goalie communication is critical</div>
+</div>
+
+<div class="card" data-search="zero ride no ride get back defense fall back">
+<div class="card-header"><span class="card-num">5</span><span class="card-title">Zero Ride</span><span class="card-tag">Passive</span></div>
+<div class="card-desc">No ride — get back and set up half-field defense immediately. Used when protecting a lead, managing energy late in the game, or when the opponent has an elite clearing team. Sprint back, get matched up, and play defense.</div>
+<div class="card-ref">Used when: Protecting a lead, tired team, elite clearing opponent</div>
+</div>
+
+<div class="card" data-search="press ride full-field man-to-man pressure deny all">
+<div class="card-header"><span class="card-num">6</span><span class="card-title">Press Ride</span><span class="card-tag">Aggressive</span></div>
+<div class="card-desc">Full-field man-to-man pressure on every clearing player. Every defender matches up and denies the outlet. Extremely aggressive — high turnover potential but risky if beaten. Requires elite athletes and conditioning.</div>
+<div class="card-ref">High risk/reward — use sparingly</div>
+</div>
+
+<div class="card" data-search="midfield trap force double midfield line trap">
+<div class="card-header"><span class="card-num">7</span><span class="card-title">Midfield Trap</span><span class="card-tag">Trap</span></div>
+<div class="card-desc">Force a double-team at the midfield line. Let the clear advance, then trap the ball carrier at midfield with two defenders. Creates a 10-second call situation and forces bad passes. Effective against teams that clear through one player.</div>
+<div class="card-ref">Target: The primary clear outlet player</div>
+</div>
+
+<div class="card" data-search="contain ride slow clear don't pressure soft">
+<div class="card-header"><span class="card-num">8</span><span class="card-title">Contain Ride</span><span class="card-tag">Passive</span></div>
+<div class="card-desc">Slow the clear without pressuring hard. Defenders stay in passing lanes but don't attack the ball. Goal is to burn time off the clock and force a slow, methodical clear. Good for end of quarters or when leading and managing tempo.</div>
+<div class="card-ref">Used when: Managing clock, end of quarter situations</div>
+</div>
+</div>
+
+<!-- ==================== TAB 5: CLEARS ==================== -->
+<div class="tab-content" id="clears">
+<input type="text" class="search-box" placeholder="Search clear systems..." onkeyup="searchCards(this,'clears')">
+<div class="section-title">Clear Systems</div>
+
+<div class="card" data-search="2-3-2 clear standard college modern new">
+<div class="card-header"><span class="card-num">1</span><span class="card-title">2-3-2 Clear</span><span class="card-tag">Primary</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="260" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<line x1="0" y1="130" x2="300" y2="130" stroke="#fff" stroke-width="2"/>
+<text x="150" y="126" text-anchor="middle" fill="#888" font-size="9">MIDFIELD</text>
+<rect x="100" y="195" width="100" height="55" rx="6" fill="none" stroke="#444" stroke-width="1.5"/>
+<circle cx="150" cy="220" r="18" fill="none" stroke="#555" stroke-width="1"/>
+<circle cx="150" cy="215" r="5" fill="#facc15" stroke="#fff" stroke-width="1"/><text x="165" y="218" fill="#facc15" font-size="8">G</text>
+<circle cx="100" cy="195" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="100" y="188" text-anchor="middle" fill="#22c55e" font-size="8">D1</text>
+<circle cx="200" cy="195" r="6" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="200" y="188" text-anchor="middle" fill="#22c55e" font-size="8">D2</text>
+<circle cx="60" cy="145" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="60" y="138" text-anchor="middle" fill="#3b82f6" font-size="8">M1</text>
+<circle cx="150" cy="155" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="150" y="148" text-anchor="middle" fill="#3b82f6" font-size="8">M2</text>
+<circle cx="240" cy="145" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="240" y="138" text-anchor="middle" fill="#3b82f6" font-size="8">M3</text>
+<circle cx="100" cy="85" r="6" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="100" y="78" text-anchor="middle" fill="#ef4444" font-size="8">A1</text>
+<circle cx="200" cy="85" r="6" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="200" y="78" text-anchor="middle" fill="#ef4444" font-size="8">A2</text>
+</svg></div>
+<div class="card-desc">New standard college clear formation. 2 defenders behind, 3 midfielders across the midfield area, 2 attack high. Goalie outlets to a defender, ball moves through midfield. Multiple outlet options in every direction.</div>
+<div class="card-ref">Video: <a href="https://youtu.be/RnYRtSWkBug" target="_blank">POWLAX 2-3-2 Clear</a></div>
+</div>
+
+<div class="card" data-search="1-4-1 clear spread formation gaps find open">
+<div class="card-header"><span class="card-num">2</span><span class="card-title">1-4-1 Clear</span><span class="card-tag">Spread</span></div>
+<div class="card-desc">Spread formation: 1 behind (goalie or defender), 4 across midfield area, 1 high. Creates maximum spacing and forces the ride to cover the entire width of the field. Good against zone rides — find the gaps.</div>
+<div class="card-ref">Best against: Zone ride coverage</div>
+</div>
+
+<div class="card" data-search="break clear fast outlet push tempo immediate">
+<div class="card-header"><span class="card-num">3</span><span class="card-title">Break Clear</span><span class="card-tag">Fast</span></div>
+<div class="card-desc">Fast outlet up field — push tempo immediately after a save or turnover. Goalie makes quick outlet to breaking midfielder. Attack leaks out early. Goal: advance ball past midfield in under 4 seconds. Creates transition numbers advantage.</div>
+<div class="card-ref">Key: Goalie read speed is everything</div>
+</div>
+
+<div class="card" data-search="goalie clear carry past midfield personal">
+<div class="card-header"><span class="card-num">4</span><span class="card-title">Goalie Clear</span><span class="card-tag">Goalie</span></div>
+<div class="card-desc">Goalie carries the ball himself past midfield. Used when ride overplays the outlets. Athletic goalies can dodge past the first rider and advance. Risky but effective when the goalie is a strong ball handler. Creates an instant numbers advantage.</div>
+<div class="card-ref">Requires: Athletic, confident goalie with stick skills</div>
+</div>
+
+<div class="card" data-search="wheel clear ball rotates defense horn outlet">
+<div class="card-header"><span class="card-num">5</span><span class="card-title">Wheel Clear</span><span class="card-tag">Patient</span></div>
+<div class="card-desc">Ball rotates through the defense — goalie to D1, D1 to D2, D2 to D3, then look for the outlet. "Wheel" the ball around the back until the ride shifts and an outlet opens. Patient clear, burns clock, but safe against aggressive rides.</div>
+<div class="card-ref">Used when: Ride is aggressive and cutting off direct outlets</div>
+</div>
+
+<div class="card" data-search="reverse clear switch field against pressure opposite side">
+<div class="card-header"><span class="card-num">6</span><span class="card-title">Reverse Clear</span><span class="card-tag">Counter</span></div>
+<div class="card-desc">Switch the field against pressure. When the ride overloads one side, reverse the ball quickly to the opposite side of the field. Skip pass across the back or quick wheel to the weak side. Exploits over-aggressive rides.</div>
+<div class="card-ref">Key: Recognizing the overload quickly</div>
+</div>
+
+<div class="card" data-search="quick clear immediate outlet save fast">
+<div class="card-header"><span class="card-num">7</span><span class="card-title">Quick Clear</span><span class="card-tag">Immediate</span></div>
+<div class="card-desc">Immediate outlet after a save — no wheel, no setup. Goalie catches and throws to the first open player. Fastest clear option. Catches the ride before they set up. Requires outlets to be in position before the save.</div>
+<div class="card-ref">Key: Pre-save positioning by midfielders</div>
+</div>
+
+<div class="card" data-search="press break clear beat full press ride designed">
+<div class="card-header"><span class="card-num">8</span><span class="card-title">Press Break</span><span class="card-tag">vs. Press</span></div>
+<div class="card-desc">Clear designed specifically to beat a full press ride. Creates pre-planned picks and screens in the clearing end. Designated "breaker" gets free using off-ball movement. Ball handler has a progression read: breaker first, then wheel, then goalie carry.</div>
+<div class="card-ref">Video: <a href="https://youtu.be/CyJfzjmIeXw" target="_blank">POWLAX Press Break</a></div>
+</div>
+</div>
+
+<!-- ==================== TAB 6: FACE-OFFS ==================== -->
+<div class="tab-content" id="faceoff">
+<input type="text" class="search-box" placeholder="Search face-off playbook..." onkeyup="searchCards(this,'faceoff')">
+<div class="section-title">Face-Off Playbook (Boys Only)</div>
+
+<div class="card" data-search="face-off techniques clamp plunger motorcycle over the top">
+<div class="card-header"><span class="card-title">Face-Off Techniques</span></div>
+<table><thead><tr><th>Technique</th><th>Description</th><th>Best Used When</th></tr></thead><tbody>
+<tr><td>Clamp</td><td>Cover the ball with the stick head, trap it, and rake it out. Most common technique at all levels.</td><td>Default move — use as primary technique</td></tr>
+<tr><td>Plunger</td><td>Push the ball forward off the whistle using a plunging motion. Quick and direct.</td><td>Against slow opponents or when you have a speed advantage</td></tr>
+<tr><td>Motorcycle</td><td>Twist the stick handle like a motorcycle throttle while pulling back. Creates torque to win possession.</td><td>Against strong opponents who win the clamp battle</td></tr>
+<tr><td>Over-the-Top</td><td>Go over the opponent's stick to clamp on the far side. Surprise move.</td><td>Change of pace — use sparingly to catch opponent off guard</td></tr>
+</tbody></table>
+</div>
+
+<div class="card" data-search="wing positioning diagram left right face-off x">
+<div class="card-header"><span class="card-title">Wing Positioning</span></div>
+<div class="field-diagram"><svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="300" height="180" rx="12" fill="#1a2a1a" stroke="#333" stroke-width="1"/>
+<line x1="150" y1="0" x2="150" y2="180" stroke="#fff" stroke-width="2"/>
+<text x="75" y="15" text-anchor="middle" fill="#888" font-size="9">DEFENSIVE END</text>
+<text x="225" y="15" text-anchor="middle" fill="#888" font-size="9">OFFENSIVE END</text>
+<circle cx="150" cy="90" r="10" fill="none" stroke="#fff" stroke-width="2"/>
+<circle cx="150" cy="90" r="3" fill="#fff"/>
+<text x="150" y="115" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">FACE-OFF X</text>
+<circle cx="148" cy="85" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="135" y="78" fill="#3b82f6" font-size="8">FOGO</text>
+<circle cx="152" cy="95" r="6" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="165" y="102" fill="#ef4444" font-size="8">OPP</text>
+<line x1="20" y1="30" x2="20" y2="150" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4"/>
+<line x1="280" y1="30" x2="280" y2="150" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4"/>
+<text x="20" y="165" text-anchor="middle" fill="#facc15" font-size="8">WING LINE</text>
+<text x="280" y="165" text-anchor="middle" fill="#facc15" font-size="8">WING LINE</text>
+<circle cx="20" cy="60" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="40" y="58" fill="#3b82f6" font-size="8">LW</text>
+<circle cx="20" cy="120" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="40" y="118" fill="#3b82f6" font-size="8">LW2</text>
+<circle cx="280" cy="60" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/><text x="260" y="58" fill="#3b82f6" font-size="8">RW</text>
+<circle cx="280" cy="120" r="6" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="260" y="118" fill="#ef4444" font-size="8">OPP</text>
+</svg></div>
+<div class="card-desc">Wing players line up on the wing lines, even with the face-off X. On the whistle, wings release to compete for ground balls. Left wing should pinch toward the FOGO. Right wing seals off the opponent's wing. Win the ground ball battle on the wings.</div>
+</div>
+
+<div class="card" data-search="face-off plays tactics strategy post transition">
+<div class="card-header"><span class="card-title">Face-Off Plays & Tactics</span></div>
+<div class="card-desc">
+<strong>Pre-Face-Off Reads:</strong><br>
+&bull; Watch opponent's hand position — high grip = clamp, low grip = plunger<br>
+&bull; Watch their stance — wide base = power, narrow = speed<br>
+&bull; Talk to wings about where you plan to direct the ball<br><br>
+<strong>Post Face-Off Transition:</strong><br>
+&bull; <strong>Win Clean:</strong> FOGO scoops and immediately looks to push transition. Wings fill lanes.<br>
+&bull; <strong>Win Dirty (Ground Ball):</strong> Wings and FOGO converge on loose ball. Box out, scoop through.<br>
+&bull; <strong>Lose Clean:</strong> Sprint back to defensive end. Match up immediately.<br>
+&bull; <strong>Lose Dirty:</strong> Contest the ground ball. If you can't win it, slow them down for defense to set.
+</div>
+<div class="card-ref">Video: <a href="https://youtu.be/YfAveIh47Pc" target="_blank">POWLAX Face-Off Fundamentals</a></div>
+</div>
+
+<div class="card" data-search="fogo face-off get-off two-way midfielder personnel">
+<div class="card-header"><span class="card-title">Face-Off Personnel</span></div>
+<table><thead><tr><th>Role</th><th>Description</th><th>When to Use</th></tr></thead><tbody>
+<tr><td>FOGO</td><td>Face-Off Get-Off specialist. Takes the draw, wins it, subs off immediately for a midfielder. Pure specialist.</td><td>When you have a dominant face-off man who isn't a strong midfielder</td></tr>
+<tr><td>Two-Way Mid</td><td>Takes face-offs AND stays on as a midfielder. Saves a substitution, plays both ways.</td><td>When your face-off guy is also a strong midfielder</td></tr>
+<tr><td>Wing Specialist</td><td>Designated wing player with elite ground ball skills. Wins the 50/50 balls on the wing line.</td><td>Every face-off — always put your best ground ball guys on wings</td></tr>
+</tbody></table>
+</div>
+
+<div class="card" data-search="strategy technique opponent tendencies when to use each">
+<div class="card-header"><span class="card-title">Technique Selection Strategy</span></div>
+<div class="card-desc">
+<strong>vs. Clamp-Heavy Opponent:</strong> Use motorcycle or over-the-top to counter their clamp. Go under or around.<br><br>
+<strong>vs. Speed Opponent:</strong> Use a power clamp. Get low, get wide, and overpower them at the X.<br><br>
+<strong>vs. Power Opponent:</strong> Use plunger or quick exit. Win with speed — get the ball out to wings fast.<br><br>
+<strong>vs. Unknown Opponent:</strong> Start with your best move (likely clamp). Adjust after 2-3 face-offs based on what you see.<br><br>
+<strong>Late Game / Must-Win:</strong> Go with your highest-percentage move. No experiments. Win the possession.
+</div>
+</div>
+</div>
+
+<!-- ==================== TAB 7: PRACTICE PLANS ==================== -->
+<div class="tab-content" id="practice">
+<div class="section-title">Practice Plans</div>
+
+<div class="card">
+<div class="card-header"><span class="card-num">1</span><span class="card-title">Fundamentals</span><span class="card-tag">80 min</span></div>
+<div class="timeline">
+<div class="tl-item"><span class="tl-time">0:00</span><span class="tl-dur">(10 min)</span><div class="tl-label">Dynamic Warmup — jogging, high knees, karaoke, stretching</div></div>
+<div class="tl-item"><span class="tl-time">0:10</span><span class="tl-dur">(10 min)</span><div class="tl-label">Wall Ball — catch/throw progression, off-hand work</div></div>
+<div class="tl-item"><span class="tl-time">0:20</span><span class="tl-dur">(10 min)</span><div class="tl-label">Ground Balls — 1v1, 2v1, scoop-and-go drills</div></div>
+<div class="tl-item"><span class="tl-time">0:30</span><span class="tl-dur">(15 min)</span><div class="tl-label">4v3 Drill — fast break offense vs. defense, transition reads</div></div>
+<div class="tl-item"><span class="tl-time">0:45</span><span class="tl-dur">(20 min)</span><div class="tl-label">Defense Install — slide package walkthrough, 6v6 shell drill</div></div>
+<div class="tl-item"><span class="tl-time">1:05</span><span class="tl-dur">(15 min)</span><div class="tl-label">Scrimmage — full 10v10, enforce concepts taught today</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><span class="card-num">2</span><span class="card-title">Offensive Install</span><span class="card-tag">85 min</span></div>
+<div class="timeline">
+<div class="tl-item"><span class="tl-time">0:00</span><span class="tl-dur">(10 min)</span><div class="tl-label">Dynamic Warmup — jog, stretch, cradle work</div></div>
+<div class="tl-item"><span class="tl-time">0:10</span><span class="tl-dur">(10 min)</span><div class="tl-label">Passing — partner passing, quick-stick, on-the-run catches</div></div>
+<div class="tl-item"><span class="tl-time">0:20</span><span class="tl-dur">(20 min)</span><div class="tl-label">2-Man Game Install — pick/roll walkthrough, live reps</div></div>
+<div class="tl-item"><span class="tl-time">0:40</span><span class="tl-dur">(15 min)</span><div class="tl-label">EMO Work — 6v5 extra man offense, read the slide</div></div>
+<div class="tl-item"><span class="tl-time">0:55</span><span class="tl-dur">(20 min)</span><div class="tl-label">Scrimmage — 10v10 implementing offensive concepts</div></div>
+<div class="tl-item"><span class="tl-time">1:15</span><span class="tl-dur">(10 min)</span><div class="tl-label">Conditioning — line drills, shuttle runs</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><span class="card-num">3</span><span class="card-title">Defensive Focus</span><span class="card-tag">90 min</span></div>
+<div class="timeline">
+<div class="tl-item"><span class="tl-time">0:00</span><span class="tl-dur">(10 min)</span><div class="tl-label">Dynamic Warmup — agility ladders, defensive slides</div></div>
+<div class="tl-item"><span class="tl-time">0:10</span><span class="tl-dur">(15 min)</span><div class="tl-label">Footwork — 1v1 defensive footwork, approach angles, body positioning</div></div>
+<div class="tl-item"><span class="tl-time">0:25</span><span class="tl-dur">(20 min)</span><div class="tl-label">Slide Recognition — 6v6 shell drill, adjacent/crease slide reads</div></div>
+<div class="tl-item"><span class="tl-time">0:45</span><span class="tl-dur">(15 min)</span><div class="tl-label">Man-Down — 5v6 penalty kill situations, rotation drill</div></div>
+<div class="tl-item"><span class="tl-time">1:00</span><span class="tl-dur">(20 min)</span><div class="tl-label">6v6 Live — full defensive situations, compete</div></div>
+<div class="tl-item"><span class="tl-time">1:20</span><span class="tl-dur">(10 min)</span><div class="tl-label">Film Review — walk through corrections on whiteboard</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><span class="card-num">4</span><span class="card-title">Transition & Rides</span><span class="card-tag">90 min</span></div>
+<div class="timeline">
+<div class="tl-item"><span class="tl-time">0:00</span><span class="tl-dur">(10 min)</span><div class="tl-label">Dynamic Warmup — full-field jog, dynamic stretching</div></div>
+<div class="tl-item"><span class="tl-time">0:10</span><span class="tl-dur">(15 min)</span><div class="tl-label">Face-Offs — technique work, wing drills, ground ball competition</div></div>
+<div class="tl-item"><span class="tl-time">0:25</span><span class="tl-dur">(15 min)</span><div class="tl-label">Fast Break Drill — 4v3, 3v2 transition offense with outlet passes</div></div>
+<div class="tl-item"><span class="tl-time">0:40</span><span class="tl-dur">(20 min)</span><div class="tl-label">Ride/Clear — 10-man ride vs. 2-3-2 clear, live reps both sides</div></div>
+<div class="tl-item"><span class="tl-time">1:00</span><span class="tl-dur">(20 min)</span><div class="tl-label">Transition Scrimmage — full field, face-off to goal</div></div>
+<div class="tl-item"><span class="tl-time">1:20</span><span class="tl-dur">(10 min)</span><div class="tl-label">Cool Down — jog, stretch, team breakdown</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><span class="card-num">5</span><span class="card-title">Game Prep</span><span class="card-tag">90 min</span></div>
+<div class="timeline">
+<div class="tl-item"><span class="tl-time">0:00</span><span class="tl-dur">(10 min)</span><div class="tl-label">Dynamic Warmup — game-speed movements, stick work</div></div>
+<div class="tl-item"><span class="tl-time">0:10</span><span class="tl-dur">(10 min)</span><div class="tl-label">Stickwork — quick-stick, shooting on the run, feeds</div></div>
+<div class="tl-item"><span class="tl-time">0:20</span><span class="tl-dur">(15 min)</span><div class="tl-label">Offensive Review — walkthrough primary sets vs. expected defense</div></div>
+<div class="tl-item"><span class="tl-time">0:35</span><span class="tl-dur">(15 min)</span><div class="tl-label">Defensive Review — slide package review, matchup assignments</div></div>
+<div class="tl-item"><span class="tl-time">0:50</span><span class="tl-dur">(15 min)</span><div class="tl-label">Special Units — EMO, man-down, face-offs, ride/clear</div></div>
+<div class="tl-item"><span class="tl-time">1:05</span><span class="tl-dur">(20 min)</span><div class="tl-label">Scrimmage — game-like situations, clock management</div></div>
+<div class="tl-item"><span class="tl-time">1:25</span><span class="tl-dur">(5 min)</span><div class="tl-label">Walk Through — final review, keys to victory, team on 3</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== TAB 8: SCOUTING ==================== -->
+<div class="tab-content" id="scouting">
+<div class="section-title">Scouting System</div>
+
+<div class="card">
+<div class="card-header"><span class="card-title">New Scout Report</span></div>
+<div class="form-row">
+<div class="form-group"><label>Opponent Name</label><input type="text" id="scoutOpponent" placeholder="e.g., Team Elevate"></div>
+<div class="form-group"><label>Date</label><input type="date" id="scoutDate"></div>
+</div>
+
+<div class="sub-title" style="margin-top:16px">Offense</div>
+<div class="form-row">
+<div class="form-group"><label>Formation</label>
+<select id="scoutOffFormation"><option value="">Select...</option><option>1-4-1</option><option>2-3-1</option><option>3-3</option><option>Invert</option><option>Motion</option><option>Other</option></select></div>
+<div class="form-group"><label>Primary Dodger (#)</label><input type="text" id="scoutDodger" placeholder="e.g., #22 - lefty middie"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Dodging Hand</label>
+<select id="scoutHand"><option value="">Select...</option><option>Right</option><option>Left</option><option>Both</option></select></div>
+<div class="form-group"><label>Crease Players</label><input type="text" id="scoutCrease" placeholder="e.g., #5 and #11 — both strong"></div>
+</div>
+
+<div class="sub-title">Defense</div>
+<div class="form-row">
+<div class="form-group"><label>Slide Package</label>
+<select id="scoutSlide"><option value="">Select...</option><option>Adjacent</option><option>Crease</option><option>Backer</option><option>Double</option><option>Zone</option><option>Mixed</option></select></div>
+<div class="form-group"><label>Aggressiveness (1-10)</label>
+<select id="scoutAggression"><option value="">Select...</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+</div>
+
+<div class="sub-title">Face-Offs</div>
+<div class="form-row">
+<div class="form-group"><label>Dominant FOGO (#)</label><input type="text" id="scoutFOGO" placeholder="e.g., #27 — strong clamper"></div>
+<div class="form-group"><label>Technique Preference</label>
+<select id="scoutFOTech"><option value="">Select...</option><option>Clamp</option><option>Plunger</option><option>Motorcycle</option><option>Over-the-Top</option><option>Mixed</option></select></div>
+</div>
+<div class="form-group"><label>Wing Tendencies</label><input type="text" id="scoutWings" placeholder="e.g., Strong left wing, weak right side"></div>
+
+<div class="sub-title">Ride</div>
+<div class="form-row">
+<div class="form-group"><label>Ride Type</label>
+<select id="scoutRide"><option value="">Select...</option><option>10-Man Ride</option><option>Zone Ride</option><option>Press</option><option>Contain</option><option>Zero/No Ride</option><option>Mixed</option></select></div>
+<div class="form-group"><label>Pressure Level (1-10)</label>
+<select id="scoutRidePressure"><option value="">Select...</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+</div>
+
+<div class="sub-title">Clear</div>
+<div class="form-row">
+<div class="form-group"><label>Clear Formation</label>
+<select id="scoutClear"><option value="">Select...</option><option>2-3-2</option><option>1-4-1</option><option>Break Clear</option><option>Goalie Clear</option><option>Wheel</option><option>Mixed</option></select></div>
+<div class="form-group"><label>Goalie Involvement</label>
+<select id="scoutGoalieClear"><option value="">Select...</option><option>Active — carries often</option><option>Moderate — outlets well</option><option>Passive — stays in cage</option></select></div>
+</div>
+
+<div class="sub-title">Notes</div>
+<div class="form-group"><label>Additional Notes</label><textarea id="scoutNotes" placeholder="Key observations, weaknesses to exploit, players to watch..."></textarea></div>
+
+<button class="btn" onclick="saveScoutReport()" style="margin-top:8px">Save Scout Report</button>
+</div>
+
+<div class="saved-reports" id="savedReports">
+<div class="sub-title">Saved Reports</div>
+<div id="reportList"></div>
+</div>
+</div>
+
+<script>
+// Tab Navigation
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Search Tables (Terminology tab)
+function searchTable(input, tabId) {
+  const filter = input.value.toLowerCase();
+  const tab = document.getElementById(tabId);
+  tab.querySelectorAll('.term-table tbody tr').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(filter) ? '' : 'none';
+  });
+}
+
+// Search Cards
+function searchCards(input, tabId) {
+  const filter = input.value.toLowerCase();
+  const tab = document.getElementById(tabId);
+  tab.querySelectorAll('.card').forEach(card => {
+    const text = (card.textContent + ' ' + (card.dataset.search || '')).toLowerCase();
+    card.style.display = text.includes(filter) ? '' : 'none';
+  });
+}
+
+// Scouting System
+function saveScoutReport() {
+  const opponent = document.getElementById('scoutOpponent').value.trim();
+  if (!opponent) { alert('Please enter an opponent name.'); return; }
+
+  const report = {
+    id: Date.now(),
+    opponent: opponent,
+    date: document.getElementById('scoutDate').value,
+    offense: {
+      formation: document.getElementById('scoutOffFormation').value,
+      dodger: document.getElementById('scoutDodger').value,
+      hand: document.getElementById('scoutHand').value,
+      crease: document.getElementById('scoutCrease').value
+    },
+    defense: {
+      slide: document.getElementById('scoutSlide').value,
+      aggression: document.getElementById('scoutAggression').value
+    },
+    faceoff: {
+      fogo: document.getElementById('scoutFOGO').value,
+      technique: document.getElementById('scoutFOTech').value,
+      wings: document.getElementById('scoutWings').value
+    },
+    ride: {
+      type: document.getElementById('scoutRide').value,
+      pressure: document.getElementById('scoutRidePressure').value
+    },
+    clear: {
+      formation: document.getElementById('scoutClear').value,
+      goalie: document.getElementById('scoutGoalieClear').value
+    },
+    notes: document.getElementById('scoutNotes').value
+  };
+
+  let reports = JSON.parse(localStorage.getItem('btb_boys_scouts') || '[]');
+  reports.unshift(report);
+  localStorage.setItem('btb_boys_scouts', JSON.stringify(reports));
+
+  // Clear form
+  document.querySelectorAll('#scouting input, #scouting select, #scouting textarea').forEach(el => {
+    if (el.type === 'date') el.value = '';
+    else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else el.value = '';
+  });
+
+  renderReports();
+}
+
+function deleteReport(id) {
+  let reports = JSON.parse(localStorage.getItem('btb_boys_scouts') || '[]');
+  reports = reports.filter(r => r.id !== id);
+  localStorage.setItem('btb_boys_scouts', JSON.stringify(reports));
+  renderReports();
+}
+
+function renderReports() {
+  const reports = JSON.parse(localStorage.getItem('btb_boys_scouts') || '[]');
+  const list = document.getElementById('reportList');
+  if (reports.length === 0) {
+    list.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:12px 0;">No saved reports yet.</p>';
+    return;
+  }
+  list.innerHTML = reports.map(r => {
+    const dateStr = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString() : 'No date';
+    return `<div class="report-item">
+      <div class="report-info">
+        <strong>${r.opponent}</strong> &mdash; ${dateStr}<br>
+        <span style="color:var(--muted);font-size:12px">
+          Off: ${r.offense.formation || '—'} | Def: ${r.defense.slide || '—'} | FO: ${r.faceoff.technique || '—'} | Ride: ${r.ride.type || '—'} | Clear: ${r.clear.formation || '—'}
+        </span>
+      </div>
+      <div>
+        <button class="btn" style="padding:6px 12px;font-size:11px;margin-right:4px" onclick="viewReport(${r.id})">View</button>
+        <button class="btn btn-danger" style="padding:6px 12px;font-size:11px" onclick="deleteReport(${r.id})">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function viewReport(id) {
+  const reports = JSON.parse(localStorage.getItem('btb_boys_scouts') || '[]');
+  const r = reports.find(rep => rep.id === id);
+  if (!r) return;
+  const dateStr = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString() : 'No date';
+  const details = `SCOUT REPORT: ${r.opponent} (${dateStr})
+━━━━━━━━━━━━━━━━━━━━━━━━
+OFFENSE
+  Formation: ${r.offense.formation || '—'}
+  Primary Dodger: ${r.offense.dodger || '—'}
+  Dodging Hand: ${r.offense.hand || '—'}
+  Crease: ${r.offense.crease || '—'}
+
+DEFENSE
+  Slide Package: ${r.defense.slide || '—'}
+  Aggressiveness: ${r.defense.aggression || '—'}/10
+
+FACE-OFFS
+  FOGO: ${r.faceoff.fogo || '—'}
+  Technique: ${r.faceoff.technique || '—'}
+  Wings: ${r.faceoff.wings || '—'}
+
+RIDE
+  Type: ${r.ride.type || '—'}
+  Pressure: ${r.ride.pressure || '—'}/10
+
+CLEAR
+  Formation: ${r.clear.formation || '—'}
+  Goalie: ${r.clear.goalie || '—'}
+
+NOTES
+${r.notes || 'None'}`;
+  alert(details);
+}
+
+// Initialize
+renderReports();
+
+// Set today's date as default
+document.getElementById('scoutDate').valueAsDate = new Date();
+</script>
+</body>
+</html>

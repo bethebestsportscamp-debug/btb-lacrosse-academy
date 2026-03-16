@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Girls Championship Sideline System</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--card:#141414;--border:#2a2a2a;--text:#e8e8e8;--muted:#888;
+  --cyan:#00e5ff;--cyan-dim:#00acc1;--red:#ff3d3d;--green:#00e676;
+  --yellow:#ffd740;--orange:#ff9100;
+  --radius:10px;--transition:0.25s ease;
+}
+html{font-size:15px;scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.5;
+  min-height:100vh;padding-bottom:80px;
+}
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#0d0d0d 0%,#1a1a2e 50%,#0d0d0d 100%);
+  border-bottom:2px solid var(--cyan);padding:20px 16px 14px;text-align:center;
+  position:sticky;top:0;z-index:100;
+}
+.header h1{font-size:1.6rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff}
+.header h1 span{color:var(--cyan)}
+.header .subtitle{font-size:0.8rem;color:var(--muted);letter-spacing:2px;margin-top:2px;text-transform:uppercase}
+.header-actions{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.header-actions button{
+  padding:6px 14px;border-radius:20px;border:1px solid var(--border);
+  background:transparent;color:var(--muted);font-size:0.72rem;cursor:pointer;
+  text-transform:uppercase;letter-spacing:1px;transition:var(--transition);
+}
+.header-actions button:hover{border-color:var(--cyan);color:var(--cyan)}
+.header-actions .btn-danger:hover{border-color:var(--red);color:var(--red)}
+.game-date{font-size:0.7rem;color:var(--cyan);margin-top:6px;letter-spacing:1px}
+
+/* TABS */
+.tab-bar{
+  display:flex;overflow-x:auto;gap:0;background:#111;
+  border-bottom:1px solid var(--border);position:sticky;top:96px;z-index:99;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;padding:10px 16px;font-size:0.7rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);
+  background:transparent;border:none;border-bottom:2px solid transparent;
+  cursor:pointer;transition:var(--transition);white-space:nowrap;
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+
+/* CONTENT */
+.content{max-width:900px;margin:0 auto;padding:16px}
+.section{display:none;animation:fadeIn 0.3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin-bottom:16px;
+}
+.card-title{
+  font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.card-title::before{
+  content:'';display:block;width:3px;height:16px;background:var(--cyan);border-radius:2px;
+}
+
+/* INPUTS */
+input[type="text"],input[type="number"],input[type="time"],select,textarea{
+  background:#1a1a1a;border:1px solid var(--border);border-radius:6px;
+  color:var(--text);padding:8px 12px;font-size:0.85rem;width:100%;
+  transition:var(--transition);font-family:inherit;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,229,255,0.15)}
+textarea{resize:vertical;min-height:80px}
+label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px}
+.input-group{margin-bottom:12px}
+.input-row{display:grid;gap:12px;margin-bottom:12px}
+.input-row.cols-2{grid-template-columns:1fr 1fr}
+.input-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.input-row.cols-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.input-row.cols-5{grid-template-columns:1fr 1fr 1fr 1fr 1fr}
+
+/* BUTTONS */
+.btn{
+  padding:8px 18px;border-radius:6px;border:none;font-size:0.8rem;
+  font-weight:600;cursor:pointer;transition:var(--transition);
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.btn-cyan{background:var(--cyan);color:#000}
+.btn-cyan:hover{background:#00b8d4;transform:translateY(-1px)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#d32f2f}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-sm{padding:6px 12px;font-size:0.7rem}
+
+/* TOGGLE PILLS */
+.toggle-pill{
+  display:inline-flex;border-radius:20px;overflow:hidden;border:1px solid var(--border);
+}
+.toggle-pill button{
+  padding:6px 16px;border:none;background:transparent;color:var(--muted);
+  font-size:0.75rem;font-weight:600;cursor:pointer;transition:var(--transition);
+  text-transform:uppercase;
+}
+.toggle-pill button.win{background:var(--green);color:#000}
+.toggle-pill button.loss{background:var(--red);color:#fff}
+.toggle-pill button.success{background:var(--green);color:#000}
+.toggle-pill button.fail{background:var(--red);color:#fff}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.data-table th{
+  text-align:left;padding:8px 10px;font-size:0.7rem;text-transform:uppercase;
+  letter-spacing:0.5px;color:var(--muted);border-bottom:1px solid var(--border);
+  font-weight:600;
+}
+.data-table td{padding:6px 10px;border-bottom:1px solid #1e1e1e;vertical-align:middle}
+.data-table input,.data-table select{padding:6px 8px;font-size:0.8rem}
+.data-table .row-num{color:var(--cyan);font-weight:700;width:40px;text-align:center}
+
+/* STAT BADGE */
+.stat-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#1a1a1a;border:1px solid var(--border);border-radius:20px;
+  padding:6px 16px;font-size:0.85rem;font-weight:700;
+}
+.stat-badge.elite{border-color:var(--green);color:var(--green)}
+.stat-badge.warning{border-color:var(--yellow);color:var(--yellow)}
+.stat-badge.danger{border-color:var(--red);color:var(--red)}
+.stat-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+
+/* CHECKBOXES */
+.check-group{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.check-item{
+  display:flex;align-items:center;gap:6px;padding:6px 12px;
+  background:#1a1a1a;border:1px solid var(--border);border-radius:6px;
+  cursor:pointer;transition:var(--transition);font-size:0.8rem;
+}
+.check-item:has(input:checked){border-color:var(--cyan);background:#0a2a30}
+.check-item input[type="checkbox"]{accent-color:var(--cyan);cursor:pointer}
+
+/* FIELD DIAGRAM */
+.field-diagram{
+  position:relative;width:100%;max-width:360px;height:500px;
+  margin:20px auto;background:linear-gradient(180deg,#0d2818 0%,#0a1f14 100%);
+  border:2px solid #1a4d2e;border-radius:var(--radius);overflow:hidden;
+}
+.field-diagram::before{
+  content:'';position:absolute;top:50%;left:10%;right:10%;
+  border-top:1px dashed rgba(255,255,255,0.15);
+}
+.field-diagram .center-circle{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:80px;height:80px;border:1px dashed rgba(255,255,255,0.15);border-radius:50%;
+}
+.field-diagram .crease{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  width:100px;height:50px;border:1px dashed rgba(255,255,255,0.2);
+  border-radius:50px 50px 0 0;border-bottom:none;
+}
+.field-diagram .crease-top{
+  position:absolute;top:30px;left:50%;transform:translateX(-50%);
+  width:100px;height:50px;border:1px dashed rgba(255,255,255,0.2);
+  border-radius:0 0 50px 50px;border-top:none;
+}
+.player-dot{
+  position:absolute;transform:translate(-50%,-50%);text-align:center;
+  font-size:0.65rem;font-weight:700;color:var(--cyan);z-index:2;
+}
+.player-dot .dot{
+  width:28px;height:28px;border-radius:50%;background:rgba(0,229,255,0.2);
+  border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;color:#fff;font-weight:800;margin:0 auto 2px;
+}
+.player-dot.defense .dot{background:rgba(255,61,61,0.2);border-color:var(--red)}
+.player-dot.defense{color:var(--red)}
+.player-dot.goalie .dot{background:rgba(255,215,64,0.2);border-color:var(--yellow)}
+.player-dot.goalie{color:var(--yellow)}
+
+/* SHIFT TIMER */
+.shift-timer{
+  display:flex;align-items:center;gap:16px;padding:16px;
+  background:#1a1a1a;border-radius:var(--radius);border:1px solid var(--border);
+}
+.shift-timer .timer-display{
+  font-size:2.2rem;font-weight:800;font-variant-numeric:tabular-nums;
+  min-width:120px;text-align:center;
+}
+.shift-timer .timer-display.warning{color:var(--yellow)}
+.shift-timer .timer-display.danger{color:var(--red);animation:pulse 0.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.shift-timer .timer-buttons{display:flex;gap:8px;flex-wrap:wrap}
+
+/* FORMATION TOGGLE */
+.formation-toggle{
+  display:flex;border-radius:6px;overflow:hidden;border:1px solid var(--border);
+  margin-bottom:12px;
+}
+.formation-toggle button{
+  flex:1;padding:8px;border:none;background:transparent;color:var(--muted);
+  font-size:0.75rem;font-weight:600;cursor:pointer;transition:var(--transition);
+}
+.formation-toggle button.active{background:var(--cyan);color:#000}
+
+/* POSTGAME */
+.report-summary{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;margin-bottom:20px;
+}
+.report-stat{
+  background:#1a1a1a;border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;text-align:center;
+}
+.report-stat .value{font-size:1.8rem;font-weight:800;color:var(--cyan)}
+.report-stat .label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+
+/* PRINT */
+@media print{
+  .header,.tab-bar,.btn,.header-actions,.toggle-pill button,.shift-timer .timer-buttons{display:none!important}
+  .section{display:block!important;page-break-inside:avoid;margin-bottom:20px}
+  body{background:#fff;color:#000;padding:20px}
+  .card{border:1px solid #ccc;background:#fff}
+  .data-table th,.data-table td{border:1px solid #ccc}
+  input,select,textarea{border:1px solid #ccc;background:#f9f9f9}
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .header h1{font-size:1.2rem;letter-spacing:2px}
+  .tab-btn{padding:8px 12px;font-size:0.6rem}
+  .input-row.cols-3,.input-row.cols-4,.input-row.cols-5{grid-template-columns:1fr 1fr}
+  .content{padding:10px}
+  .card{padding:14px}
+  .field-diagram{height:420px}
+  .shift-timer{flex-direction:column;text-align:center}
+  .report-summary{grid-template-columns:1fr 1fr}
+}
+
+/* DELETE ROW */
+.delete-row{
+  background:none;border:none;color:#555;cursor:pointer;font-size:1rem;
+  padding:2px 6px;border-radius:4px;transition:var(--transition);
+}
+.delete-row:hover{color:var(--red);background:rgba(255,61,61,0.1)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#555}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1><span>BTB</span> GIRLS LACROSSE</h1>
+  <div class="subtitle">Championship Sideline System</div>
+  <div class="game-date" id="gameDate"></div>
+  <div class="header-actions">
+    <button onclick="printReport()">Print Report</button>
+    <button onclick="exportReport()">Export Report</button>
+    <button class="btn-danger" onclick="newGame()">New Game</button>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-tab="pregame">Pregame</button>
+  <button class="tab-btn" data-tab="lineup">Lineup</button>
+  <button class="tab-btn" data-tab="midfield">Midfield</button>
+  <button class="tab-btn" data-tab="draws">Draws</button>
+  <button class="tab-btn" data-tab="clears">Clears</button>
+  <button class="tab-btn" data-tab="rides">Rides</button>
+  <button class="tab-btn" data-tab="goals">Goals</button>
+  <button class="tab-btn" data-tab="breakdowns">Breakdowns</button>
+  <button class="tab-btn" data-tab="special">Special Units</button>
+  <button class="tab-btn" data-tab="halftime">Halftime</button>
+  <button class="tab-btn" data-tab="endgame">End Game</button>
+  <button class="tab-btn" data-tab="postgame">Postgame</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- ========== 1. PREGAME SCOUTING ========== -->
+<div class="section active" id="sec-pregame">
+  <div class="card">
+    <div class="card-title">Pregame Scouting</div>
+    <div class="input-row cols-3">
+      <div class="input-group"><label>Opponent</label><input type="text" data-field="opp_name" placeholder="Team name"></div>
+      <div class="input-group"><label>Record</label><input type="text" data-field="opp_record" placeholder="W-L"></div>
+      <div class="input-group"><label>Primary Offense</label><input type="text" data-field="opp_offense" placeholder="e.g. 2-3-2"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Top Players</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Player</th><th>Pos</th><th>Notes</th></tr></thead>
+      <tbody id="scoutPlayersBody">
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Offensive Tendencies</div>
+    <div class="input-row cols-2">
+      <div class="input-group"><label>Primary Initiator</label><input type="text" data-field="off_initiator" placeholder="Player / Position"></div>
+      <div class="input-group"><label>Man-Up Formation</label><input type="text" data-field="off_manup" placeholder="e.g. 1-3-2"></div>
+    </div>
+    <label>Dodging Preference</label>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" data-field="dodge_left"> Left</label>
+      <label class="check-item"><input type="checkbox" data-field="dodge_right"> Right</label>
+    </div>
+    <label>Crease Threat Level</label>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" data-field="crease_high"> High</label>
+      <label class="check-item"><input type="checkbox" data-field="crease_med"> Medium</label>
+      <label class="check-item"><input type="checkbox" data-field="crease_low"> Low</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Defensive Tendencies</div>
+    <label>Slide Package</label>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" data-field="slide_early"> Early</label>
+      <label class="check-item"><input type="checkbox" data-field="slide_adjacent"> Adjacent</label>
+      <label class="check-item"><input type="checkbox" data-field="slide_late"> Late</label>
+    </div>
+    <div class="input-row cols-2">
+      <div class="input-group"><label>Ride System</label><input type="text" data-field="ride_system" placeholder="e.g. 10-man ride"></div>
+      <div class="input-group"><label>Clear Pattern</label><input type="text" data-field="clear_pattern" placeholder="e.g. Wheel left"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 2. STARTING LINEUP ========== -->
+<div class="section" id="sec-lineup">
+  <div class="card">
+    <div class="card-title">Starting Lineup</div>
+
+    <h4 style="color:var(--cyan);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">ATTACK</h4>
+    <div class="input-row cols-2" style="margin-bottom:16px">
+      <div class="input-group"><label>A1 Name</label><input type="text" data-field="a1_name" placeholder="Player"></div>
+      <div class="input-group"><label>A1 #</label><input type="text" data-field="a1_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>A2 Name</label><input type="text" data-field="a2_name" placeholder="Player"></div>
+      <div class="input-group"><label>A2 #</label><input type="text" data-field="a2_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>A3 Name</label><input type="text" data-field="a3_name" placeholder="Player"></div>
+      <div class="input-group"><label>A3 #</label><input type="text" data-field="a3_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>A4 Name</label><input type="text" data-field="a4_name" placeholder="Player"></div>
+      <div class="input-group"><label>A4 #</label><input type="text" data-field="a4_num" placeholder="#" style="max-width:80px"></div>
+    </div>
+
+    <h4 style="color:var(--cyan);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">MIDFIELD</h4>
+    <div class="input-row cols-2" style="margin-bottom:16px">
+      <div class="input-group"><label>M1 Name</label><input type="text" data-field="m1_name" placeholder="Player"></div>
+      <div class="input-group"><label>M1 #</label><input type="text" data-field="m1_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>M2 Name</label><input type="text" data-field="m2_name" placeholder="Player"></div>
+      <div class="input-group"><label>M2 #</label><input type="text" data-field="m2_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>M3 Name</label><input type="text" data-field="m3_name" placeholder="Player"></div>
+      <div class="input-group"><label>M3 #</label><input type="text" data-field="m3_num" placeholder="#" style="max-width:80px"></div>
+    </div>
+
+    <h4 style="color:var(--red);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">DEFENSE</h4>
+    <div class="input-row cols-2" style="margin-bottom:16px">
+      <div class="input-group"><label>D1 Name</label><input type="text" data-field="d1_name" placeholder="Player"></div>
+      <div class="input-group"><label>D1 #</label><input type="text" data-field="d1_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>D2 Name</label><input type="text" data-field="d2_name" placeholder="Player"></div>
+      <div class="input-group"><label>D2 #</label><input type="text" data-field="d2_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>D3 Name</label><input type="text" data-field="d3_name" placeholder="Player"></div>
+      <div class="input-group"><label>D3 #</label><input type="text" data-field="d3_num" placeholder="#" style="max-width:80px"></div>
+      <div class="input-group"><label>D4 Name</label><input type="text" data-field="d4_name" placeholder="Player"></div>
+      <div class="input-group"><label>D4 #</label><input type="text" data-field="d4_num" placeholder="#" style="max-width:80px"></div>
+    </div>
+
+    <h4 style="color:var(--yellow);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">GOALIE</h4>
+    <div class="input-row cols-2">
+      <div class="input-group"><label>Goalie Name</label><input type="text" data-field="g_name" placeholder="Player"></div>
+      <div class="input-group"><label>Goalie #</label><input type="text" data-field="g_num" placeholder="#" style="max-width:80px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Field Alignment</div>
+    <div class="field-diagram" id="fieldDiagram">
+      <div class="crease-top"></div>
+      <div class="center-circle"></div>
+      <div class="crease"></div>
+      <!-- Attack -->
+      <div class="player-dot" style="top:12%;left:35%"><div class="dot" id="dot-a1">A1</div><span id="lbl-a1"></span></div>
+      <div class="player-dot" style="top:12%;left:65%"><div class="dot" id="dot-a2">A2</div><span id="lbl-a2"></span></div>
+      <div class="player-dot" style="top:22%;left:18%"><div class="dot" id="dot-a3">A3</div><span id="lbl-a3"></span></div>
+      <div class="player-dot" style="top:22%;left:82%"><div class="dot" id="dot-a4">A4</div><span id="lbl-a4"></span></div>
+      <!-- Midfield -->
+      <div class="player-dot" style="top:40%;left:50%"><div class="dot" id="dot-m1">M1</div><span id="lbl-m1"></span></div>
+      <div class="player-dot" style="top:48%;left:30%"><div class="dot" id="dot-m2">M2</div><span id="lbl-m2"></span></div>
+      <div class="player-dot" style="top:48%;left:70%"><div class="dot" id="dot-m3">M3</div><span id="lbl-m3"></span></div>
+      <!-- Defense -->
+      <div class="player-dot defense" style="top:64%;left:22%"><div class="dot" id="dot-d1">D1</div><span id="lbl-d1"></span></div>
+      <div class="player-dot defense" style="top:64%;left:78%"><div class="dot" id="dot-d2">D2</div><span id="lbl-d2"></span></div>
+      <div class="player-dot defense" style="top:74%;left:35%"><div class="dot" id="dot-d3">D3</div><span id="lbl-d3"></span></div>
+      <div class="player-dot defense" style="top:74%;left:65%"><div class="dot" id="dot-d4">D4</div><span id="lbl-d4"></span></div>
+      <!-- Goalie -->
+      <div class="player-dot goalie" style="top:88%;left:50%"><div class="dot" id="dot-g">G</div><span id="lbl-g"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 3. MIDFIELD ROTATION ========== -->
+<div class="section" id="sec-midfield">
+  <div class="card">
+    <div class="card-title">Midfield Rotation</div>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:16px">Shift target: 90-120 seconds per line</p>
+
+    <div style="margin-bottom:20px">
+      <h4 style="color:var(--cyan);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">LINE 1</h4>
+      <div class="input-row cols-3">
+        <div class="input-group"><input type="text" data-field="mid_l1_p1" placeholder="Player 1"></div>
+        <div class="input-group"><input type="text" data-field="mid_l1_p2" placeholder="Player 2"></div>
+        <div class="input-group"><input type="text" data-field="mid_l1_p3" placeholder="Player 3"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px">
+      <h4 style="color:var(--cyan);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">LINE 2</h4>
+      <div class="input-row cols-3">
+        <div class="input-group"><input type="text" data-field="mid_l2_p1" placeholder="Player 1"></div>
+        <div class="input-group"><input type="text" data-field="mid_l2_p2" placeholder="Player 2"></div>
+        <div class="input-group"><input type="text" data-field="mid_l2_p3" placeholder="Player 3"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px">
+      <h4 style="color:var(--cyan);font-size:0.8rem;margin-bottom:8px;letter-spacing:1px">LINE 3</h4>
+      <div class="input-row cols-3">
+        <div class="input-group"><input type="text" data-field="mid_l3_p1" placeholder="Player 1"></div>
+        <div class="input-group"><input type="text" data-field="mid_l3_p2" placeholder="Player 2"></div>
+        <div class="input-group"><input type="text" data-field="mid_l3_p3" placeholder="Player 3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Shift Timer</div>
+    <div class="shift-timer">
+      <div class="timer-display" id="shiftTimerDisplay">0:00</div>
+      <div class="timer-buttons">
+        <button class="btn btn-cyan" id="shiftStartBtn" onclick="toggleShiftTimer()">Start Shift</button>
+        <button class="btn btn-outline" onclick="resetShiftTimer()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 4. DRAW CONTROL TRACKER ========== -->
+<div class="section" id="sec-draws">
+  <div class="card">
+    <div class="card-title">Draw Control Tracker</div>
+    <div class="stat-bar">
+      <div class="stat-badge" id="drawWinBadge">Win %: --</div>
+      <div class="stat-badge" id="drawCleanBadge">Clean: 0</div>
+      <div class="stat-badge" id="drawContestedBadge">Contested: 0</div>
+      <div class="stat-badge" id="drawTotalBadge">Total: 0</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="drawTable">
+        <thead><tr><th>#</th><th>Center</th><th>Result</th><th>Strategy</th><th>Type</th><th></th></tr></thead>
+        <tbody id="drawBody"></tbody>
+      </table>
+    </div>
+    <button class="btn btn-cyan btn-sm" style="margin-top:12px" onclick="addDrawRow()">+ Add Draw</button>
+  </div>
+</div>
+
+<!-- ========== 5. CLEAR EFFICIENCY ========== -->
+<div class="section" id="sec-clears">
+  <div class="card">
+    <div class="card-title">Clear Efficiency</div>
+    <div class="stat-bar">
+      <div class="stat-badge" id="clearPctBadge">Success %: --</div>
+      <div class="stat-badge" id="clearTargetBadge">Elite Target: 90%</div>
+      <div class="stat-badge" id="clearTotalBadge">Total: 0</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="clearTable">
+        <thead><tr><th>#</th><th>Result</th><th>Method</th><th></th></tr></thead>
+        <tbody id="clearBody"></tbody>
+      </table>
+    </div>
+    <button class="btn btn-cyan btn-sm" style="margin-top:12px" onclick="addClearRow()">+ Add Clear Attempt</button>
+  </div>
+</div>
+
+<!-- ========== 6. RIDE PRESSURE ========== -->
+<div class="section" id="sec-rides">
+  <div class="card">
+    <div class="card-title">Ride Pressure</div>
+    <div class="stat-bar">
+      <div class="stat-badge" id="ridePctBadge">Disruption %: --</div>
+      <div class="stat-badge" id="rideTargetBadge">Elite Target: 35%</div>
+      <div class="stat-badge" id="rideTotalBadge">Total: 0</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="rideTable">
+        <thead><tr><th>#</th><th>Result</th><th>Ride Type</th><th></th></tr></thead>
+        <tbody id="rideBody"></tbody>
+      </table>
+    </div>
+    <button class="btn btn-cyan btn-sm" style="margin-top:12px" onclick="addRideRow()">+ Add Opponent Clear</button>
+  </div>
+</div>
+
+<!-- ========== 7. GOAL PRODUCTION ========== -->
+<div class="section" id="sec-goals">
+  <div class="card">
+    <div class="card-title">Goal Production</div>
+    <div class="stat-bar">
+      <div class="stat-badge" id="goalTotalBadge">Goals: 0</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="goalTable">
+        <thead><tr><th>#</th><th>Time</th><th>Scorer</th><th>Assist</th><th>Situation</th><th></th></tr></thead>
+        <tbody id="goalBody"></tbody>
+      </table>
+    </div>
+    <button class="btn btn-cyan btn-sm" style="margin-top:12px" onclick="addGoalRow()">+ Add Goal</button>
+  </div>
+</div>
+
+<!-- ========== 8. DEFENSIVE BREAKDOWNS ========== -->
+<div class="section" id="sec-breakdowns">
+  <div class="card">
+    <div class="card-title">Defensive Breakdowns</div>
+    <div class="stat-bar">
+      <div class="stat-badge" id="breakdownTotalBadge">Total: 0</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="breakdownTable">
+        <thead><tr><th>#</th><th>Time</th><th>Cause</th><th>Fix Notes</th><th></th></tr></thead>
+        <tbody id="breakdownBody"></tbody>
+      </table>
+    </div>
+    <button class="btn btn-cyan btn-sm" style="margin-top:12px" onclick="addBreakdownRow()">+ Add Breakdown</button>
+  </div>
+</div>
+
+<!-- ========== 9. SPECIAL UNITS ========== -->
+<div class="section" id="sec-special">
+  <div class="card">
+    <div class="card-title">Draw Unit</div>
+    <div class="input-row cols-3">
+      <div class="input-group"><label>Center</label><input type="text" data-field="draw_center" placeholder="Player"></div>
+      <div class="input-group"><label>Wing L</label><input type="text" data-field="draw_wing_l" placeholder="Player"></div>
+      <div class="input-group"><label>Wing R</label><input type="text" data-field="draw_wing_r" placeholder="Player"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Man-Up Unit</div>
+    <div class="formation-toggle" id="manupFormation">
+      <button class="active" onclick="setFormation('manup','1-3-2',this)">1-3-2</button>
+      <button onclick="setFormation('manup','2-2-2',this)">2-2-2</button>
+    </div>
+    <div class="input-row cols-3">
+      <div class="input-group"><label>Point</label><input type="text" data-field="mu_point" placeholder="Player"></div>
+      <div class="input-group"><label>High L</label><input type="text" data-field="mu_high_l" placeholder="Player"></div>
+      <div class="input-group"><label>High R</label><input type="text" data-field="mu_high_r" placeholder="Player"></div>
+    </div>
+    <div class="input-row cols-3">
+      <div class="input-group"><label>Low L</label><input type="text" data-field="mu_low_l" placeholder="Player"></div>
+      <div class="input-group"><label>Low R</label><input type="text" data-field="mu_low_r" placeholder="Player"></div>
+      <div class="input-group"><label>Behind</label><input type="text" data-field="mu_behind" placeholder="Player"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Man-Down Unit</div>
+    <div class="formation-toggle" id="mandownFormation">
+      <button class="active" onclick="setFormation('mandown','Box',this)">Box</button>
+      <button onclick="setFormation('mandown','Triangle',this)">Triangle</button>
+      <button onclick="setFormation('mandown','Rotation',this)">Rotation</button>
+    </div>
+    <div class="input-row cols-3">
+      <div class="input-group"><label>Low D 1</label><input type="text" data-field="md_low1" placeholder="Player"></div>
+      <div class="input-group"><label>Low D 2</label><input type="text" data-field="md_low2" placeholder="Player"></div>
+      <div class="input-group"><label>Low D 3</label><input type="text" data-field="md_low3" placeholder="Player"></div>
+    </div>
+    <div class="input-row cols-2">
+      <div class="input-group"><label>High M 1</label><input type="text" data-field="md_high1" placeholder="Player"></div>
+      <div class="input-group"><label>High M 2</label><input type="text" data-field="md_high2" placeholder="Player"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 10. HALFTIME ADJUSTMENTS ========== -->
+<div class="section" id="sec-halftime">
+  <div class="card">
+    <div class="card-title">Halftime Adjustments</div>
+    <div class="input-group"><label>What Is Working</label><textarea data-field="ht_working" placeholder="Key things that are working well..."></textarea></div>
+    <div class="input-group"><label>Opponent Weakness</label><textarea data-field="ht_weakness" placeholder="Weaknesses to exploit..."></textarea></div>
+    <div class="input-group"><label>Offensive Adjustment</label><textarea data-field="ht_off_adj" placeholder="Changes to offensive approach..."></textarea></div>
+    <div class="input-group"><label>Defensive Adjustment</label><textarea data-field="ht_def_adj" placeholder="Changes to defensive approach..."></textarea></div>
+    <div class="input-group"><label>Draw Strategy Adjustment</label><textarea data-field="ht_draw_adj" placeholder="Changes to draw strategy..."></textarea></div>
+  </div>
+</div>
+
+<!-- ========== 11. END GAME MANAGEMENT ========== -->
+<div class="section" id="sec-endgame">
+  <div class="card">
+    <div class="card-title">End Game Management</div>
+    <div class="input-row cols-2">
+      <div class="input-group"><label>Score Margin (+/-)</label><input type="number" data-field="eg_margin" placeholder="e.g. +3 or -2"></div>
+      <div class="input-group"><label>Time Remaining</label><input type="text" data-field="eg_time" placeholder="e.g. 5:00"></div>
+    </div>
+    <label style="margin-bottom:8px">Strategy</label>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" data-field="eg_stall"> Stall Offense</label>
+      <label class="check-item"><input type="checkbox" data-field="eg_ride"> Aggressive Ride</label>
+      <label class="check-item"><input type="checkbox" data-field="eg_timeout"> Timeout Advance</label>
+      <label class="check-item"><input type="checkbox" data-field="eg_sub_def"> Sub Defensive Unit</label>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 12. POSTGAME REPORT ========== -->
+<div class="section" id="sec-postgame">
+  <div class="card">
+    <div class="card-title">Postgame Report</div>
+    <div class="report-summary" id="reportSummary">
+      <div class="report-stat"><div class="value" id="rpt-draw">--</div><div class="label">Draw Win %</div></div>
+      <div class="report-stat"><div class="value" id="rpt-clear">--</div><div class="label">Clear %</div></div>
+      <div class="report-stat"><div class="value" id="rpt-ride">--</div><div class="label">Ride Stops</div></div>
+      <div class="report-stat"><div class="value" id="rpt-goals">0</div><div class="label">Goals Scored</div></div>
+      <div class="report-stat"><div class="value" id="rpt-breakdowns">0</div><div class="label">Breakdowns</div></div>
+    </div>
+    <div class="input-group"><label>What Worked</label><textarea data-field="pg_worked" placeholder="Key successes from the game..."></textarea></div>
+    <div class="input-group"><label>What Needs Work</label><textarea data-field="pg_needs_work" placeholder="Areas for improvement..."></textarea></div>
+    <div class="input-group"><label>Practice Emphasis</label><textarea data-field="pg_practice" placeholder="Focus areas for next practice..."></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn btn-cyan" onclick="exportReport()">Export Game Report</button>
+      <button class="btn btn-outline" onclick="printReport()">Print Report</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+/* ==========================================
+   BTB GIRLS CHAMPIONSHIP SIDELINE SYSTEM
+   All-in-one game-day operational tool
+   ========================================== */
+
+// ---- STORAGE KEY ----
+const today = new Date();
+const dateStr = today.toISOString().split('T')[0];
+const STORAGE_KEY = 'btb_sideline_' + dateStr;
+
+// ---- STATE ----
+let state = {
+  fields: {},
+  draws: [],
+  clears: [],
+  rides: [],
+  goals: [],
+  breakdowns: [],
+  scoutPlayers: [{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''}],
+  formations: { manup: '1-3-2', mandown: 'Box' }
+};
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('gameDate').textContent = today.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  loadState();
+  initTabs();
+  initFieldBindings();
+  renderScoutPlayers();
+  renderDraws();
+  renderClears();
+  renderRides();
+  renderGoals();
+  renderBreakdowns();
+  restoreFormations();
+  updateFieldDiagram();
+  updatePostgameStats();
+});
+
+// ---- TABS ----
+function initTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('sec-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'postgame') updatePostgameStats();
+      if (btn.dataset.tab === 'lineup') updateFieldDiagram();
+    });
+  });
+}
+
+// ---- FIELD BINDINGS ----
+function initFieldBindings() {
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const key = el.dataset.field;
+    // Restore value
+    if (el.type === 'checkbox') {
+      el.checked = !!state.fields[key];
+    } else {
+      el.value = state.fields[key] || '';
+    }
+    // Listen for changes
+    const evt = el.type === 'checkbox' ? 'change' : 'input';
+    el.addEventListener(evt, () => {
+      state.fields[key] = el.type === 'checkbox' ? el.checked : el.value;
+      saveState();
+      if (key.match(/^[amdg]\d?_(?:name|num)$/) || key === 'g_name' || key === 'g_num') updateFieldDiagram();
+    });
+  });
+}
+
+// ---- FIELD DIAGRAM ----
+function updateFieldDiagram() {
+  const positions = ['a1','a2','a3','a4','m1','m2','m3','d1','d2','d3','d4','g'];
+  positions.forEach(p => {
+    const lbl = document.getElementById('lbl-' + p);
+    if (lbl) {
+      const name = state.fields[p + '_name'] || '';
+      const num = state.fields[p + '_num'] || '';
+      lbl.textContent = num ? '#' + num : (name ? name.substring(0,6) : '');
+    }
+  });
+}
+
+// ---- SCOUT PLAYERS TABLE ----
+function renderScoutPlayers() {
+  const body = document.getElementById('scoutPlayersBody');
+  body.innerHTML = '';
+  state.scoutPlayers.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" value="${esc(p.num)}" placeholder="#" style="width:50px" data-scout="${i}" data-sp="num"></td>
+      <td><input type="text" value="${esc(p.name)}" placeholder="Player name" data-scout="${i}" data-sp="name"></td>
+      <td><input type="text" value="${esc(p.pos)}" placeholder="Pos" style="width:60px" data-scout="${i}" data-sp="pos"></td>
+      <td><input type="text" value="${esc(p.notes)}" placeholder="Notes" data-scout="${i}" data-sp="notes"></td>
+    `;
+    tr.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('input', () => {
+        state.scoutPlayers[parseInt(inp.dataset.scout)][inp.dataset.sp] = inp.value;
+        saveState();
+      });
+    });
+    body.appendChild(tr);
+  });
+}
+
+// ---- DRAW CONTROL ----
+function addDrawRow() {
+  state.draws.push({ center:'', result:'W', strategy:'P', type:'Clean' });
+  saveState();
+  renderDraws();
+}
+
+function renderDraws() {
+  const body = document.getElementById('drawBody');
+  body.innerHTML = '';
+  let wins = 0, clean = 0, contested = 0;
+  state.draws.forEach((d, i) => {
+    if (d.result === 'W') wins++;
+    if (d.type === 'Clean') clean++;
+    else contested++;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="row-num">${i+1}</td>
+      <td><input type="text" value="${esc(d.center)}" placeholder="Center" data-di="${i}" data-dp="center" style="width:100px"></td>
+      <td>
+        <div class="toggle-pill">
+          <button class="${d.result==='W'?'win':''}" onclick="setDrawResult(${i},'W')">W</button>
+          <button class="${d.result==='L'?'loss':''}" onclick="setDrawResult(${i},'L')">L</button>
+        </div>
+      </td>
+      <td>
+        <select data-di="${i}" data-dp="strategy" style="width:90px">
+          <option value="P" ${d.strategy==='P'?'selected':''}>P - Push</option>
+          <option value="B" ${d.strategy==='B'?'selected':''}>B - Pull Back</option>
+          <option value="S" ${d.strategy==='S'?'selected':''}>S - Self</option>
+          <option value="L" ${d.strategy==='L'?'selected':''}>L - Left Trap</option>
+          <option value="R" ${d.strategy==='R'?'selected':''}>R - Right Trap</option>
+        </select>
+      </td>
+      <td>
+        <div class="toggle-pill">
+          <button class="${d.type==='Clean'?'win':''}" onclick="setDrawType(${i},'Clean')">Clean</button>
+          <button class="${d.type==='Contested'?'loss':''}" onclick="setDrawType(${i},'Contested')">Contest</button>
+        </div>
+      </td>
+      <td><button class="delete-row" onclick="deleteDrawRow(${i})">&#x2715;</button></td>
+    `;
+    tr.querySelectorAll('input,select').forEach(el => {
+      el.addEventListener(el.tagName==='SELECT'?'change':'input', () => {
+        state.draws[parseInt(el.dataset.di)][el.dataset.dp] = el.value;
+        saveState(); renderDraws();
+      });
+    });
+    body.appendChild(tr);
+  });
+  const total = state.draws.length;
+  const pct = total > 0 ? Math.round((wins/total)*100) : null;
+  const badge = document.getElementById('drawWinBadge');
+  badge.textContent = pct !== null ? `Win %: ${pct}%` : 'Win %: --';
+  badge.className = 'stat-badge' + (pct >= 60 ? ' elite' : pct >= 40 ? ' warning' : pct !== null ? ' danger' : '');
+  document.getElementById('drawCleanBadge').textContent = `Clean: ${clean}`;
+  document.getElementById('drawContestedBadge').textContent = `Contested: ${contested}`;
+  document.getElementById('drawTotalBadge').textContent = `Total: ${total}`;
+}
+
+function setDrawResult(i, r) { state.draws[i].result = r; saveState(); renderDraws(); }
+function setDrawType(i, t) { state.draws[i].type = t; saveState(); renderDraws(); }
+function deleteDrawRow(i) { state.draws.splice(i, 1); saveState(); renderDraws(); }
+
+// ---- CLEAR EFFICIENCY ----
+function addClearRow() {
+  state.clears.push({ result:'S', method:'B' });
+  saveState();
+  renderClears();
+}
+
+function renderClears() {
+  const body = document.getElementById('clearBody');
+  body.innerHTML = '';
+  let successes = 0;
+  state.clears.forEach((c, i) => {
+    if (c.result === 'S') successes++;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="row-num">${i+1}</td>
+      <td>
+        <div class="toggle-pill">
+          <button class="${c.result==='S'?'success':''}" onclick="setClearResult(${i},'S')">Success</button>
+          <button class="${c.result==='F'?'fail':''}" onclick="setClearResult(${i},'F')">Fail</button>
+        </div>
+      </td>
+      <td>
+        <select data-ci="${i}" data-cp="method" style="width:120px">
+          <option value="B" ${c.method==='B'?'selected':''}>B - Break</option>
+          <option value="W" ${c.method==='W'?'selected':''}>W - Wheel</option>
+          <option value="R" ${c.method==='R'?'selected':''}>R - Reverse</option>
+          <option value="G" ${c.method==='G'?'selected':''}>G - Goalie Carry</option>
+        </select>
+      </td>
+      <td><button class="delete-row" onclick="deleteClearRow(${i})">&#x2715;</button></td>
+    `;
+    tr.querySelectorAll('select').forEach(el => {
+      el.addEventListener('change', () => {
+        state.clears[parseInt(el.dataset.ci)][el.dataset.cp] = el.value;
+        saveState(); renderClears();
+      });
+    });
+    body.appendChild(tr);
+  });
+  const total = state.clears.length;
+  const pct = total > 0 ? Math.round((successes/total)*100) : null;
+  const badge = document.getElementById('clearPctBadge');
+  badge.textContent = pct !== null ? `Success %: ${pct}%` : 'Success %: --';
+  badge.className = 'stat-badge' + (pct >= 90 ? ' elite' : pct >= 70 ? ' warning' : pct !== null ? ' danger' : '');
+  const target = document.getElementById('clearTargetBadge');
+  target.className = 'stat-badge' + (pct >= 90 ? ' elite' : '');
+  document.getElementById('clearTotalBadge').textContent = `Total: ${total}`;
+}
+
+function setClearResult(i, r) { state.clears[i].result = r; saveState(); renderClears(); }
+function deleteClearRow(i) { state.clears.splice(i, 1); saveState(); renderClears(); }
+
+// ---- RIDE PRESSURE ----
+function addRideRow() {
+  state.rides.push({ result:'C', rideType:'Pressure' });
+  saveState();
+  renderRides();
+}
+
+function renderRides() {
+  const body = document.getElementById('rideBody');
+  body.innerHTML = '';
+  let stops = 0;
+  state.rides.forEach((r, i) => {
+    if (r.result === 'S') stops++;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="row-num">${i+1}</td>
+      <td>
+        <div class="toggle-pill">
+          <button class="${r.result==='S'?'success':''}" onclick="setRideResult(${i},'S')">Stop</button>
+          <button class="${r.result==='C'?'fail':''}" onclick="setRideResult(${i},'C')">Clear</button>
+        </div>
+      </td>
+      <td>
+        <select data-ri="${i}" data-rp="rideType" style="width:130px">
+          <option value="Pressure" ${r.rideType==='Pressure'?'selected':''}>Pressure</option>
+          <option value="10 Ride" ${r.rideType==='10 Ride'?'selected':''}>10 Ride</option>
+          <option value="Contain" ${r.rideType==='Contain'?'selected':''}>Contain</option>
+        </select>
+      </td>
+      <td><button class="delete-row" onclick="deleteRideRow(${i})">&#x2715;</button></td>
+    `;
+    tr.querySelectorAll('select').forEach(el => {
+      el.addEventListener('change', () => {
+        state.rides[parseInt(el.dataset.ri)][el.dataset.rp] = el.value;
+        saveState(); renderRides();
+      });
+    });
+    body.appendChild(tr);
+  });
+  const total = state.rides.length;
+  const pct = total > 0 ? Math.round((stops/total)*100) : null;
+  const badge = document.getElementById('ridePctBadge');
+  badge.textContent = pct !== null ? `Disruption %: ${pct}%` : 'Disruption %: --';
+  badge.className = 'stat-badge' + (pct >= 35 ? ' elite' : pct >= 20 ? ' warning' : pct !== null ? ' danger' : '');
+  const target = document.getElementById('rideTargetBadge');
+  target.className = 'stat-badge' + (pct >= 35 ? ' elite' : '');
+  document.getElementById('rideTotalBadge').textContent = `Total: ${total}`;
+}
+
+function setRideResult(i, r) { state.rides[i].result = r; saveState(); renderRides(); }
+function deleteRideRow(i) { state.rides.splice(i, 1); saveState(); renderRides(); }
+
+// ---- GOAL PRODUCTION ----
+function addGoalRow() {
+  state.goals.push({ time:'', scorer:'', assist:'', situation:'SET' });
+  saveState();
+  renderGoals();
+}
+
+function renderGoals() {
+  const body = document.getElementById('goalBody');
+  body.innerHTML = '';
+  state.goals.forEach((g, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="row-num">${i+1}</td>
+      <td><input type="text" value="${esc(g.time)}" placeholder="12:00" data-gi="${i}" data-gp="time" style="width:70px"></td>
+      <td><input type="text" value="${esc(g.scorer)}" placeholder="Scorer" data-gi="${i}" data-gp="scorer" style="width:100px"></td>
+      <td><input type="text" value="${esc(g.assist)}" placeholder="Assist" data-gi="${i}" data-gp="assist" style="width:100px"></td>
+      <td>
+        <select data-gi="${i}" data-gp="situation" style="width:100px">
+          <option value="DC" ${g.situation==='DC'?'selected':''}>DC - Draw</option>
+          <option value="FB" ${g.situation==='FB'?'selected':''}>FB - Fast Break</option>
+          <option value="SET" ${g.situation==='SET'?'selected':''}>SET - Settled</option>
+          <option value="MU" ${g.situation==='MU'?'selected':''}>MU - Man Up</option>
+        </select>
+      </td>
+      <td><button class="delete-row" onclick="deleteGoalRow(${i})">&#x2715;</button></td>
+    `;
+    tr.querySelectorAll('input,select').forEach(el => {
+      el.addEventListener(el.tagName==='SELECT'?'change':'input', () => {
+        state.goals[parseInt(el.dataset.gi)][el.dataset.gp] = el.value;
+        saveState();
+      });
+    });
+    body.appendChild(tr);
+  });
+  document.getElementById('goalTotalBadge').textContent = `Goals: ${state.goals.length}`;
+}
+
+function deleteGoalRow(i) { state.goals.splice(i, 1); saveState(); renderGoals(); }
+
+// ---- DEFENSIVE BREAKDOWNS ----
+function addBreakdownRow() {
+  state.breakdowns.push({ time:'', cause:'LS', fix:'' });
+  saveState();
+  renderBreakdowns();
+}
+
+function renderBreakdowns() {
+  const body = document.getElementById('breakdownBody');
+  body.innerHTML = '';
+  state.breakdowns.forEach((b, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="row-num">${i+1}</td>
+      <td><input type="text" value="${esc(b.time)}" placeholder="12:00" data-bi="${i}" data-bp="time" style="width:70px"></td>
+      <td>
+        <select data-bi="${i}" data-bp="cause" style="width:120px">
+          <option value="LS" ${b.cause==='LS'?'selected':''}>LS - Late Slide</option>
+          <option value="BW" ${b.cause==='BW'?'selected':''}>BW - Ball Watching</option>
+          <option value="MM" ${b.cause==='MM'?'selected':''}>MM - Matchup</option>
+          <option value="COM" ${b.cause==='COM'?'selected':''}>COM - Communication</option>
+        </select>
+      </td>
+      <td><input type="text" value="${esc(b.fix)}" placeholder="Fix notes..." data-bi="${i}" data-bp="fix"></td>
+      <td><button class="delete-row" onclick="deleteBreakdownRow(${i})">&#x2715;</button></td>
+    `;
+    tr.querySelectorAll('input,select').forEach(el => {
+      el.addEventListener(el.tagName==='SELECT'?'change':'input', () => {
+        state.breakdowns[parseInt(el.dataset.bi)][el.dataset.bp] = el.value;
+        saveState();
+      });
+    });
+    body.appendChild(tr);
+  });
+  document.getElementById('breakdownTotalBadge').textContent = `Total: ${state.breakdowns.length}`;
+}
+
+function deleteBreakdownRow(i) { state.breakdowns.splice(i, 1); saveState(); renderBreakdowns(); }
+
+// ---- FORMATIONS ----
+function setFormation(unit, formation, btn) {
+  const container = btn.parentElement;
+  container.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.formations[unit] = formation;
+  saveState();
+}
+
+function restoreFormations() {
+  // Man-up
+  const muBtns = document.getElementById('manupFormation').querySelectorAll('button');
+  muBtns.forEach(b => {
+    b.classList.remove('active');
+    if (b.textContent === state.formations.manup) b.classList.add('active');
+  });
+  // Man-down
+  const mdBtns = document.getElementById('mandownFormation').querySelectorAll('button');
+  mdBtns.forEach(b => {
+    b.classList.remove('active');
+    if (b.textContent === state.formations.mandown) b.classList.add('active');
+  });
+}
+
+// ---- SHIFT TIMER ----
+let shiftInterval = null;
+let shiftSeconds = 0;
+let shiftRunning = false;
+
+function toggleShiftTimer() {
+  if (shiftRunning) {
+    clearInterval(shiftInterval);
+    shiftRunning = false;
+    document.getElementById('shiftStartBtn').textContent = 'Resume';
+    document.getElementById('shiftStartBtn').classList.remove('btn-red');
+    document.getElementById('shiftStartBtn').classList.add('btn-cyan');
+  } else {
+    shiftRunning = true;
+    document.getElementById('shiftStartBtn').textContent = 'Pause';
+    document.getElementById('shiftStartBtn').classList.remove('btn-cyan');
+    document.getElementById('shiftStartBtn').classList.add('btn-red');
+    shiftInterval = setInterval(() => {
+      shiftSeconds++;
+      updateShiftDisplay();
+    }, 1000);
+  }
+}
+
+function resetShiftTimer() {
+  clearInterval(shiftInterval);
+  shiftSeconds = 0;
+  shiftRunning = false;
+  document.getElementById('shiftStartBtn').textContent = 'Start Shift';
+  document.getElementById('shiftStartBtn').classList.remove('btn-red');
+  document.getElementById('shiftStartBtn').classList.add('btn-cyan');
+  updateShiftDisplay();
+}
+
+function updateShiftDisplay() {
+  const mins = Math.floor(shiftSeconds / 60);
+  const secs = shiftSeconds % 60;
+  const display = document.getElementById('shiftTimerDisplay');
+  display.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  if (shiftSeconds >= 120) {
+    display.className = 'timer-display danger';
+  } else if (shiftSeconds >= 90) {
+    display.className = 'timer-display warning';
+  } else {
+    display.className = 'timer-display';
+  }
+}
+
+// ---- POSTGAME STATS ----
+function updatePostgameStats() {
+  // Draw win %
+  const drawTotal = state.draws.length;
+  const drawWins = state.draws.filter(d => d.result === 'W').length;
+  const drawPct = drawTotal > 0 ? Math.round((drawWins/drawTotal)*100) : null;
+  document.getElementById('rpt-draw').textContent = drawPct !== null ? drawPct + '%' : '--';
+
+  // Clear %
+  const clearTotal = state.clears.length;
+  const clearSucc = state.clears.filter(c => c.result === 'S').length;
+  const clearPct = clearTotal > 0 ? Math.round((clearSucc/clearTotal)*100) : null;
+  document.getElementById('rpt-clear').textContent = clearPct !== null ? clearPct + '%' : '--';
+
+  // Ride stops
+  const rideStops = state.rides.filter(r => r.result === 'S').length;
+  document.getElementById('rpt-ride').textContent = rideStops;
+
+  // Goals
+  document.getElementById('rpt-goals').textContent = state.goals.length;
+
+  // Breakdowns
+  document.getElementById('rpt-breakdowns').textContent = state.breakdowns.length;
+}
+
+// ---- EXPORT REPORT ----
+function exportReport() {
+  updatePostgameStats();
+  const opp = state.fields.opp_name || 'Unknown';
+  const drawTotal = state.draws.length;
+  const drawWins = state.draws.filter(d => d.result === 'W').length;
+  const drawPct = drawTotal > 0 ? Math.round((drawWins/drawTotal)*100) + '%' : 'N/A';
+  const clearTotal = state.clears.length;
+  const clearSucc = state.clears.filter(c => c.result === 'S').length;
+  const clearPct = clearTotal > 0 ? Math.round((clearSucc/clearTotal)*100) + '%' : 'N/A';
+  const rideTotal = state.rides.length;
+  const rideStops = state.rides.filter(r => r.result === 'S').length;
+  const ridePct = rideTotal > 0 ? Math.round((rideStops/rideTotal)*100) + '%' : 'N/A';
+
+  let report = `BTB GIRLS LACROSSE - GAME REPORT\n`;
+  report += `Date: ${dateStr}\n`;
+  report += `Opponent: ${opp} (${state.fields.opp_record || 'N/A'})\n`;
+  report += `${'='.repeat(40)}\n\n`;
+
+  report += `STATS SUMMARY\n`;
+  report += `  Draw Control: ${drawWins}/${drawTotal} (${drawPct})\n`;
+  report += `  Clear Efficiency: ${clearSucc}/${clearTotal} (${clearPct})\n`;
+  report += `  Ride Disruption: ${rideStops}/${rideTotal} (${ridePct})\n`;
+  report += `  Goals Scored: ${state.goals.length}\n`;
+  report += `  Defensive Breakdowns: ${state.breakdowns.length}\n\n`;
+
+  if (state.goals.length > 0) {
+    report += `GOALS\n`;
+    state.goals.forEach((g, i) => {
+      report += `  ${i+1}. ${g.time || '??'} - ${g.scorer || '??'}${g.assist ? ' (A: ' + g.assist + ')' : ''} [${g.situation}]\n`;
+    });
+    report += '\n';
+  }
+
+  if (state.breakdowns.length > 0) {
+    report += `DEFENSIVE BREAKDOWNS\n`;
+    state.breakdowns.forEach((b, i) => {
+      report += `  ${i+1}. ${b.time || '??'} - ${b.cause}${b.fix ? ': ' + b.fix : ''}\n`;
+    });
+    report += '\n';
+  }
+
+  report += `HALFTIME NOTES\n`;
+  report += `  Working: ${state.fields.ht_working || 'N/A'}\n`;
+  report += `  Opp Weakness: ${state.fields.ht_weakness || 'N/A'}\n`;
+  report += `  Off Adjustment: ${state.fields.ht_off_adj || 'N/A'}\n`;
+  report += `  Def Adjustment: ${state.fields.ht_def_adj || 'N/A'}\n`;
+  report += `  Draw Adjustment: ${state.fields.ht_draw_adj || 'N/A'}\n\n`;
+
+  report += `POSTGAME REFLECTION\n`;
+  report += `  What Worked: ${state.fields.pg_worked || 'N/A'}\n`;
+  report += `  Needs Work: ${state.fields.pg_needs_work || 'N/A'}\n`;
+  report += `  Practice Emphasis: ${state.fields.pg_practice || 'N/A'}\n\n`;
+
+  report += `--- Generated by BTB Championship Sideline System ---\n`;
+
+  navigator.clipboard.writeText(report).then(() => {
+    showToast('Game report copied to clipboard!');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = report;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Game report copied to clipboard!');
+  });
+}
+
+// ---- PRINT ----
+function printReport() {
+  // Show all sections for printing
+  document.querySelectorAll('.section').forEach(s => s.classList.add('active'));
+  updatePostgameStats();
+  setTimeout(() => {
+    window.print();
+    // Restore active tab
+    const activeTab = document.querySelector('.tab-btn.active');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    if (activeTab) {
+      document.getElementById('sec-' + activeTab.dataset.tab).classList.add('active');
+    }
+  }, 100);
+}
+
+// ---- NEW GAME ----
+function newGame() {
+  if (!confirm('Start a new game? This will clear all current data.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = {
+    fields: {},
+    draws: [],
+    clears: [],
+    rides: [],
+    goals: [],
+    breakdowns: [],
+    scoutPlayers: [{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''}],
+    formations: { manup: '1-3-2', mandown: 'Box' }
+  };
+  // Clear all inputs
+  document.querySelectorAll('[data-field]').forEach(el => {
+    if (el.type === 'checkbox') el.checked = false;
+    else el.value = '';
+  });
+  renderScoutPlayers();
+  renderDraws();
+  renderClears();
+  renderRides();
+  renderGoals();
+  renderBreakdowns();
+  restoreFormations();
+  updateFieldDiagram();
+  resetShiftTimer();
+  showToast('New game started!');
+}
+
+// ---- TOAST ----
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.textContent = msg;
+  Object.assign(toast.style, {
+    position:'fixed',bottom:'30px',left:'50%',transform:'translateX(-50%)',
+    background:'var(--cyan)',color:'#000',padding:'10px 24px',borderRadius:'8px',
+    fontWeight:'700',fontSize:'0.85rem',zIndex:'9999',
+    animation:'fadeIn 0.3s ease',boxShadow:'0 4px 20px rgba(0,229,255,0.3)'
+  });
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 2000);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+// ---- PERSISTENCE ----
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state = { ...state, ...parsed };
+      // Ensure arrays exist
+      if (!Array.isArray(state.draws)) state.draws = [];
+      if (!Array.isArray(state.clears)) state.clears = [];
+      if (!Array.isArray(state.rides)) state.rides = [];
+      if (!Array.isArray(state.goals)) state.goals = [];
+      if (!Array.isArray(state.breakdowns)) state.breakdowns = [];
+      if (!Array.isArray(state.scoutPlayers)) state.scoutPlayers = [{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''},{num:'',name:'',pos:'',notes:''}];
+      if (!state.formations) state.formations = { manup:'1-3-2', mandown:'Box' };
+    }
+  } catch(e) {}
+}
+
+// ---- UTILITY ----
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

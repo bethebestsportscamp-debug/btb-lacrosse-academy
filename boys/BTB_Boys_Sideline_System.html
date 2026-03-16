@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Boys — Championship Sideline System</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--card:#141414;--card-border:#1e1e1e;--blue:#3b82f6;--blue-dim:#1e3a5f;--red:#ef4444;--green:#22c55e;--yellow:#eab308;--white:#f0f0f0;--gray:#888;--gray-dark:#333;--text:#e0e0e0;--input-bg:#1a1a1a;--input-border:#2a2a2a;--radius:8px;--transition:0.2s ease}
+html{font-size:14px;scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#000 0%,#0a1628 100%);border-bottom:2px solid var(--blue);padding:16px 20px;text-align:center;position:sticky;top:0;z-index:100}
+.header h1{font-size:1.1rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white)}
+.header h1 span{color:var(--blue)}
+.header-sub{font-size:.7rem;color:var(--gray);letter-spacing:1px;margin-top:4px;text-transform:uppercase}
+.header-controls{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.header-controls button{font-size:.7rem;padding:6px 14px;border-radius:20px;border:1px solid var(--gray-dark);background:transparent;color:var(--gray);cursor:pointer;transition:var(--transition);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.header-controls button:hover{border-color:var(--blue);color:var(--blue)}
+.header-controls button.danger:hover{border-color:var(--red);color:var(--red)}
+.game-label{font-size:.7rem;color:var(--blue);margin-top:6px;font-weight:600}
+
+/* TAB NAV */
+.tab-nav{display:flex;overflow-x:auto;background:#0d0d0d;border-bottom:1px solid var(--card-border);padding:0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:10px 16px;font-size:.72rem;font-weight:600;color:var(--gray);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:var(--transition);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.tab-btn:hover{color:var(--white)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* SECTIONS */
+.tab-content{display:none;padding:16px;max-width:900px;margin:0 auto}
+.tab-content.active{display:block}
+.section-title{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.section-title .icon{font-size:1.1rem}
+.section-desc{font-size:.75rem;color:var(--gray);margin-bottom:16px}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.card-title{font-size:.82rem;font-weight:700;color:var(--blue);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+
+/* FORMS */
+label{font-size:.72rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px}
+input[type="text"],input[type="number"],input[type="time"],select,textarea{width:100%;padding:8px 10px;font-size:.82rem;background:var(--input-bg);border:1px solid var(--input-border);border-radius:6px;color:var(--white);outline:none;transition:var(--transition);font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
+textarea{resize:vertical;min-height:70px}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.input-row{display:grid;gap:10px;margin-bottom:10px}
+.input-row.cols-2{grid-template-columns:1fr 1fr}
+.input-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.input-row.cols-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.input-row.cols-5{grid-template-columns:1fr 1fr 1fr 1fr 1fr}
+
+/* BUTTONS */
+.btn{padding:8px 18px;font-size:.78rem;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:var(--transition);text-transform:uppercase;letter-spacing:.5px}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#2563eb}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#dc2626}
+.btn-outline{background:transparent;border:1px solid var(--gray-dark);color:var(--gray)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-sm{padding:6px 12px;font-size:.7rem}
+
+/* TOGGLE PILLS */
+.toggle-group{display:flex;gap:0;border-radius:6px;overflow:hidden;border:1px solid var(--input-border)}
+.toggle-pill{padding:6px 14px;font-size:.72rem;font-weight:600;cursor:pointer;background:var(--input-bg);color:var(--gray);border:none;transition:var(--transition);text-transform:uppercase}
+.toggle-pill.active-green{background:var(--green);color:#000}
+.toggle-pill.active-red{background:var(--red);color:#fff}
+.toggle-pill.active-blue{background:var(--blue);color:#fff}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.data-table th{text-align:left;padding:8px;color:var(--gray);font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--card-border);font-weight:600}
+.data-table td{padding:6px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
+.data-table tr:hover{background:rgba(59,130,246,.04)}
+
+/* STAT BOXES */
+.stat-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.stat-box{flex:1;min-width:100px;background:var(--input-bg);border:1px solid var(--input-border);border-radius:var(--radius);padding:12px;text-align:center}
+.stat-box .stat-val{font-size:1.6rem;font-weight:800;color:var(--blue)}
+.stat-box .stat-val.green{color:var(--green)}
+.stat-box .stat-val.red{color:var(--red)}
+.stat-box .stat-val.yellow{color:var(--yellow)}
+.stat-box .stat-label{font-size:.65rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* FIELD DIAGRAM */
+.field-diagram{background:#0d1a0d;border:2px solid #1a3a1a;border-radius:var(--radius);padding:20px;text-align:center;font-family:'Courier New',monospace;font-size:.85rem;line-height:2;color:var(--green);margin:12px 0;position:relative}
+.field-diagram .pos{color:var(--blue);font-weight:700}
+
+/* TIMER */
+.timer-display{font-size:2.2rem;font-weight:800;font-family:'Courier New',monospace;text-align:center;padding:10px;color:var(--white);letter-spacing:2px}
+.timer-display.warning{color:var(--yellow)}
+.timer-display.danger{color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.timer-controls{display:flex;gap:8px;justify-content:center;margin-top:8px}
+
+/* LINE CARD */
+.line-card{background:var(--input-bg);border:1px solid var(--input-border);border-radius:var(--radius);padding:12px;margin-bottom:10px}
+.line-card .line-label{font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:8px;text-transform:uppercase}
+
+/* CHECKBOX GROUP */
+.check-group{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.check-item{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text);cursor:pointer}
+.check-item input[type="checkbox"]{accent-color:var(--blue);width:16px;height:16px;cursor:pointer}
+
+/* FORMATION TOGGLE */
+.formation-toggle{display:flex;gap:0;border-radius:6px;overflow:hidden;border:1px solid var(--input-border);margin-bottom:10px}
+.formation-opt{padding:8px 14px;font-size:.72rem;font-weight:600;cursor:pointer;background:var(--input-bg);color:var(--gray);border:none;transition:var(--transition)}
+.formation-opt.active{background:var(--blue);color:#fff}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .input-row.cols-2,.input-row.cols-3,.input-row.cols-4,.input-row.cols-5{grid-template-columns:1fr}
+  .stat-row{flex-direction:column}
+  .stat-box{min-width:unset}
+  .tab-btn{padding:8px 12px;font-size:.66rem}
+  .data-table{font-size:.7rem}
+  .data-table th,.data-table td{padding:5px 4px}
+  .header h1{font-size:.95rem}
+}
+@media(min-width:601px) and (max-width:800px){
+  .input-row.cols-4,.input-row.cols-5{grid-template-columns:1fr 1fr}
+}
+
+/* PRINT */
+@media print{
+  .header,.tab-nav{position:static}
+  .tab-content{display:block!important;page-break-inside:avoid}
+  .btn,.header-controls,.timer-controls{display:none}
+  body{background:#fff;color:#000}
+  .card{border:1px solid #ccc;background:#fff}
+  .stat-box{border:1px solid #ccc;background:#f9f9f9}
+  .stat-box .stat-val{color:#000}
+}
+
+/* DELETE BTN IN TABLE */
+.row-del{background:none;border:none;color:var(--gray-dark);cursor:pointer;font-size:1rem;padding:0 4px;transition:var(--transition)}
+.row-del:hover{color:var(--red)}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:10px 24px;border-radius:20px;font-size:.78rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1><span>BTB</span> BOYS LACROSSE — Championship Sideline System</h1>
+  <div class="header-sub">Game Day Operations</div>
+  <div class="game-label" id="gameLabel"></div>
+  <div class="header-controls">
+    <button onclick="saveAll()">Save</button>
+    <button onclick="printReport()">Print Report</button>
+    <button class="danger" onclick="newGame()">New Game</button>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="pregame">Pregame</button>
+  <button class="tab-btn" data-tab="lineup">Lineup</button>
+  <button class="tab-btn" data-tab="midrotation">Mid Rotation</button>
+  <button class="tab-btn" data-tab="faceoff">Face-Offs</button>
+  <button class="tab-btn" data-tab="clears">Clears</button>
+  <button class="tab-btn" data-tab="rides">Rides</button>
+  <button class="tab-btn" data-tab="goals">Goals</button>
+  <button class="tab-btn" data-tab="breakdowns">Breakdowns</button>
+  <button class="tab-btn" data-tab="special">Special Units</button>
+  <button class="tab-btn" data-tab="halftime">Halftime</button>
+  <button class="tab-btn" data-tab="endgame">End Game</button>
+  <button class="tab-btn" data-tab="postgame">Postgame</button>
+</div>
+
+<!-- ===================== 1. PREGAME SCOUTING ===================== -->
+<div class="tab-content active" id="tab-pregame">
+  <div class="section-title"><span class="icon">&#128270;</span> Pregame Scouting Report</div>
+  <div class="section-desc">Opponent intel and tendencies</div>
+
+  <div class="card">
+    <div class="card-title">Opponent Info</div>
+    <div class="input-row cols-3">
+      <div><label>Opponent</label><input type="text" id="pre_opponent" placeholder="Team name"></div>
+      <div><label>Record</label><input type="text" id="pre_record" placeholder="W-L"></div>
+      <div><label>Primary Offense</label><input type="text" id="pre_offense" placeholder="e.g. 1-4-1 motion"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Top Players</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Player</th><th>Pos</th><th>Notes</th></tr></thead>
+      <tbody id="prePlayersBody">
+        <tr><td><input type="text" id="pp_num_0" style="width:50px"></td><td><input type="text" id="pp_name_0"></td><td><input type="text" id="pp_pos_0" style="width:60px"></td><td><input type="text" id="pp_notes_0"></td></tr>
+        <tr><td><input type="text" id="pp_num_1" style="width:50px"></td><td><input type="text" id="pp_name_1"></td><td><input type="text" id="pp_pos_1" style="width:60px"></td><td><input type="text" id="pp_notes_1"></td></tr>
+        <tr><td><input type="text" id="pp_num_2" style="width:50px"></td><td><input type="text" id="pp_name_2"></td><td><input type="text" id="pp_pos_2" style="width:60px"></td><td><input type="text" id="pp_notes_2"></td></tr>
+        <tr><td><input type="text" id="pp_num_3" style="width:50px"></td><td><input type="text" id="pp_name_3"></td><td><input type="text" id="pp_pos_3" style="width:60px"></td><td><input type="text" id="pp_notes_3"></td></tr>
+        <tr><td><input type="text" id="pp_num_4" style="width:50px"></td><td><input type="text" id="pp_name_4"></td><td><input type="text" id="pp_pos_4" style="width:60px"></td><td><input type="text" id="pp_notes_4"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Offensive Tendencies</div>
+    <div class="input-row cols-3">
+      <div>
+        <label>Formation</label>
+        <select id="pre_oFormation">
+          <option value="">Select</option>
+          <option value="1-4-1">1-4-1</option>
+          <option value="2-3-1">2-3-1</option>
+          <option value="3-3">3-3</option>
+        </select>
+      </div>
+      <div><label>Primary Dodger</label><input type="text" id="pre_dodger" placeholder="Name / #"></div>
+      <div>
+        <label>Dodging Hand</label>
+        <select id="pre_dodgeHand">
+          <option value="">Select</option>
+          <option value="Left">Left</option>
+          <option value="Right">Right</option>
+          <option value="Both">Both</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-row cols-3">
+      <div><label>Crease Players</label><input type="text" id="pre_crease" placeholder="Names / #s"></div>
+      <div>
+        <label>EMO Formation</label>
+        <select id="pre_emo">
+          <option value="">Select</option>
+          <option value="3-3">3-3</option>
+          <option value="2-3-1">2-3-1</option>
+          <option value="1-4-1">1-4-1</option>
+          <option value="2-2-2">2-2-2</option>
+        </select>
+      </div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Defensive Tendencies</div>
+    <div class="input-row cols-2">
+      <div>
+        <label>Slide Package</label>
+        <div class="check-group" style="margin-top:6px">
+          <label class="check-item"><input type="checkbox" id="pre_slideAdj"> Adjacent</label>
+          <label class="check-item"><input type="checkbox" id="pre_slideCrease"> Crease</label>
+          <label class="check-item"><input type="checkbox" id="pre_slideBacker"> Backer</label>
+        </div>
+      </div>
+      <div><label>Ride Type</label><input type="text" id="pre_rideType" placeholder="e.g. 10-man ride"></div>
+    </div>
+    <div class="input-row cols-2">
+      <div>
+        <label>Man-Down Formation</label>
+        <select id="pre_mandown">
+          <option value="">Select</option>
+          <option value="Box and 1">Box and 1</option>
+          <option value="House Zone">House Zone</option>
+          <option value="5-Man Rotation">5-Man Rotation</option>
+        </select>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 2. STARTING LINEUP ===================== -->
+<div class="tab-content" id="tab-lineup">
+  <div class="section-title"><span class="icon">&#128101;</span> Starting Lineup</div>
+  <div class="section-desc">Men's format: 3A / 3M / 3D / G + FOGO</div>
+
+  <div class="card">
+    <div class="card-title">Attack</div>
+    <div class="input-row cols-3">
+      <div><label>A1 (X)</label><input type="text" id="lu_a1" placeholder="Name"><input type="text" id="lu_a1n" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>A2</label><input type="text" id="lu_a2" placeholder="Name"><input type="text" id="lu_a2n" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>A3</label><input type="text" id="lu_a3" placeholder="Name"><input type="text" id="lu_a3n" placeholder="#" style="width:60px;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Midfield Line 1</div>
+    <div class="input-row cols-3">
+      <div><label>M1</label><input type="text" id="lu_m1" placeholder="Name"><input type="text" id="lu_m1n" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>M2</label><input type="text" id="lu_m2" placeholder="Name"><input type="text" id="lu_m2n" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>M3</label><input type="text" id="lu_m3" placeholder="Name"><input type="text" id="lu_m3n" placeholder="#" style="width:60px;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Defense</div>
+    <div class="input-row cols-3">
+      <div><label>D1</label><input type="text" id="lu_d1" placeholder="Name"><input type="text" id="lu_d1n" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>D2</label><input type="text" id="lu_d2" placeholder="Name"><input type="text" id="lu_d2n" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>D3</label><input type="text" id="lu_d3" placeholder="Name"><input type="text" id="lu_d3n" placeholder="#" style="width:60px;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Goalie &amp; FOGO</div>
+    <div class="input-row cols-2">
+      <div><label>Goalie</label><input type="text" id="lu_g" placeholder="Name"><input type="text" id="lu_gn" placeholder="#" style="width:60px;margin-top:4px"></div>
+      <div><label>FOGO</label><input type="text" id="lu_fogo" placeholder="Name"><input type="text" id="lu_fogon" placeholder="#" style="width:60px;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Field Alignment</div>
+    <div class="field-diagram">
+<pre>
+        <span class="pos">M1</span>
+     <span class="pos">M2</span>      <span class="pos">M3</span>
+
+     <span class="pos">A2</span>      <span class="pos">A3</span>
+        <span class="pos">A1 (X)</span>
+
+     <span class="pos">D1</span>      <span class="pos">D2</span>
+        <span class="pos">D3</span>
+        <span class="pos" style="color:var(--yellow)">G</span>
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 3. MIDFIELD ROTATION ===================== -->
+<div class="tab-content" id="tab-midrotation">
+  <div class="section-title"><span class="icon">&#128260;</span> Midfield Rotation</div>
+  <div class="section-desc">3 midfield lines | Target shift: 90-120 seconds</div>
+
+  <div class="card">
+    <div class="card-title">Shift Timer</div>
+    <div class="timer-display" id="shiftTimer">0:00</div>
+    <div class="timer-controls">
+      <button class="btn btn-blue btn-sm" onclick="startShiftTimer()">Start</button>
+      <button class="btn btn-outline btn-sm" onclick="stopShiftTimer()">Stop</button>
+      <button class="btn btn-outline btn-sm" onclick="resetShiftTimer()">Reset</button>
+    </div>
+  </div>
+
+  <div class="line-card">
+    <div class="line-label">Midfield Line 1</div>
+    <div class="input-row cols-3">
+      <div><input type="text" id="mid1_p1" placeholder="Player 1"></div>
+      <div><input type="text" id="mid1_p2" placeholder="Player 2"></div>
+      <div><input type="text" id="mid1_p3" placeholder="Player 3"></div>
+    </div>
+  </div>
+
+  <div class="line-card">
+    <div class="line-label">Midfield Line 2</div>
+    <div class="input-row cols-3">
+      <div><input type="text" id="mid2_p1" placeholder="Player 1"></div>
+      <div><input type="text" id="mid2_p2" placeholder="Player 2"></div>
+      <div><input type="text" id="mid2_p3" placeholder="Player 3"></div>
+    </div>
+  </div>
+
+  <div class="line-card">
+    <div class="line-label">Midfield Line 3</div>
+    <div class="input-row cols-3">
+      <div><input type="text" id="mid3_p1" placeholder="Player 1"></div>
+      <div><input type="text" id="mid3_p2" placeholder="Player 2"></div>
+      <div><input type="text" id="mid3_p3" placeholder="Player 3"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">LSM Substitutions</div>
+    <div class="input-row cols-2">
+      <div><label>LSM Name</label><input type="text" id="lsm_name" placeholder="Long Stick Middie"></div>
+      <div><label>LSM #</label><input type="text" id="lsm_num" placeholder="#" style="width:60px"></div>
+    </div>
+    <div><label>LSM Sub Notes</label><textarea id="lsm_notes" placeholder="Track LSM subs in/out, matchup notes..."></textarea></div>
+  </div>
+</div>
+
+<!-- ===================== 4. FACE-OFF TRACKER ===================== -->
+<div class="tab-content" id="tab-faceoff">
+  <div class="section-title"><span class="icon">&#9878;</span> Face-Off Tracker</div>
+  <div class="section-desc">Track every face-off — win rate and possession</div>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val" id="fo_total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat-box"><div class="stat-val green" id="fo_wins">0</div><div class="stat-label">Wins</div></div>
+    <div class="stat-box"><div class="stat-val" id="fo_pct">0%</div><div class="stat-label">Win %</div></div>
+    <div class="stat-box"><div class="stat-val" id="fo_poss">0%</div><div class="stat-label">BTB Poss %</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Add Face-Off</div>
+    <div class="input-row cols-2">
+      <div><label>FOGO</label><input type="text" id="fo_fogo" placeholder="Name"></div>
+      <div>
+        <label>Result</label>
+        <div class="toggle-group">
+          <button class="toggle-pill active-green" id="fo_win_btn" onclick="setFOResult('win')">Win</button>
+          <button class="toggle-pill" id="fo_loss_btn" onclick="setFOResult('loss')">Loss</button>
+        </div>
+      </div>
+    </div>
+    <div class="input-row cols-3">
+      <div>
+        <label>Technique</label>
+        <select id="fo_technique">
+          <option value="Clamp">Clamp</option>
+          <option value="Plunger">Plunger</option>
+          <option value="Motorcycle">Motorcycle</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label>Ground Ball Won By</label>
+        <div class="toggle-group">
+          <button class="toggle-pill active-blue" id="fo_gb_btb" onclick="setFOGB('BTB')">BTB</button>
+          <button class="toggle-pill" id="fo_gb_opp" onclick="setFOGB('Opp')">Opp</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end"><button class="btn btn-blue" onclick="addFaceOff()">+ Add</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Face-Off Log</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>FOGO</th><th>Result</th><th>Technique</th><th>GB</th><th></th></tr></thead>
+      <tbody id="foBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== 5. CLEAR EFFICIENCY ===================== -->
+<div class="tab-content" id="tab-clears">
+  <div class="section-title"><span class="icon">&#127937;</span> Clear Efficiency</div>
+  <div class="section-desc">Track clearing attempts | Elite target: 90%</div>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val" id="cl_total">0</div><div class="stat-label">Attempts</div></div>
+    <div class="stat-box"><div class="stat-val green" id="cl_success">0</div><div class="stat-label">Successful</div></div>
+    <div class="stat-box"><div class="stat-val" id="cl_pct">0%</div><div class="stat-label">Success %</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Add Clear Attempt</div>
+    <div class="input-row cols-3">
+      <div>
+        <label>Result</label>
+        <div class="toggle-group">
+          <button class="toggle-pill active-green" id="cl_suc_btn" onclick="setClearResult('success')">Success</button>
+          <button class="toggle-pill" id="cl_fail_btn" onclick="setClearResult('fail')">Fail</button>
+        </div>
+      </div>
+      <div>
+        <label>Method</label>
+        <select id="cl_method">
+          <option value="2-3-2">2-3-2</option>
+          <option value="Break">Break</option>
+          <option value="Wheel">Wheel</option>
+          <option value="Goalie">Goalie</option>
+          <option value="Reverse">Reverse</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:flex-end"><button class="btn btn-blue" onclick="addClear()">+ Add</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Clear Log</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Result</th><th>Method</th><th></th></tr></thead>
+      <tbody id="clBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== 6. RIDE PRESSURE ===================== -->
+<div class="tab-content" id="tab-rides">
+  <div class="section-title"><span class="icon">&#128165;</span> Ride Pressure</div>
+  <div class="section-desc">Track opponent clears we disrupt | Elite target: 35%</div>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val" id="rd_total">0</div><div class="stat-label">Opp Clears</div></div>
+    <div class="stat-box"><div class="stat-val green" id="rd_stops">0</div><div class="stat-label">Stops</div></div>
+    <div class="stat-box"><div class="stat-val" id="rd_pct">0%</div><div class="stat-label">Disruption %</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Add Opponent Clear</div>
+    <div class="input-row cols-3">
+      <div>
+        <label>Result</label>
+        <div class="toggle-group">
+          <button class="toggle-pill active-green" id="rd_stop_btn" onclick="setRideResult('stop')">Stop</button>
+          <button class="toggle-pill" id="rd_clear_btn" onclick="setRideResult('clear')">Clear</button>
+        </div>
+      </div>
+      <div>
+        <label>Ride Type</label>
+        <select id="rd_type">
+          <option value="10-Man">10-Man</option>
+          <option value="Zone">Zone</option>
+          <option value="Press">Press</option>
+          <option value="Contain">Contain</option>
+          <option value="Zero">Zero</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:flex-end"><button class="btn btn-blue" onclick="addRide()">+ Add</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Ride Log</div>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Result</th><th>Type</th><th></th></tr></thead>
+      <tbody id="rdBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== 7. GOAL PRODUCTION ===================== -->
+<div class="tab-content" id="tab-goals">
+  <div class="section-title"><span class="icon">&#127945;</span> Goal Production</div>
+  <div class="section-desc">Track BTB goals, assists, and situations</div>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val green" id="gl_total">0</div><div class="stat-label">Goals</div></div>
+    <div class="stat-box"><div class="stat-val" id="gl_fb">0</div><div class="stat-label">Fast Break</div></div>
+    <div class="stat-box"><div class="stat-val" id="gl_set">0</div><div class="stat-label">Settled</div></div>
+    <div class="stat-box"><div class="stat-val" id="gl_emo">0</div><div class="stat-label">EMO</div></div>
+    <div class="stat-box"><div class="stat-val" id="gl_trans">0</div><div class="stat-label">Transition</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Add Goal</div>
+    <div class="input-row cols-4">
+      <div><label>Time</label><input type="text" id="gl_time" placeholder="Q:MM"></div>
+      <div><label>Scorer</label><input type="text" id="gl_scorer" placeholder="Name"></div>
+      <div><label>Assist</label><input type="text" id="gl_assist" placeholder="Name (optional)"></div>
+      <div>
+        <label>Situation</label>
+        <select id="gl_situation">
+          <option value="SET">SET - Settled</option>
+          <option value="FB">FB - Fast Break</option>
+          <option value="EMO">EMO - Extra Man</option>
+          <option value="TRANS">TRANS - Transition</option>
+          <option value="FO">FO - Off Face-Off</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-blue" onclick="addGoal()">+ Add Goal</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Goal Log</div>
+    <table class="data-table">
+      <thead><tr><th>Time</th><th>Scorer</th><th>Assist</th><th>Situation</th><th></th></tr></thead>
+      <tbody id="glBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== 8. DEFENSIVE BREAKDOWNS ===================== -->
+<div class="tab-content" id="tab-breakdowns">
+  <div class="section-title"><span class="icon">&#128721;</span> Defensive Breakdowns</div>
+  <div class="section-desc">Identify and fix defensive mistakes</div>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val red" id="bd_total">0</div><div class="stat-label">Breakdowns</div></div>
+    <div class="stat-box"><div class="stat-val" id="bd_top">--</div><div class="stat-label">Top Cause</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Add Breakdown</div>
+    <div class="input-row cols-3">
+      <div><label>Time</label><input type="text" id="bd_time" placeholder="Q:MM"></div>
+      <div>
+        <label>Cause</label>
+        <select id="bd_cause">
+          <option value="LS">LS - Late Slide</option>
+          <option value="BW">BW - Ball Watching</option>
+          <option value="MM">MM - Matchup</option>
+          <option value="COM">COM - Communication</option>
+          <option value="CHK">CHK - Bad Check Penalty</option>
+        </select>
+      </div>
+      <div><label>Fix Notes</label><input type="text" id="bd_fix" placeholder="What to correct"></div>
+    </div>
+    <button class="btn btn-blue" onclick="addBreakdown()">+ Add Breakdown</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Breakdown Log</div>
+    <table class="data-table">
+      <thead><tr><th>Time</th><th>Cause</th><th>Fix</th><th></th></tr></thead>
+      <tbody id="bdBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== 9. SPECIAL UNITS ===================== -->
+<div class="tab-content" id="tab-special">
+  <div class="section-title"><span class="icon">&#9733;</span> Special Units</div>
+  <div class="section-desc">Face-off, EMO, and man-down personnel</div>
+
+  <div class="card">
+    <div class="card-title">Face-Off Unit</div>
+    <div class="input-row cols-3">
+      <div><label>FOGO</label><input type="text" id="su_fogo" placeholder="Name"></div>
+      <div><label>Wing L</label><input type="text" id="su_wingL" placeholder="Name"></div>
+      <div><label>Wing R</label><input type="text" id="su_wingR" placeholder="Name"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">EMO Unit (6v5) — Extra Man Offense</div>
+    <label style="margin-bottom:8px">Formation</label>
+    <div class="formation-toggle" id="emoFormation">
+      <button class="formation-opt active" onclick="setFormation('emoFormation','3-3',this)">3-3</button>
+      <button class="formation-opt" onclick="setFormation('emoFormation','2-3-1',this)">2-3-1</button>
+      <button class="formation-opt" onclick="setFormation('emoFormation','1-4-1',this)">1-4-1</button>
+    </div>
+    <div class="input-row cols-3">
+      <div><label>Point</label><input type="text" id="emo_point" placeholder="Name"></div>
+      <div><label>Right Wing</label><input type="text" id="emo_rw" placeholder="Name"></div>
+      <div><label>Left Wing</label><input type="text" id="emo_lw" placeholder="Name"></div>
+    </div>
+    <div class="input-row cols-3">
+      <div><label>Right Crease</label><input type="text" id="emo_rc" placeholder="Name"></div>
+      <div><label>Left Crease</label><input type="text" id="emo_lc" placeholder="Name"></div>
+      <div><label>X</label><input type="text" id="emo_x" placeholder="Name"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Man-Down Unit (5v6) — Man Down Defense</div>
+    <label style="margin-bottom:8px">Formation</label>
+    <div class="formation-toggle" id="mdFormation">
+      <button class="formation-opt active" onclick="setFormation('mdFormation','Box and 1',this)">Box and 1</button>
+      <button class="formation-opt" onclick="setFormation('mdFormation','House Zone',this)">House Zone</button>
+      <button class="formation-opt" onclick="setFormation('mdFormation','5-Man Rotation',this)">5-Man Rotation</button>
+    </div>
+    <div class="input-row cols-3">
+      <div><label>Defender 1</label><input type="text" id="md_d1" placeholder="Name"></div>
+      <div><label>Defender 2</label><input type="text" id="md_d2" placeholder="Name"></div>
+      <div><label>Defender 3</label><input type="text" id="md_d3" placeholder="Name"></div>
+    </div>
+    <div class="input-row cols-2">
+      <div><label>Defender 4</label><input type="text" id="md_d4" placeholder="Name"></div>
+      <div><label>Defender 5</label><input type="text" id="md_d5" placeholder="Name"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 10. HALFTIME ADJUSTMENTS ===================== -->
+<div class="tab-content" id="tab-halftime">
+  <div class="section-title"><span class="icon">&#128221;</span> Halftime Adjustments</div>
+  <div class="section-desc">Quick-reference adjustments for the second half</div>
+
+  <div class="card">
+    <div class="card-title">What Is Working</div>
+    <textarea id="ht_working" placeholder="What's going well — keep doing this..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title">Opponent Weakness</div>
+    <textarea id="ht_weakness" placeholder="Exploitable weaknesses identified..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title">Offensive Adjustment</div>
+    <textarea id="ht_offense" placeholder="Changes to make on offense..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title">Defensive Adjustment</div>
+    <textarea id="ht_defense" placeholder="Changes to make on defense..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title">Face-Off Strategy Adjustment</div>
+    <textarea id="ht_faceoff" placeholder="Changes to face-off approach..."></textarea>
+  </div>
+</div>
+
+<!-- ===================== 11. END GAME MANAGEMENT ===================== -->
+<div class="tab-content" id="tab-endgame">
+  <div class="section-title"><span class="icon">&#9200;</span> End Game Management</div>
+  <div class="section-desc">Late-game strategy and situation management</div>
+
+  <div class="card">
+    <div class="card-title">Game Situation</div>
+    <div class="input-row cols-2">
+      <div><label>Score Margin (+/- from BTB)</label><input type="number" id="eg_margin" placeholder="e.g. +2 or -1"></div>
+      <div><label>Time Remaining</label><input type="text" id="eg_time" placeholder="e.g. 4:30"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Strategy Checklist</div>
+    <div class="check-group" style="flex-direction:column;gap:12px">
+      <label class="check-item"><input type="checkbox" id="eg_stall"> Stall offense (4 corners)</label>
+      <label class="check-item"><input type="checkbox" id="eg_ride"> Aggressive ride</label>
+      <label class="check-item"><input type="checkbox" id="eg_timeout"> Timeout to advance</label>
+      <label class="check-item"><input type="checkbox" id="eg_defmid"> Sub defensive midfield</label>
+      <label class="check-item"><input type="checkbox" id="eg_foadjust"> Face-off adjustment</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">End Game Notes</div>
+    <textarea id="eg_notes" placeholder="Situational notes, timeout plans, etc."></textarea>
+  </div>
+</div>
+
+<!-- ===================== 12. POSTGAME REPORT ===================== -->
+<div class="tab-content" id="tab-postgame">
+  <div class="section-title"><span class="icon">&#128202;</span> Postgame Report</div>
+  <div class="section-desc">Auto-calculated stats and game takeaways</div>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val" id="pg_fo">0%</div><div class="stat-label">Face-Off Win %</div></div>
+    <div class="stat-box"><div class="stat-val" id="pg_cl">0%</div><div class="stat-label">Clear %</div></div>
+    <div class="stat-box"><div class="stat-val" id="pg_rd">0</div><div class="stat-label">Ride Stops</div></div>
+    <div class="stat-box"><div class="stat-val green" id="pg_gf">0</div><div class="stat-label">Goals Scored</div></div>
+    <div class="stat-box"><div class="stat-val red" id="pg_ga">0</div><div class="stat-label">Goals Allowed</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Goals Allowed</div>
+    <div class="input-row cols-2">
+      <div><label>Goals Allowed</label><input type="number" id="pg_goals_allowed" placeholder="0" min="0"></div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">What Worked</div>
+    <textarea id="pg_worked" placeholder="Things that worked well today..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title">What Needs Work</div>
+    <textarea id="pg_needswork" placeholder="Areas to improve..."></textarea>
+  </div>
+  <div class="card">
+    <div class="card-title">Practice Emphasis</div>
+    <textarea id="pg_practice" placeholder="What to focus on at next practice..."></textarea>
+  </div>
+
+  <button class="btn btn-blue" onclick="exportReport()" style="margin-top:12px;width:100%">Export Game Report to Clipboard</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================
+// STATE
+// ============================================
+const today = new Date().toISOString().split('T')[0];
+const STORAGE_KEY = 'btb_boys_sideline_' + today;
+
+let state = {
+  faceoffs: [],
+  clears: [],
+  rides: [],
+  goals: [],
+  breakdowns: [],
+  foResult: 'win',
+  foGB: 'BTB',
+  clearResult: 'success',
+  rideResult: 'stop',
+  emoFormation: '3-3',
+  mdFormation: 'Box and 1'
+};
+
+// ============================================
+// TAB NAVIGATION
+// ============================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'postgame') updatePostgame();
+  });
+});
+
+// ============================================
+// SHIFT TIMER
+// ============================================
+let shiftInterval = null;
+let shiftSeconds = 0;
+
+function startShiftTimer() {
+  if (shiftInterval) return;
+  shiftInterval = setInterval(() => {
+    shiftSeconds++;
+    updateShiftDisplay();
+  }, 1000);
+}
+
+function stopShiftTimer() {
+  clearInterval(shiftInterval);
+  shiftInterval = null;
+}
+
+function resetShiftTimer() {
+  stopShiftTimer();
+  shiftSeconds = 0;
+  updateShiftDisplay();
+}
+
+function updateShiftDisplay() {
+  const el = document.getElementById('shiftTimer');
+  const m = Math.floor(shiftSeconds / 60);
+  const s = shiftSeconds % 60;
+  el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'timer-display';
+  if (shiftSeconds >= 120) el.classList.add('danger');
+  else if (shiftSeconds >= 90) el.classList.add('warning');
+}
+
+// ============================================
+// FACE-OFF TRACKER
+// ============================================
+function setFOResult(r) {
+  state.foResult = r;
+  document.getElementById('fo_win_btn').className = 'toggle-pill' + (r === 'win' ? ' active-green' : '');
+  document.getElementById('fo_loss_btn').className = 'toggle-pill' + (r === 'loss' ? ' active-red' : '');
+}
+
+function setFOGB(g) {
+  state.foGB = g;
+  document.getElementById('fo_gb_btb').className = 'toggle-pill' + (g === 'BTB' ? ' active-blue' : '');
+  document.getElementById('fo_gb_opp').className = 'toggle-pill' + (g === 'Opp' ? ' active-red' : '');
+}
+
+function addFaceOff() {
+  const fogo = document.getElementById('fo_fogo').value || 'FOGO';
+  state.faceoffs.push({
+    fogo: fogo,
+    result: state.foResult,
+    technique: document.getElementById('fo_technique').value,
+    gb: state.foGB
+  });
+  renderFaceoffs();
+  saveAll();
+}
+
+function deleteFO(i) {
+  state.faceoffs.splice(i, 1);
+  renderFaceoffs();
+  saveAll();
+}
+
+function renderFaceoffs() {
+  const body = document.getElementById('foBody');
+  body.innerHTML = '';
+  state.faceoffs.forEach((fo, i) => {
+    const tr = document.createElement('tr');
+    const resColor = fo.result === 'win' ? 'color:var(--green)' : 'color:var(--red)';
+    const gbColor = fo.gb === 'BTB' ? 'color:var(--blue)' : 'color:var(--red)';
+    tr.innerHTML = `<td>${i + 1}</td><td>${esc(fo.fogo)}</td><td style="${resColor};font-weight:700;text-transform:uppercase">${fo.result}</td><td>${esc(fo.technique)}</td><td style="${gbColor};font-weight:600">${fo.gb}</td><td><button class="row-del" onclick="deleteFO(${i})">&times;</button></td>`;
+    body.appendChild(tr);
+  });
+  // Stats
+  const total = state.faceoffs.length;
+  const wins = state.faceoffs.filter(f => f.result === 'win').length;
+  const btbPoss = state.faceoffs.filter(f => f.gb === 'BTB').length;
+  document.getElementById('fo_total').textContent = total;
+  document.getElementById('fo_wins').textContent = wins;
+  const pct = total > 0 ? Math.round((wins / total) * 100) : 0;
+  const el = document.getElementById('fo_pct');
+  el.textContent = pct + '%';
+  el.className = 'stat-val ' + (pct >= 60 ? 'green' : pct >= 50 ? 'yellow' : 'red');
+  const possPct = total > 0 ? Math.round((btbPoss / total) * 100) : 0;
+  const posEl = document.getElementById('fo_poss');
+  posEl.textContent = possPct + '%';
+  posEl.className = 'stat-val ' + (possPct >= 60 ? 'green' : possPct >= 50 ? 'yellow' : 'red');
+}
+
+// ============================================
+// CLEAR EFFICIENCY
+// ============================================
+function setClearResult(r) {
+  state.clearResult = r;
+  document.getElementById('cl_suc_btn').className = 'toggle-pill' + (r === 'success' ? ' active-green' : '');
+  document.getElementById('cl_fail_btn').className = 'toggle-pill' + (r === 'fail' ? ' active-red' : '');
+}
+
+function addClear() {
+  state.clears.push({
+    result: state.clearResult,
+    method: document.getElementById('cl_method').value
+  });
+  renderClears();
+  saveAll();
+}
+
+function deleteClear(i) {
+  state.clears.splice(i, 1);
+  renderClears();
+  saveAll();
+}
+
+function renderClears() {
+  const body = document.getElementById('clBody');
+  body.innerHTML = '';
+  state.clears.forEach((cl, i) => {
+    const tr = document.createElement('tr');
+    const resColor = cl.result === 'success' ? 'color:var(--green)' : 'color:var(--red)';
+    tr.innerHTML = `<td>${i + 1}</td><td style="${resColor};font-weight:700;text-transform:uppercase">${cl.result}</td><td>${esc(cl.method)}</td><td><button class="row-del" onclick="deleteClear(${i})">&times;</button></td>`;
+    body.appendChild(tr);
+  });
+  const total = state.clears.length;
+  const succ = state.clears.filter(c => c.result === 'success').length;
+  document.getElementById('cl_total').textContent = total;
+  document.getElementById('cl_success').textContent = succ;
+  const pct = total > 0 ? Math.round((succ / total) * 100) : 0;
+  const el = document.getElementById('cl_pct');
+  el.textContent = pct + '%';
+  el.className = 'stat-val ' + (pct >= 90 ? 'green' : pct >= 75 ? 'yellow' : 'red');
+}
+
+// ============================================
+// RIDE PRESSURE
+// ============================================
+function setRideResult(r) {
+  state.rideResult = r;
+  document.getElementById('rd_stop_btn').className = 'toggle-pill' + (r === 'stop' ? ' active-green' : '');
+  document.getElementById('rd_clear_btn').className = 'toggle-pill' + (r === 'clear' ? ' active-red' : '');
+}
+
+function addRide() {
+  state.rides.push({
+    result: state.rideResult,
+    type: document.getElementById('rd_type').value
+  });
+  renderRides();
+  saveAll();
+}
+
+function deleteRide(i) {
+  state.rides.splice(i, 1);
+  renderRides();
+  saveAll();
+}
+
+function renderRides() {
+  const body = document.getElementById('rdBody');
+  body.innerHTML = '';
+  state.rides.forEach((rd, i) => {
+    const tr = document.createElement('tr');
+    const resColor = rd.result === 'stop' ? 'color:var(--green)' : 'color:var(--red)';
+    tr.innerHTML = `<td>${i + 1}</td><td style="${resColor};font-weight:700;text-transform:uppercase">${rd.result}</td><td>${esc(rd.type)}</td><td><button class="row-del" onclick="deleteRide(${i})">&times;</button></td>`;
+    body.appendChild(tr);
+  });
+  const total = state.rides.length;
+  const stops = state.rides.filter(r => r.result === 'stop').length;
+  document.getElementById('rd_total').textContent = total;
+  document.getElementById('rd_stops').textContent = stops;
+  const pct = total > 0 ? Math.round((stops / total) * 100) : 0;
+  const el = document.getElementById('rd_pct');
+  el.textContent = pct + '%';
+  el.className = 'stat-val ' + (pct >= 35 ? 'green' : pct >= 25 ? 'yellow' : 'red');
+}
+
+// ============================================
+// GOAL PRODUCTION
+// ============================================
+function addGoal() {
+  state.goals.push({
+    time: document.getElementById('gl_time').value || '--',
+    scorer: document.getElementById('gl_scorer').value || '--',
+    assist: document.getElementById('gl_assist').value || '--',
+    situation: document.getElementById('gl_situation').value
+  });
+  document.getElementById('gl_time').value = '';
+  document.getElementById('gl_scorer').value = '';
+  document.getElementById('gl_assist').value = '';
+  renderGoals();
+  saveAll();
+}
+
+function deleteGoal(i) {
+  state.goals.splice(i, 1);
+  renderGoals();
+  saveAll();
+}
+
+function renderGoals() {
+  const body = document.getElementById('glBody');
+  body.innerHTML = '';
+  state.goals.forEach((g, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${esc(g.time)}</td><td style="font-weight:600">${esc(g.scorer)}</td><td>${esc(g.assist)}</td><td><span style="background:var(--blue-dim);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600">${g.situation}</span></td><td><button class="row-del" onclick="deleteGoal(${i})">&times;</button></td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('gl_total').textContent = state.goals.length;
+  document.getElementById('gl_fb').textContent = state.goals.filter(g => g.situation === 'FB').length;
+  document.getElementById('gl_set').textContent = state.goals.filter(g => g.situation === 'SET').length;
+  document.getElementById('gl_emo').textContent = state.goals.filter(g => g.situation === 'EMO').length;
+  document.getElementById('gl_trans').textContent = state.goals.filter(g => g.situation === 'TRANS').length;
+}
+
+// ============================================
+// DEFENSIVE BREAKDOWNS
+// ============================================
+function addBreakdown() {
+  state.breakdowns.push({
+    time: document.getElementById('bd_time').value || '--',
+    cause: document.getElementById('bd_cause').value,
+    fix: document.getElementById('bd_fix').value || '--'
+  });
+  document.getElementById('bd_time').value = '';
+  document.getElementById('bd_fix').value = '';
+  renderBreakdowns();
+  saveAll();
+}
+
+function deleteBreakdown(i) {
+  state.breakdowns.splice(i, 1);
+  renderBreakdowns();
+  saveAll();
+}
+
+function renderBreakdowns() {
+  const body = document.getElementById('bdBody');
+  body.innerHTML = '';
+  const causeLabels = {LS:'Late Slide',BW:'Ball Watching',MM:'Matchup',COM:'Communication',CHK:'Bad Check Penalty'};
+  state.breakdowns.forEach((b, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${esc(b.time)}</td><td style="font-weight:600;color:var(--red)">${b.cause} <span style="color:var(--gray);font-weight:400">- ${causeLabels[b.cause] || b.cause}</span></td><td>${esc(b.fix)}</td><td><button class="row-del" onclick="deleteBreakdown(${i})">&times;</button></td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('bd_total').textContent = state.breakdowns.length;
+  // Top cause
+  if (state.breakdowns.length > 0) {
+    const counts = {};
+    state.breakdowns.forEach(b => { counts[b.cause] = (counts[b.cause] || 0) + 1; });
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+    document.getElementById('bd_top').textContent = top[0] + ' (' + top[1] + ')';
+  } else {
+    document.getElementById('bd_top').textContent = '--';
+  }
+}
+
+// ============================================
+// FORMATIONS
+// ============================================
+function setFormation(groupId, value, btn) {
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.formation-opt').forEach(o => o.classList.remove('active'));
+  btn.classList.add('active');
+  state[groupId] = value;
+  saveAll();
+}
+
+// ============================================
+// POSTGAME
+// ============================================
+function updatePostgame() {
+  const foTotal = state.faceoffs.length;
+  const foWins = state.faceoffs.filter(f => f.result === 'win').length;
+  document.getElementById('pg_fo').textContent = foTotal > 0 ? Math.round((foWins / foTotal) * 100) + '%' : '0%';
+
+  const clTotal = state.clears.length;
+  const clSucc = state.clears.filter(c => c.result === 'success').length;
+  document.getElementById('pg_cl').textContent = clTotal > 0 ? Math.round((clSucc / clTotal) * 100) + '%' : '0%';
+
+  document.getElementById('pg_rd').textContent = state.rides.filter(r => r.result === 'stop').length;
+  document.getElementById('pg_gf').textContent = state.goals.length;
+
+  const gaInput = document.getElementById('pg_goals_allowed');
+  document.getElementById('pg_ga').textContent = gaInput.value || '0';
+}
+
+// Listen for goals allowed input
+document.getElementById('pg_goals_allowed').addEventListener('input', function() {
+  document.getElementById('pg_ga').textContent = this.value || '0';
+  saveAll();
+});
+
+// ============================================
+// EXPORT REPORT
+// ============================================
+function exportReport() {
+  updatePostgame();
+  const opp = document.getElementById('pre_opponent').value || 'Opponent';
+  const foTotal = state.faceoffs.length;
+  const foWins = state.faceoffs.filter(f => f.result === 'win').length;
+  const clTotal = state.clears.length;
+  const clSucc = state.clears.filter(c => c.result === 'success').length;
+  const rdStops = state.rides.filter(r => r.result === 'stop').length;
+  const ga = document.getElementById('pg_goals_allowed').value || '0';
+
+  let report = `BTB BOYS LACROSSE - GAME REPORT\n`;
+  report += `Date: ${today}\n`;
+  report += `Opponent: ${opp}\n`;
+  report += `================================\n\n`;
+  report += `SCORE: BTB ${state.goals.length} - ${ga} ${opp}\n\n`;
+  report += `KEY STATS:\n`;
+  report += `  Face-Off Win %: ${foTotal > 0 ? Math.round((foWins / foTotal) * 100) : 0}% (${foWins}/${foTotal})\n`;
+  report += `  Clear %: ${clTotal > 0 ? Math.round((clSucc / clTotal) * 100) : 0}% (${clSucc}/${clTotal})\n`;
+  report += `  Ride Stops: ${rdStops}\n`;
+  report += `  Goals Scored: ${state.goals.length}\n`;
+  report += `  Goals Allowed: ${ga}\n`;
+  report += `  Breakdowns: ${state.breakdowns.length}\n\n`;
+
+  if (state.goals.length > 0) {
+    report += `GOALS:\n`;
+    state.goals.forEach((g, i) => {
+      report += `  ${i + 1}. ${g.scorer}${g.assist && g.assist !== '--' ? ' (A: ' + g.assist + ')' : ''} - ${g.situation} @ ${g.time}\n`;
+    });
+    report += '\n';
+  }
+
+  if (state.breakdowns.length > 0) {
+    report += `BREAKDOWNS:\n`;
+    state.breakdowns.forEach((b, i) => {
+      report += `  ${i + 1}. ${b.cause} @ ${b.time} - ${b.fix}\n`;
+    });
+    report += '\n';
+  }
+
+  report += `WHAT WORKED:\n${document.getElementById('pg_worked').value || '(none)'}\n\n`;
+  report += `WHAT NEEDS WORK:\n${document.getElementById('pg_needswork').value || '(none)'}\n\n`;
+  report += `PRACTICE EMPHASIS:\n${document.getElementById('pg_practice').value || '(none)'}\n`;
+
+  navigator.clipboard.writeText(report).then(() => {
+    showToast('Game report copied to clipboard');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = report;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Game report copied to clipboard');
+  });
+}
+
+// ============================================
+// SAVE / LOAD
+// ============================================
+function getFormFields() {
+  const fields = {};
+  document.querySelectorAll('input[type="text"],input[type="number"],input[type="time"],select,textarea').forEach(el => {
+    if (el.id) fields[el.id] = el.value;
+  });
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+    if (el.id) fields[el.id] = el.checked;
+  });
+  return fields;
+}
+
+function setFormFields(fields) {
+  if (!fields) return;
+  Object.keys(fields).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = fields[id];
+    else el.value = fields[id];
+  });
+}
+
+function saveAll() {
+  const data = {
+    state: state,
+    fields: getFormFields(),
+    savedAt: new Date().toISOString()
+  };
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn('Save failed', e);
+  }
+}
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.state) {
+      state.faceoffs = data.state.faceoffs || [];
+      state.clears = data.state.clears || [];
+      state.rides = data.state.rides || [];
+      state.goals = data.state.goals || [];
+      state.breakdowns = data.state.breakdowns || [];
+      state.emoFormation = data.state.emoFormation || '3-3';
+      state.mdFormation = data.state.mdFormation || 'Box and 1';
+    }
+    setFormFields(data.fields);
+    renderFaceoffs();
+    renderClears();
+    renderRides();
+    renderGoals();
+    renderBreakdowns();
+    // Restore formation toggles
+    restoreFormation('emoFormation', state.emoFormation);
+    restoreFormation('mdFormation', state.mdFormation);
+  } catch (e) {
+    console.warn('Load failed', e);
+  }
+}
+
+function restoreFormation(groupId, value) {
+  const group = document.getElementById(groupId);
+  if (!group) return;
+  group.querySelectorAll('.formation-opt').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim() === value);
+  });
+}
+
+function newGame() {
+  if (!confirm('Start a new game? This will clear all current data for today.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+function printReport() {
+  window.print();
+}
+
+// ============================================
+// AUTO-SAVE ON INPUT
+// ============================================
+document.addEventListener('input', debounce(saveAll, 500));
+document.addEventListener('change', debounce(saveAll, 300));
+
+function debounce(fn, ms) {
+  let t;
+  return function() {
+    clearTimeout(t);
+    t = setTimeout(fn, ms);
+  };
+}
+
+// ============================================
+// TOAST
+// ============================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ============================================
+// ESCAPE HTML
+// ============================================
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ============================================
+// INIT
+// ============================================
+document.getElementById('gameLabel').textContent = 'Game Date: ' + today;
+loadAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BTB Boys Elite Drill Library</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0a0a0a;--surface:#141414;--surface2:#1e1e1e;--surface3:#282828;
+--text:#f0f0f0;--text2:#a0a0a0;--border:#333;
+--cyan:#00e5ff;--blue:#3b82f6;--orange:#ff9500;--green:#22c55e;
+--red:#ef4444;--yellow:#eab308;--purple:#a855f7;--pink:#ec4899;
+--white:#e5e7eb;--amber:#f59e0b;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;-webkit-tap-highlight-color:transparent}
+.header{background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);padding:20px 16px 12px;text-align:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header h1{font-size:1.4rem;font-weight:800;letter-spacing:1px;margin-bottom:2px}
+.header h1 span{color:var(--cyan)}
+.header .subtitle{font-size:.75rem;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.format-badge{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:.7rem;color:var(--text2);margin-bottom:12px}
+.search-wrap{position:relative;max-width:500px;margin:0 auto}
+.search-wrap input{width:100%;padding:12px 16px 12px 42px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1rem;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--cyan)}
+.search-wrap .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.1rem;color:var(--text2)}
+.drill-count{text-align:center;padding:10px 16px 0;font-size:.85rem;color:var(--text2);font-weight:600}
+.drill-count span{color:var(--cyan)}
+
+/* Category Buttons */
+.categories{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:14px 16px;max-width:600px;margin:0 auto}
+.cat-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 6px 10px;border-radius:16px;border:2px solid transparent;background:var(--surface);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;user-select:none;min-height:80px}
+.cat-btn:active{transform:scale(.95)}
+.cat-btn.active{border-color:var(--cat-color);background:color-mix(in srgb,var(--cat-color) 12%,var(--surface))}
+.cat-btn .cat-emoji{font-size:1.8rem;margin-bottom:4px;line-height:1}
+.cat-btn .cat-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);text-align:center;line-height:1.2}
+.cat-btn.active .cat-label{color:var(--cat-color)}
+.cat-btn-all{grid-column:1/-1}
+.cat-btn-all .cat-emoji{font-size:1.4rem}
+
+/* Drill Cards */
+.drills-container{max-width:600px;margin:0 auto;padding:0 16px}
+.drill-card{background:var(--surface);border-radius:14px;margin-bottom:10px;overflow:hidden;border:1px solid var(--border);transition:border-color .2s}
+.drill-card[data-expanded="true"]{border-color:var(--card-color,var(--border))}
+.drill-header{display:flex;align-items:center;padding:14px 16px;cursor:pointer;gap:12px;-webkit-tap-highlight-color:transparent;user-select:none}
+.drill-number{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff;flex-shrink:0}
+.drill-info{flex:1;min-width:0}
+.drill-name{font-size:.95rem;font-weight:700;margin-bottom:2px;line-height:1.3}
+.drill-purpose{font-size:.75rem;color:var(--text2);line-height:1.3}
+.drill-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.difficulty{display:flex;gap:3px}
+.diff-dot{width:8px;height:8px;border-radius:50%;background:var(--surface3);border:1px solid var(--border)}
+.diff-dot.filled{background:var(--card-color,#888);border-color:var(--card-color,#888)}
+.view-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--card-color,#555);color:var(--card-color,#ccc);background:transparent;font-size:.7rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .2s}
+.drill-card[data-expanded="true"] .view-btn{background:var(--card-color);color:#000;border-color:var(--card-color)}
+
+/* Expanded Content */
+.drill-detail{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.drill-card[data-expanded="true"] .drill-detail{max-height:2000px}
+.drill-detail-inner{padding:0 16px 16px}
+.detail-section{margin-bottom:14px}
+.detail-section h4{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--card-color,var(--text2));margin-bottom:6px;font-weight:700}
+.detail-section p,.detail-section li{font-size:.85rem;color:var(--text2);line-height:1.5}
+.detail-section ul{padding-left:18px}
+.detail-section li{margin-bottom:4px}
+.detail-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.detail-tag{padding:4px 10px;border-radius:6px;background:var(--surface3);font-size:.7rem;color:var(--text2);font-weight:600}
+
+/* Video Links */
+.video-links{display:flex;flex-direction:column;gap:8px}
+.video-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:all .2s}
+.video-link:hover,.video-link:active{border-color:var(--card-color,#555);background:var(--surface3)}
+.video-play{width:36px;height:36px;border-radius:8px;background:color-mix(in srgb,var(--card-color,#555) 20%,transparent);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.video-text{flex:1;min-width:0}
+.video-title{font-size:.82rem;font-weight:600;line-height:1.3}
+.video-channel{font-size:.68rem;color:var(--text2);margin-top:1px}
+.video-arrow{color:var(--text2);font-size:.8rem}
+
+/* SVG Diagrams */
+.drill-diagram{width:100%;max-width:320px;margin:0 auto 10px;display:block}
+.drill-diagram rect.field{fill:#1a3a1a;stroke:#2d5a2d;stroke-width:2;rx:8}
+.drill-diagram circle.player{stroke-width:2}
+.drill-diagram text{font-family:sans-serif;font-weight:700}
+.drill-diagram line,.drill-diagram path.arrow{stroke-width:2;stroke-linecap:round}
+.drill-diagram .label{font-size:10px;fill:var(--text2)}
+
+/* Footer */
+.footer{max-width:600px;margin:40px auto 0;padding:0 16px}
+.footer h3{font-size:1rem;font-weight:700;margin-bottom:14px;text-align:center}
+.resource-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.resource-link{display:flex;align-items:center;gap:8px;padding:12px;border-radius:10px;background:var(--surface);border:1px solid var(--border);text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s}
+.resource-link:hover{border-color:var(--cyan);background:var(--surface2)}
+.resource-link .r-icon{font-size:1.2rem}
+.back-link{display:block;text-align:center;padding:16px;color:var(--text2);font-size:.85rem;text-decoration:none;font-weight:600}
+.back-link:hover{color:var(--text)}
+.no-results{text-align:center;padding:40px 20px;color:var(--text2);font-size:1rem}
+.no-results .nr-emoji{font-size:2rem;margin-bottom:8px}
+
+@media(max-width:420px){
+ .categories{grid-template-columns:repeat(5,1fr);gap:6px;padding:10px 10px}
+ .cat-btn{padding:10px 4px 8px;min-height:70px;border-radius:12px}
+ .cat-btn .cat-emoji{font-size:1.5rem}
+ .cat-btn .cat-label{font-size:.5rem}
+ .drills-container{padding:0 10px}
+ .header{padding:16px 12px 10px}
+}
+@media(min-width:768px){
+ .categories{grid-template-columns:repeat(5,1fr);max-width:700px;gap:12px}
+ .drills-container{max-width:700px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>BTB <span>BOYS</span> ELITE DRILL LIBRARY</h1>
+<div class="subtitle">Men's Lacrosse</div>
+<div class="format-badge">3 Attack &bull; 3 Midfield &bull; 3 Defense &bull; 1 Goalie</div>
+<div class="search-wrap">
+<span class="search-icon">&#128269;</span>
+<input type="text" id="searchInput" placeholder="Search drills..." autocomplete="off">
+</div>
+</div>
+
+<div class="drill-count" id="drillCount">Showing <span>70</span> of 70 drills</div>
+
+<div class="categories" id="categoryGrid"></div>
+
+<div class="drills-container" id="drillsContainer"></div>
+
+<div class="footer" id="footer">
+<h3>Video Resources</h3>
+<div class="resource-grid">
+<a href="https://www.youtube.com/@POWLAX" target="_blank" class="resource-link"><span class="r-icon">&#127909;</span> POWLAX</a>
+<a href="https://www.sentrylacrosse.com/page/show/4302674-wall-ball" target="_blank" class="resource-link"><span class="r-icon">&#129358;</span> Sentry Lacrosse</a>
+<a href="https://www.youtube.com/@PLL" target="_blank" class="resource-link"><span class="r-icon">&#127941;</span> PLL YouTube</a>
+<a href="https://laxgoalierat.com/videos/" target="_blank" class="resource-link"><span class="r-icon">&#129349;</span> Lax Goalie Rat</a>
+<a href="https://www.youtube.com/@firstclasslax" target="_blank" class="resource-link"><span class="r-icon">&#11088;</span> First Class Lacrosse</a>
+<a href="https://www.youtube.com/@paulrabil" target="_blank" class="resource-link"><span class="r-icon">&#127942;</span> Paul Rabil</a>
+<a href="https://powlax.com/drills/" target="_blank" class="resource-link"><span class="r-icon">&#128214;</span> POWLAX Drills Index</a>
+<a href="https://www.youtube.com/@USA_Lacrosse" target="_blank" class="resource-link"><span class="r-icon">&#127482;&#127480;</span> USA Lacrosse</a>
+</div>
+<a href="javascript:history.back()" class="back-link">&larr; Back to Dashboard</a>
+</div>
+
+<script>
+// ========== DATA ==========
+const CATEGORIES = [
+  {id:'all',label:'All Drills',emoji:'\u{1F3C0}',color:'#ffffff'},
+  {id:'wallball',label:'Wall Ball',emoji:'\u{1F9F1}',color:'#00e5ff'},
+  {id:'passing',label:'Passing',emoji:'\u{1F3AF}',color:'#3b82f6'},
+  {id:'shooting',label:'Shooting',emoji:'\u{1F525}',color:'#ff9500'},
+  {id:'dodging',label:'Dodging',emoji:'\u{26A1}',color:'#22c55e'},
+  {id:'defense',label:'Defense',emoji:'\u{1F6E1}',color:'#ef4444'},
+  {id:'faceoffs',label:'Face-Offs',emoji:'\u{1F91C}',color:'#eab308'},
+  {id:'rideclear',label:'Ride & Clear',emoji:'\u{1F680}',color:'#a855f7'},
+  {id:'transition',label:'Transition',emoji:'\u{1F3C3}',color:'#ec4899'},
+  {id:'offense',label:'Offense',emoji:'\u{1F4CB}',color:'#e5e7eb'},
+  {id:'goalie',label:'Goalie',emoji:'\u{1F94E}',color:'#f59e0b'}
+];
+
+const DRILLS = [
+  // ===== WALL BALL (1-10) =====
+  {id:1,cat:'wallball',name:'5-Minute Fundamentals Wall Ball',purpose:'Guided beginner routine to build stick skills foundation.',diff:1,players:'1',time:'5 min',
+   setup:'Stand 10 yards from a wall. Follow the guided routine focusing on basic overhand throws and catches with both hands.',
+   points:['Keep top hand loose for soft catches','Step with opposite foot on each throw','Alternate hands every 30 seconds','Focus on accuracy before speed'],
+   videos:[{title:'5 Minute Fundamentals Wall Ball Workout',channel:'POWLAX',url:'https://youtu.be/8krXEvMftvE'}],diagram:'wallball'},
+  {id:2,cat:'wallball',name:'10-Minute Intermediate Wall Ball',purpose:'Intermediate guided routine with cross-hand and behind-the-back reps.',diff:2,players:'1',time:'10 min',
+   setup:'Stand 10-15 yards from wall. Includes cross-hand catches, quick-stick, and behind-the-back passes.',
+   points:['Keep feet moving throughout','Add fakes between reps','Work off-hand as much as strong hand','Challenge yourself to zero drops'],
+   videos:[{title:'10 Minute Intermediate Fundamentals Wall Ball Workout',channel:'POWLAX',url:'https://youtu.be/hMavv0xBSAE'}],diagram:null},
+  {id:3,cat:'wallball',name:'20-Minute Advanced Wall Ball',purpose:'Advanced full-skill wall ball workout for experienced players.',diff:3,players:'1',time:'20 min',
+   setup:'Full routine including behind-the-back, one-hand catches, Canadian, and trick shots. Requires solid fundamentals.',
+   points:['Maintain intensity throughout all 20 minutes','Film yourself to check form','Track drops and aim to improve each session','Finish with 20 perfect catches in a row'],
+   videos:[{title:'20 Minute Advanced Skills Wall Ball Workout',channel:'POWLAX',url:'https://youtu.be/3AUOWXtkxsA'}],diagram:null},
+  {id:4,cat:'wallball',name:'Custom Wall Ball Routine',purpose:'Build your own guided wall ball routine for any level.',diff:2,players:'1',time:'Varies',
+   setup:'Use the POWLAX custom builder to select drills matching your skill level. Create a personalized playlist.',
+   points:['Start with basics before adding advanced moves','Set a goal number of catches per rep','Include both hands in every routine','Track your progress over time'],
+   videos:[{title:'Create Your Own Guided Wall Ball Routine',channel:'POWLAX',url:'https://youtu.be/S-UZp3CI0VU'}],diagram:null},
+  {id:5,cat:'wallball',name:'Rocky Wall Ball Challenge',purpose:'Challenge-style drill to test consistency and endurance.',diff:2,players:'1',time:'10 min',
+   setup:'Series of timed wall ball challenges. Complete each round without dropping. Increase speed with each round.',
+   points:['No drops allowed — restart the round if you drop','Keep your feet in an athletic stance','Use both hands equally','Challenge a teammate to beat your score'],
+   videos:[{title:'Rocky Wall Ball Challenge',channel:'Sentry Lacrosse',url:'https://www.youtube.com/watch?v=8oJUZMZjCjE'}],diagram:null},
+  {id:6,cat:'wallball',name:'Quick Stick Wall Ball',purpose:'Develop quick-stick catching and releasing technique.',diff:2,players:'1',time:'5 min',
+   setup:'Stand 5-7 yards from wall. Catch and release in one motion — no cradling. Focus on soft hands and fast release.',
+   points:['Hands away from body to catch','Give with the ball on the catch','Release immediately — no cradle','Keep stick head up and ready'],
+   videos:[{title:'Quick Stick Wall Ball',channel:'Sentry Lacrosse',url:'https://www.youtube.com/watch?v=rLrybSXJxrw'}],diagram:'quickstick'},
+  {id:7,cat:'wallball',name:'Catch and Switch Challenge',purpose:'Build hand-switching speed and coordination.',diff:2,players:'1',time:'5 min',
+   setup:'Throw with right hand, catch with left (and vice versa). Switch hands on every catch. Build speed as you improve.',
+   points:['Switch hands while ball is in the air','Keep body square to the wall','Start slow, build speed','Challenge: 50 switches without a drop'],
+   videos:[{title:'Catch and Switch Challenge',channel:'Sentry Lacrosse',url:'https://www.youtube.com/watch?v=0Pn8mvkoXbQ'}],diagram:null},
+  {id:8,cat:'wallball',name:'Catch 1 Cradle Challenge',purpose:'One-cradle wall ball for better stick control and speed.',diff:2,players:'1',time:'5 min',
+   setup:'Throw, catch, ONE cradle, throw. No extra cradles allowed. Forces efficiency and stick control.',
+   points:['One cradle only — make it count','Cradle should be quick and protective','Move to zero cradle when comfortable','Keep consistent rhythm'],
+   videos:[{title:'Catch 1 Cradle Challenge',channel:'Sentry Lacrosse',url:'https://www.youtube.com/watch?v=rMB-w3FnxqI'}],diagram:null},
+  {id:9,cat:'wallball',name:'Hand Placement Short Sticks',purpose:'Proper grip technique for attack and midfield sticks.',diff:1,players:'1',time:'5 min',
+   setup:'Focus drill on proper hand placement for short sticks. Top hand near head, bottom hand at butt end, adjusting for passes and catches.',
+   points:['Top hand 2-3 inches from head','Bottom hand at butt end for passes','Slide hands together for catching','Loose grip allows stick to give on catches'],
+   videos:[{title:'Hand Placement Short Sticks',channel:'Sentry Lacrosse',url:'https://www.youtube.com/watch?v=8scgZtiQe3E'}],diagram:null},
+  {id:10,cat:'wallball',name:'Hand Placement Defenders',purpose:'Proper grip technique for long poles (D-poles).',diff:1,players:'1',time:'5 min',
+   setup:'Focus on proper hand placement for long poles during wall ball. Different grip positions for passing, catching, and checking.',
+   points:['Choke up for passing accuracy','Extend for checking and poke checks','Practice both hands — defense needs both','Comfortable grip = better stick skills'],
+   videos:[{title:'Hand Placement Defenders',channel:'Sentry Lacrosse',url:'https://www.youtube.com/watch?v=q2Z5oIghxZg'}],diagram:null},
+
+  // ===== PASSING & CATCHING (11-17) =====
+  {id:11,cat:'passing',name:'Passing Fundamentals',purpose:'Basic passing mechanics and technique for all positions.',diff:1,players:'2+',time:'10 min',
+   setup:'Partners 15 yards apart. Focus on overhand passing technique — step, rotate hips, follow through to target.',
+   points:['Step with opposite foot toward target','Snap wrists and follow through','Aim for partner\'s stick-side ear','Keep passes at stick level — not at feet'],
+   videos:[{title:'How to Pass in Lacrosse',channel:'POWLAX',url:'https://youtu.be/I0I4495fzw8'}],diagram:'passing'},
+  {id:12,cat:'passing',name:'Catching Technique',purpose:'Soft hands, pocket control, and secure catches.',diff:1,players:'2+',time:'10 min',
+   setup:'Partners passing back and forth. Focus on catching technique — hands out, give with the ball, secure in pocket.',
+   points:['Hands out toward the pass — reach for it','Give with the ball as it hits the pocket','Top hand absorbs impact — soft grip','Look the ball into your stick'],
+   videos:[{title:'How to Catch in Lacrosse',channel:'POWLAX',url:'https://youtu.be/ByaBnArf7w0'}],diagram:null},
+  {id:13,cat:'passing',name:'Throwing Fakes',purpose:'Sell the fake, freeze the defender, find the open man.',diff:2,players:'2+',time:'10 min',
+   setup:'Work with partners on pump fakes, high fakes, and low fakes. Defender reads the fake while offense works on selling it.',
+   points:['Sell the fake with your whole body — not just arms','Eyes sell the fake — look where you fake','Quick fake to pass — don\'t hold it too long','Use fakes to move the defense and create passing lanes'],
+   videos:[{title:'How to Throw Fakes',channel:'POWLAX',url:'https://youtu.be/xDunVT5g3Vc'}],diagram:null},
+  {id:14,cat:'passing',name:'3-Man Passing Drill',purpose:'Triangle passing for timing, movement, and accuracy.',diff:1,players:'3',time:'10 min',
+   setup:'Three players in a triangle, 15 yards apart. Pass around the triangle, then reverse direction. Add movement and cuts.',
+   points:['Communicate before the pass','Move after you pass — don\'t stand still','Work both directions and both hands','Speed up as technique improves'],
+   videos:[{title:'3-Man Passing Drill',channel:'POWLAX',url:'https://youtu.be/WBbitm3kJtE'}],diagram:'triangle'},
+  {id:15,cat:'passing',name:'Partner Passing Drill',purpose:'Focused 2-player passing to build chemistry.',diff:1,players:'2',time:'10 min',
+   setup:'Two players 15-20 yards apart. Work through stationary passes, passes on the move, and one-hand catches.',
+   points:['Start stationary, then add movement','Include off-hand reps every round','Keep passes crisp and accurate','Add fakes between passes for realism'],
+   videos:[{title:'Partner Passing Drill',channel:'POWLAX',url:'https://youtu.be/b_ich-fBF-0'}],diagram:null},
+  {id:16,cat:'passing',name:'Line Drills',purpose:'Fundamental line drill format used by every program.',diff:1,players:'6+',time:'15 min',
+   setup:'Two lines facing each other 15-20 yards apart. Players pass, then follow their pass to the back of the opposite line.',
+   points:['Run through the catch — don\'t slow down','Call for the ball with your stick','Give a target with your stick head','Follow your pass and join the other line'],
+   videos:[{title:'Line Drills',channel:'POWLAX',url:'https://youtu.be/CPE2mroSlU0'}],diagram:'linedrill'},
+  {id:17,cat:'passing',name:'Ground Ball Technique',purpose:'Scoop through, protect, and outlet to a teammate.',diff:1,players:'2+',time:'10 min',
+   setup:'Place balls on the ground. Practice proper scooping technique — low hands, run through the ball, box out, outlet pass.',
+   points:['Get low — bend your knees, not your back','Scoop through the ball — don\'t stop over it','Protect with your body after the scoop','Outlet pass immediately — GBs win games'],
+   videos:[{title:'How to Pick Up Ground Balls',channel:'POWLAX',url:'https://youtu.be/UtSnc4JdgK4'},{title:'+1 Ground Ball Drill',channel:'POWLAX',url:'https://youtu.be/YpxvkEaj2gI'}],diagram:null},
+
+  // ===== SHOOTING (18-24) =====
+  {id:18,cat:'shooting',name:'Shooting In Tight',purpose:'Close-range finishing around the crease.',diff:2,players:'3+',time:'15 min',
+   setup:'Players work around the crease practicing quick shots from 5-8 yards. Includes feeds from behind the cage and from the wing.',
+   points:['Quick release — don\'t wind up','Shoot where the goalie isn\'t','Use deception — look one way, shoot another','Practice both hands in tight'],
+   videos:[{title:'Shooting In Tight',channel:'POWLAX',url:'https://youtu.be/9asqNJIPUQI'}],diagram:'shooting'},
+  {id:19,cat:'shooting',name:'Skeleton Shooting',purpose:'Shooting integrated with offensive sets and formations.',diff:2,players:'6+',time:'20 min',
+   setup:'Run offensive plays (2-3-1, 1-4-1) at walk-through speed with live shooting. No defense — focus on timing and shot selection.',
+   points:['Move the ball before shooting','Use proper shooting footwork','Call out the play before running it','Film sessions to review shot placement'],
+   videos:[{title:'Skeleton Shooting',channel:'POWLAX',url:'https://youtu.be/FH85M4yly60'}],diagram:null},
+  {id:20,cat:'shooting',name:'PLL Shooting Drills',purpose:'Pro-level shooting instruction from PLL players.',diff:3,players:'1+',time:'15 min',
+   setup:'Follow along with PLL player demonstrations. Covers shot technique, placement, and situational shooting from various angles.',
+   points:['Hands away from body for leverage','Step into every shot','Pick corners — aim for specific spots','Hips and shoulders generate power'],
+   videos:[{title:'PLL Shooting Drills',channel:'PLL',url:'https://www.youtube.com/watch?v=ZDqQBn4qT7s'}],diagram:null},
+  {id:21,cat:'shooting',name:'Y Drill Shooting',purpose:'Offensive drill combining passing and shooting.',diff:2,players:'4+',time:'15 min',
+   setup:'Players form a Y shape. Ball starts behind cage, feeds to wing, then to top for a shot. Rotate positions.',
+   points:['Catch and shoot in one motion','Give a good target with your stick','Footwork: step toward the cage','Shooter should be moving toward the cage on the catch'],
+   videos:[{title:'Y Drill Shooting',channel:'POWLAX',url:'https://youtu.be/RKhR2Nx4cmw'}],diagram:null},
+  {id:22,cat:'shooting',name:'Alley Shooting',purpose:'Shots from right and left alley on the run.',diff:2,players:'3+',time:'15 min',
+   setup:'Set up on the wing. Attack carries from the alley, gets a step, and shoots on the run. Work both sides.',
+   points:['Shoot on the run — don\'t stop and shoot','Hands away from body on the shot','Aim far side when shooting from the alley','Get your hands free before shooting'],
+   videos:[],diagram:'alley'},
+  {id:23,cat:'shooting',name:'Time & Room Shooting',purpose:'Stationary placement shooting from outside.',diff:1,players:'1+',time:'10 min',
+   setup:'Shooter has time and space 12+ yards out. Focus on picking corners with accuracy rather than power.',
+   points:['Accuracy over power every time','Pick a corner before you shoot','Full follow-through toward target','Step into the shot for more power'],
+   videos:[{title:'Paul Rabil Time & Room Lesson',channel:'Paul Rabil / Lax.com',url:'https://www.lax.com/blogs/guides/paul-rabils-time-room-shooting-lesson'}],diagram:null},
+  {id:24,cat:'shooting',name:'Behind-the-Cage Shooting',purpose:'Shots from X and below goal line extended.',diff:3,players:'2+',time:'15 min',
+   setup:'Work from behind the cage (X position). Practice inside rolls, sweeps, and quick stick finishes around the crease.',
+   points:['Get your hands free around the crease','Use the crease as a screen','Quick release — goalies can\'t set','Practice both inside and outside rolls'],
+   videos:[],diagram:null},
+
+  // ===== DODGING (25-31) =====
+  {id:25,cat:'dodging',name:'Question Mark Dodge',purpose:'Signature dodge that changes direction like a "?" shape.',diff:2,players:'1+',time:'10 min',
+   setup:'Start at the wing or top. Drive hard, plant, and curl back like the shape of a question mark to create space.',
+   points:['Sell the initial drive — go hard','Sharp change of direction on the plant','Keep stick protected on the curl','Accelerate out of the dodge'],
+   videos:[{title:'Question Mark Dodge',channel:'POWLAX',url:'https://youtu.be/wrMvw264ST0'}],diagram:'dodge'},
+  {id:26,cat:'dodging',name:'Island 1v1s',purpose:'Isolated dodging from the island (top center) position.',diff:2,players:'2',time:'15 min',
+   setup:'Attacker starts at top center (island). Defender plays on-ball. Live 1v1 — dodge, shoot, or feed.',
+   points:['Read the defender before dodging','Attack the top foot','Use fakes to get defender on their heels','Finish strong — dodge to score, not just dodge'],
+   videos:[{title:'Island 1v1s',channel:'POWLAX',url:'https://youtu.be/dkrJ70SLb0o'}],diagram:null},
+  {id:27,cat:'dodging',name:'Split Dodge Progression',purpose:'Change direction and switch hands in one move.',diff:2,players:'1+',time:'10 min',
+   setup:'Start with cone work. Drive hard right, plant left foot, switch hands, explode left. Progress to live defense.',
+   points:['Sell the initial direction — full speed','Quick hand switch during the plant','Protect your stick on the switch','Explode out of the dodge — change speed'],
+   videos:[],diagram:null},
+  {id:28,cat:'dodging',name:'Bull Dodge Drill',purpose:'Power through contact using strength and body position.',diff:2,players:'2',time:'10 min',
+   setup:'Attacker drives straight at defender. Lower shoulder, protect stick, power through contact. Finish with a shot.',
+   points:['Lower your center of gravity','Protect the stick on the drive side','Use your body to absorb the check','Finish strong after contact'],
+   videos:[],diagram:null},
+  {id:29,cat:'dodging',name:'Roll Dodge Progression',purpose:'Protect your stick by rolling away from the check.',diff:2,players:'1+',time:'10 min',
+   setup:'Start with cone work. Drive, plant outside foot, roll back, switch hands, accelerate. Progress to live defense.',
+   points:['Seal the defender with your back during the roll','Switch hands as you come around','Keep the roll tight — don\'t drift wide','Accelerate out of the roll'],
+   videos:[],diagram:null},
+  {id:30,cat:'dodging',name:'Face Dodge Drill',purpose:'Sell the fake pass/shot, pull stick across face, go opposite.',diff:1,players:'1+',time:'10 min',
+   setup:'Drive at defender, pump fake a pass or shot, pull the stick across your face to the other side, and go.',
+   points:['The fake must be believable — sell it','Quick pull across the face','Keep two hands on the stick during the move','Change speed after the dodge'],
+   videos:[],diagram:null},
+  {id:31,cat:'dodging',name:'Dodge to Feed',purpose:'Dodge, draw the slide, find and feed the open man.',diff:2,players:'4+',time:'15 min',
+   setup:'Dodger carries from the wing or top. Defense slides. Dodger must find and feed the open teammate created by the slide.',
+   points:['Draw the slide before throwing','See the whole field — head up','Feed to where the open man will be','Quick stick to the open man'],
+   videos:[{title:'Throwback Line Drills (Dodge to Feed)',channel:'POWLAX',url:'https://youtu.be/hoY-c_qhscY'}],diagram:null},
+
+  // ===== DEFENSE (32-39) =====
+  {id:32,cat:'defense',name:'Individual Defensive Play',purpose:'Comprehensive 1v1 defensive fundamentals.',diff:2,players:'2',time:'15 min',
+   setup:'Defender works on proper positioning, footwork, stick checks, and body positioning against a live dodger.',
+   points:['Stay in athletic stance — knees bent, hips low','Keep feet moving — never flat-footed','Top-side positioning to force direction','Use feet first, then stick'],
+   videos:[{title:'Individual Defensive Play',channel:'POWLAX',url:'https://youtu.be/xEnD16D8zL0'}],diagram:'defense'},
+  {id:33,cat:'defense',name:'Triangle Approach',purpose:'Direct the dodger using triangle defensive positioning.',diff:2,players:'2+',time:'10 min',
+   setup:'Defender approaches the ball carrier in a triangle — angle your body to force the dodger toward help or away from the cage.',
+   points:['Angle your approach to take away one side','Force dodger toward your help defense','Stay on your toes — ready to react','Don\'t overcommit — stay balanced'],
+   videos:[{title:'Triangle Approach',channel:'POWLAX',url:'https://youtu.be/GAvOpez5IIo'}],diagram:null},
+  {id:34,cat:'defense',name:'Near Man Defense',purpose:'Man-to-man sliding system with near-man responsibility.',diff:2,players:'6+',time:'20 min',
+   setup:'Full 6v6 shell drill. When ball carrier dodges, the nearest defender to the cage slides. Everyone rotates to fill.',
+   points:['Near man is first slide — always ready','Communication: call "slide" and "I\'m two"','Recover hard after the slide','Everyone must rotate — no standing and watching'],
+   videos:[{title:'Near Man Defense',channel:'POWLAX',url:'https://youtu.be/TL__YxdGSKQ'}],diagram:null},
+  {id:35,cat:'defense',name:'Off-Ball Defense',purpose:'Help-side positioning, denial, and active sticks.',diff:2,players:'4+',time:'15 min',
+   setup:'Defenders work on off-ball positioning — being in help position while denying their man. Head on a swivel.',
+   points:['See ball and man at all times','Stay in the passing lane when possible','Be ready to slide at all times','Active stick — hands up, stick in passing lanes'],
+   videos:[{title:'Seawolves Off-Ball Defense Drill',channel:'POWLAX',url:'https://youtu.be/OH_HUlnbyQ4'}],diagram:null},
+  {id:36,cat:'defense',name:'PLL Defense Drills',purpose:'Pro-level defensive instruction from PLL players.',diff:3,players:'2+',time:'15 min',
+   setup:'Follow PLL player demonstrations on defensive footwork, positioning, checking, and team defense concepts.',
+   points:['Mirror the dodger\'s hips — that\'s where they\'re going','Hands and feet work together','Stay disciplined — don\'t reach','Physical play is part of the game — use it legally'],
+   videos:[{title:'PLL Defense Drills',channel:'PLL',url:'https://www.youtube.com/watch?v=-SO20yj3ILE'}],diagram:null},
+  {id:37,cat:'defense',name:'Slide Recognition',purpose:'Reading offensive movement and executing slides on time.',diff:2,players:'6+',time:'15 min',
+   setup:'Shell drill: offense dodges from different positions. Defense practices reading when to slide and executing proper rotation.',
+   points:['Slide on the dodge — not on the shot','First slide must be early and hard','Call your slide loudly','Recover to a man, not a spot'],
+   videos:[],diagram:null},
+  {id:38,cat:'defense',name:'Body Positioning',purpose:'Proper footwork, leverage, and legal body checks.',diff:2,players:'2',time:'10 min',
+   setup:'Defender works on body positioning against an attacker. Focus on using feet, hips, and body to control the dodger.',
+   points:['Stay low — leverage wins','Use your body to redirect, not just your stick','Legal checks: shoulder to shoulder','Footwork is your best defensive tool'],
+   videos:[],diagram:null},
+  {id:39,cat:'defense',name:'Communication Shell',purpose:'Defensive calls, switches, and team communication.',diff:3,players:'6+',time:'20 min',
+   setup:'Full defensive unit walks through assignments. Every player must call out ball, slide, two, and help positions constantly.',
+   points:['Everyone talks — not just the on-ball defender','Standard calls: "Ball!", "Slide!", "I\'m two!", "Help!"','Communicate BEFORE the play develops','Practice until communication is automatic'],
+   videos:[],diagram:null},
+
+  // ===== FACE-OFFS (40-44) =====
+  {id:40,cat:'faceoffs',name:'Face-Off Plays & Tactics',purpose:'Strategies, plays, and reads for the face-off X.',diff:2,players:'3+',time:'15 min',
+   setup:'Face-off midfielder at X with wing players. Practice different plays based on the win — push ahead, scoop back, pass to wing.',
+   points:['Wing play is just as important as the X man','Read the opponent\'s set-up before the whistle','Have 2-3 face-off plays ready for each game','Fast breaks off face-off wins are easy goals'],
+   videos:[{title:'Face-Off Plays & Tactics',channel:'POWLAX',url:'https://youtu.be/YfAveIh47Pc'}],diagram:'faceoff'},
+  {id:41,cat:'faceoffs',name:'Clamp Technique',purpose:'Primary face-off move — clamp and control.',diff:2,players:'2',time:'15 min',
+   setup:'Two players at the face-off X. Practice the clamp technique — quick hands to clamp over the ball and direct it.',
+   points:['Explosive first move — speed wins','Clamp over the ball, then direct it','Use your body to seal off the opponent','Practice counter-moves when they clamp you'],
+   videos:[{title:'Clamp Technique',channel:'Face-Off Academy',url:'https://www.youtube.com/watch?v=9IYfeDHuH40'}],diagram:null},
+  {id:42,cat:'faceoffs',name:'Plunger Technique',purpose:'Alternative face-off move — push and pop.',diff:2,players:'2',time:'15 min',
+   setup:'Practice the plunger move — push the stick head through the ball and pop it out to a wing or backward.',
+   points:['Quick downward push on the whistle','Pop the ball out to your pre-planned direction','Set up wings to anticipate the exit','Mix plunger and clamp to be unpredictable'],
+   videos:[{title:'Plunger Technique',channel:'Face-Off Academy',url:'https://www.youtube.com/watch?v=3jt2z6XW5kY'}],diagram:null},
+  {id:43,cat:'faceoffs',name:'Face-Off Drills',purpose:'Competition drills to sharpen face-off skills under pressure.',diff:2,players:'2+',time:'15 min',
+   setup:'Live face-off reps with a partner. Keep score. Simulate game pressure with wing players and time limits.',
+   points:['Compete every rep — practice like it\'s a game','Track your win percentage','Work on both strong and weak side exits','Condition for back-to-back face-offs'],
+   videos:[{title:'Face-Off Drills & Competition',channel:'Face-Off Academy',url:'https://www.youtube.com/watch?v=8uyOkQeqbDs'}],diagram:null},
+  {id:44,cat:'faceoffs',name:'Wing Play',purpose:'Positioning, reaction, and ground ball skills for wing players.',diff:2,players:'4+',time:'10 min',
+   setup:'Wing players line up at the wing lines. React to the face-off, read the ball direction, and compete for ground balls.',
+   points:['Stay behind the wing line until whistle','Read the ball direction — go to the ball','Box out your opponent for inside position','Secure the ball and outlet quickly'],
+   videos:[],diagram:null},
+
+  // ===== RIDE & CLEAR (45-51) =====
+  {id:45,cat:'rideclear',name:'2-3-2 Clear',purpose:'Modern clearing pattern used by top college programs.',diff:2,players:'7+',time:'15 min',
+   setup:'Goalie starts with the ball behind the cage. 2 defenders low, 3 middies across the midfield, 2 attackmen at the far end. Move the ball up the field.',
+   points:['Goalie initiates — look for the first pass quickly','Middies create width across the field','Move the ball — don\'t hold it','Attack the open space, not the defenders'],
+   videos:[{title:'2-3-2 Clear',channel:'POWLAX',url:'https://youtu.be/RnYRtSWkBug'}],diagram:'clear'},
+  {id:46,cat:'rideclear',name:'10-Man Ride',purpose:'Aggressive full-field ride (Virginia/UNC/Loyola style).',diff:3,players:'10',time:'20 min',
+   setup:'All 10 field players are active in the ride. Attackmen ride the goalie and close defenders. Middies match up in the midfield.',
+   points:['Attackmen must ride hard — set the tone','Force bad passes, don\'t just chase','Midfield must be ready to jump passes','High effort ride = turnovers = easy goals'],
+   videos:[{title:'10-Man Ride',channel:'POWLAX',url:'https://youtu.be/bjIKPeCmhwc'}],diagram:null},
+  {id:47,cat:'rideclear',name:'The Riding Playbook',purpose:'Multiple ride systems: 3-3 Deep, Windshield Wiper, Goalie Ride, Zero Ride.',diff:3,players:'6+',time:'20 min',
+   setup:'Walk through each ride system. Practice against the other team\'s clear. Film and review assignments.',
+   points:['Every player must know their ride assignment','Communication is critical in rides','Don\'t overcommit — stay in your zone','Switch ride systems to keep the opponent guessing'],
+   videos:[{title:'The Riding Playbook — Multiple Systems',channel:'POWLAX',url:'https://youtu.be/13lgO57WErA'}],diagram:null},
+  {id:48,cat:'rideclear',name:'Clearing Drills',purpose:'Breakout instruction for clearing under pressure.',diff:2,players:'7+',time:'15 min',
+   setup:'Practice clearing against a ride. Goalie makes the save, outlets, and the team works the ball up the field under pressure.',
+   points:['Move to space when your teammate has the ball','Don\'t force passes through traffic','Use the sideline as your friend','Patience — don\'t panic under pressure'],
+   videos:[{title:'Clearing Drills',channel:'POWLAX',url:'https://youtu.be/CyJfzjmIeXw'}],diagram:null},
+  {id:49,cat:'rideclear',name:'Press Ride',purpose:'Full-field pressure ride after a turnover.',diff:2,players:'6+',time:'15 min',
+   setup:'After a turnover, immediately press the ball carrier and adjacent players. Quick, aggressive ride before they organize.',
+   points:['Sprint to your ride assignment on the turnover','First rider forces a direction','Second and third riders cut off options','Get back if the ride breaks down'],
+   videos:[],diagram:null},
+  {id:50,cat:'rideclear',name:'Sideline Clear',purpose:'Using the sideline to escape pressure during a clear.',diff:2,players:'7+',time:'10 min',
+   setup:'Clearing team uses the sideline as an extra defender. Outlet along the sideline, push the ball up one side of the field.',
+   points:['The sideline can\'t play defense — use it','Stay wide and create passing angles','Move up the sideline with short passes','Switch sides if one side is overloaded'],
+   videos:[],diagram:null},
+  {id:51,cat:'rideclear',name:'Goalie Clear',purpose:'Goalie initiating the clear with proper reads.',diff:1,players:'4+',time:'10 min',
+   setup:'After a save, the goalie reads the ride and makes the first pass. Practice different scenarios — pressure, zone, and free clears.',
+   points:['Goalie must know where every player is','First look: outlet to the open defender','Don\'t hold the ball — make a quick decision','Communicate with defenders for positioning'],
+   videos:[],diagram:null},
+
+  // ===== TRANSITION (52-58) =====
+  {id:52,cat:'transition',name:'L Fast Break (4v3)',purpose:'Simple fast break play creating numbers advantage.',diff:2,players:'7',time:'15 min',
+   setup:'4 offensive players vs 3 defenders. Ball starts on the wing. Run the "L" pattern — ball goes up top, skip pass to the crease.',
+   points:['Move the ball faster than the defense can shift','Skip pass = automatic goal if timed right','Don\'t force it — if it\'s not there, settle','Crease man must time the cut'],
+   videos:[{title:'L Fast Break (4v3)',channel:'POWLAX',url:'https://youtu.be/p3vRHb1MD5g'}],diagram:'fastbreak'},
+  {id:53,cat:'transition',name:'Full Field Build Up',purpose:'Situational awareness drill from end to end.',diff:2,players:'10+',time:'20 min',
+   setup:'Start with a ground ball or clear. Build up through the midfield. Recognize numbers and decide: fast break or settle.',
+   points:['Read the numbers — advantage or even?','Push tempo when you have numbers','Settle the offense if it\'s even','Communication: call out the numbers'],
+   videos:[{title:'Full Field Build Up',channel:'POWLAX',url:'https://youtu.be/n_ClntxRugU'}],diagram:null},
+  {id:54,cat:'transition',name:'Duke Drill',purpose:'Fast-paced transition competition drill.',diff:3,players:'10+',time:'20 min',
+   setup:'Competitive drill: 2 teams play full field transition. Ball starts from different positions. Scoring within 10 seconds is worth double.',
+   points:['Sprint in transition — effort wins','Quick decisions — no standing around','If you turn it over, get back on defense immediately','Keep score to maintain competitive intensity'],
+   videos:[{title:'Duke Drill',channel:'POWLAX',url:'https://youtu.be/KkEjw0h7Cwk'}],diagram:null},
+  {id:55,cat:'transition',name:'Duke Scrapping Drill',purpose:'Transition combined with ground balls and clearing.',diff:3,players:'10+',time:'20 min',
+   setup:'Coach throws a ground ball. Teams scrap for it. Winner goes on offense in transition, loser plays defense.',
+   points:['Win the ground ball — it starts everything','Immediate transition after the GB','Defense must sprint back and organize','Finish the break or settle quickly'],
+   videos:[{title:'Duke Scrapping Drill',channel:'POWLAX',url:'https://youtu.be/HISvQnR_d9Q'}],diagram:null},
+  {id:56,cat:'transition',name:'3v2 Fast Break',purpose:'Numbers advantage finishing with 3 attackers vs 2 defenders.',diff:2,players:'5',time:'15 min',
+   setup:'3 offensive players attack against 2 defenders. Middle man carries, draws a defender, and dishes.',
+   points:['Middle man drives to commit the defense','Pass to the open man — don\'t force shots','If they take the pass away, go to cage','Move the ball quickly — don\'t let them recover'],
+   videos:[],diagram:null},
+  {id:57,cat:'transition',name:'4v3 Transition',purpose:'Decision-making in 4-on-3 advantage situations.',diff:2,players:'7',time:'15 min',
+   setup:'4 attackers vs 3 defenders. Work on ball movement and decision-making to exploit the numbers advantage.',
+   points:['Move the ball around the outside','Look for the crease man — he\'s often open','Don\'t settle for a bad shot — you have the advantage','Quick ball movement exposes the numbers gap'],
+   videos:[],diagram:null},
+  {id:58,cat:'transition',name:'Continuous Transition',purpose:'Full-field conditioning with continuous fast breaks.',diff:3,players:'10+',time:'20 min',
+   setup:'Non-stop full-field play. After each shot/goal, the other team immediately clears and transitions. No stoppages.',
+   points:['Conditioning and lacrosse IQ combined','Sprint every transition — no jogging','Communicate on every change of possession','Maintain execution even when tired'],
+   videos:[],diagram:null},
+
+  // ===== OFFENSE SYSTEMS (59-66) =====
+  {id:59,cat:'offense',name:'21-12 Motion Offense',purpose:'Combines 2-2-2, 2-3-1, 1-3-2, and Open sets.',diff:3,players:'6',time:'25 min',
+   setup:'Walk through each offensive set. Players learn how to flow between formations based on ball position and defensive alignment.',
+   points:['Know your role in every formation','Off-ball movement is key — don\'t stand still','Read the defense to know which set to be in','Ball movement creates opportunities'],
+   videos:[{title:'21-12 Motion Offense',channel:'POWLAX',url:'https://youtu.be/462mJNQyv50'}],diagram:'offense'},
+  {id:60,cat:'offense',name:'2-Man Game',purpose:'Ball carrier + off-ball screening/picking.',diff:2,players:'4+',time:'15 min',
+   setup:'Two offensive players work together — one with the ball, one setting picks/screens. Read the defense and react.',
+   points:['Pick must be legal — feet set','Ball carrier reads the pick: drive, reject, or pop','Communication between the two players','Move with purpose after the pick'],
+   videos:[{title:'2-Man Game',channel:'POWLAX',url:'https://www.youtube.com/watch?v=qcN0RdFFF_M'}],diagram:null},
+  {id:61,cat:'offense',name:'3-3 Man Up (EMO)',purpose:'Extra man offense with reads and ball movement.',diff:3,players:'6 vs 5',time:'20 min',
+   setup:'6 offensive players vs 5 defenders. Set up in 3-3 formation. Move the ball to exploit the missing defender.',
+   points:['Ball movement is faster than feet','Find the open man created by the extra','Shoot when you have a good look','Patient ball movement = high percentage shots'],
+   videos:[{title:'3-3 Man Up (EMO)',channel:'POWLAX',url:'https://www.youtube.com/watch?v=9hHalOHFpzI'}],diagram:null},
+  {id:62,cat:'offense',name:'West Genny Drill',purpose:'High-tempo offensive team drill with finishing.',diff:2,players:'6+',time:'15 min',
+   setup:'Offensive players work through passing, cutting, and shooting sequences. High tempo, no standing around.',
+   points:['Crisp passes — no lazy throws','Cut hard and finish — no loafing','Communicate every cut and screen','Game speed or it doesn\'t count'],
+   videos:[{title:'West Genny Drill',channel:'POWLAX',url:'https://youtu.be/GUM8Z_cSofk'}],diagram:null},
+  {id:63,cat:'offense',name:'Box and 1 Man Down',purpose:'Man-down defense using a box zone + 1 chaser.',diff:3,players:'5 vs 6',time:'20 min',
+   setup:'5 defenders set up in a box (2 high, 2 low) with 1 player chasing the ball. Rotate and communicate as a unit.',
+   points:['Box rotates together as a unit','Chaser must be disciplined — don\'t get beat twice','Communicate every rotation','Force the offense to shoot from outside'],
+   videos:[{title:'Box and 1 Man Down',channel:'POWLAX',url:'https://youtu.be/pev8Lh9e6ng'}],diagram:null},
+  {id:64,cat:'offense',name:'House Zone Man Down',purpose:'Zone man-down set protecting the house.',diff:3,players:'5 vs 6',time:'20 min',
+   setup:'Protect the "house" — the area directly in front of the cage. 5 defenders collapse and protect the inside.',
+   points:['Protect the middle — force outside shots','Rotate sticks to passing lanes','Talk constantly — call every pass','Don\'t chase the ball — guard the house'],
+   videos:[{title:'House Zone Man Down',channel:'POWLAX',url:'https://youtu.be/9B-DbHoCERg'}],diagram:null},
+  {id:65,cat:'offense',name:'5-Man Rotation Man Down',purpose:'Rotation-based man-down defense.',diff:3,players:'5 vs 6',time:'20 min',
+   setup:'5 defenders rotate in a circle around the crease. Each player takes the ball as it comes to their zone, then rotates.',
+   points:['Rotation must be smooth and fast','Every player must know the rotation direction','Communicate the rotation — don\'t guess','Sprint to your next spot in the rotation'],
+   videos:[{title:'5-Man Rotation Man Down',channel:'POWLAX',url:'https://youtu.be/4Oo9tYaryDw'}],diagram:null},
+  {id:66,cat:'offense',name:'Invert Offense',purpose:'Attack from behind, middies stay up top.',diff:3,players:'6',time:'20 min',
+   setup:'3 attackmen work from behind the cage (X and wings). 3 middies hold up top. Attack initiates from behind, middies cut and finish.',
+   points:['Attack controls tempo from behind the cage','Middies must cut hard when the ball is fed','Create picks behind to free up the carrier','Middies: time your cut to the ball'],
+   videos:[],diagram:null},
+
+  // ===== GOALIE (67-70) =====
+  {id:67,cat:'goalie',name:'Goalie Play Basics',purpose:'Comprehensive goalie fundamentals for all skill levels.',diff:1,players:'1+',time:'20 min',
+   setup:'Cover all goalie fundamentals: stance, hand positioning, stepping to the ball, tracking, and outlet passes.',
+   points:['Hands up, stick head above the crossbar','Step to the ball — don\'t lean','Track the ball from the shooter\'s stick','Lead with your top hand on saves'],
+   videos:[{title:'Goalie Play Basics — Complete Guide',channel:'POWLAX',url:'https://youtu.be/88xGuFwT2h4'}],diagram:'goalie'},
+  {id:68,cat:'goalie',name:'Arc & Stepping',purpose:'Arc positioning and step-to-the-ball saves.',diff:1,players:'1-2',time:'15 min',
+   setup:'Goalie practices moving along the arc (semi-circle in front of the cage). Step to the ball from different angles.',
+   points:['Stay on the arc — don\'t get too deep in the cage','Step to the ball, not away from it','Reset to the arc after every save','Move in an arc, not side to side'],
+   videos:[],diagram:null},
+  {id:69,cat:'goalie',name:'Clearing Fundamentals',purpose:'Goalie outlet passes to start the clear.',diff:2,players:'4+',time:'10 min',
+   setup:'After a save, goalie practices outlet passes to defenders breaking out. Work on different clears and reads.',
+   points:['Look up immediately after the save','Hit the open man — don\'t hold it','Communicate with defenders for positioning','Practice both overhand and sidearm outlets'],
+   videos:[],diagram:null},
+  {id:70,cat:'goalie',name:'Warm-Up Routine',purpose:'Pre-game and pre-practice goalie warm-up sequence.',diff:1,players:'2',time:'10 min',
+   setup:'Structured warm-up: start with light shots to the stick, progress to shots at different locations, finish with game-speed reps.',
+   points:['Start easy — build up intensity gradually','Move through all save positions','Include some high shots and low shots','Finish with 5-10 game-speed saves to build confidence'],
+   videos:[],diagram:null}
+];
+
+// ========== DIAGRAMS ==========
+function getDiagram(type, color) {
+  const c = color || '#888';
+  const diagrams = {
+    wallball: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="20" y="20" width="280" height="20" rx="4" fill="#555" stroke="#777" stroke-width="1"/>
+      <text x="160" y="35" text-anchor="middle" fill="#aaa" font-size="11">WALL</text>
+      <circle cx="160" cy="130" r="14" fill="${c}" opacity="0.3" stroke="${c}" stroke-width="2"/>
+      <text x="160" y="135" text-anchor="middle" fill="#fff" font-size="11">P</text>
+      <line x1="160" y1="116" x2="160" y2="50" stroke="${c}" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="155,55 165,55 160,45" fill="${c}"/>
+      <line x1="160" y1="42" x2="160" y2="110" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+      <text x="160" y="170" text-anchor="middle" class="label">10 yards from wall</text>
+    </svg>`,
+    quickstick: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="20" y="20" width="280" height="20" rx="4" fill="#555" stroke="#777" stroke-width="1"/>
+      <text x="160" y="35" text-anchor="middle" fill="#aaa" font-size="11">WALL</text>
+      <circle cx="160" cy="110" r="14" fill="${c}" opacity="0.3" stroke="${c}" stroke-width="2"/>
+      <text x="160" y="115" text-anchor="middle" fill="#fff" font-size="11">P</text>
+      <line x1="150" y1="98" x2="130" y2="50" stroke="${c}" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="126,55 134,52 130,45" fill="${c}"/>
+      <line x1="170" y1="98" x2="190" y2="50" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+      <polygon points="186,55 194,52 190,45" fill="#fff" opacity="0.5"/>
+      <text x="160" y="170" text-anchor="middle" class="label">5-7 yards &bull; Quick release, no cradle</text>
+    </svg>`,
+    passing: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <circle cx="100" cy="100" r="14" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <text x="100" y="105" text-anchor="middle" fill="#fff" font-size="11">P1</text>
+      <circle cx="220" cy="100" r="14" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <text x="220" y="105" text-anchor="middle" fill="#fff" font-size="11">P2</text>
+      <line x1="118" y1="95" x2="198" y2="95" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="194,90 204,95 194,100" fill="#3b82f6"/>
+      <line x1="202" y1="108" x2="122" y2="108" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+      <polygon points="126,103 116,108 126,113" fill="#fff" opacity="0.4"/>
+      <text x="160" y="55" text-anchor="middle" class="label">15 yards apart</text>
+      <text x="160" y="170" text-anchor="middle" class="label">Step &bull; Rotate &bull; Follow through</text>
+    </svg>`,
+    triangle: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <circle cx="160" cy="40" r="14" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <text x="160" y="45" text-anchor="middle" fill="#fff" font-size="11">P1</text>
+      <circle cx="80" cy="150" r="14" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <text x="80" y="155" text-anchor="middle" fill="#fff" font-size="11">P2</text>
+      <circle cx="240" cy="150" r="14" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <text x="240" y="155" text-anchor="middle" fill="#fff" font-size="11">P3</text>
+      <line x1="148" y1="50" x2="94" y2="138" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="90,133 98,142 100,132" fill="#3b82f6"/>
+      <line x1="98" y1="150" x2="222" y2="150" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="218,145 228,150 218,155" fill="#3b82f6"/>
+      <line x1="228" y1="138" x2="174" y2="50" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="178,55 170,46 172,56" fill="#3b82f6"/>
+      <text x="160" y="185" text-anchor="middle" class="label">15 yards apart &bull; Reverse direction</text>
+    </svg>`,
+    linedrill: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <circle cx="80" cy="60" r="12" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="80" cy="90" r="12" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="80" cy="120" r="12" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="240" cy="60" r="12" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="240" cy="90" r="12" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <circle cx="240" cy="120" r="12" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+      <line x1="96" y1="56" x2="222" y2="56" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="218,51 228,56 218,61" fill="#3b82f6"/>
+      <path d="M 240 72 C 270 72, 270 100, 90 160" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,4" fill="none" opacity="0.3"/>
+      <text x="60" y="65" text-anchor="middle" class="label">L1</text>
+      <text x="260" y="65" text-anchor="middle" class="label">L2</text>
+      <text x="160" y="180" text-anchor="middle" class="label">Pass &bull; Follow your pass &bull; Join other line</text>
+    </svg>`,
+    shooting: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="130" y="160" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <text x="160" y="180" text-anchor="middle" fill="#aaa" font-size="9">GOAL</text>
+      <circle cx="160" cy="145" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="149" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="100" cy="110" r="12" fill="#ff9500" opacity="0.3" stroke="#ff9500" stroke-width="2"/>
+      <text x="100" y="114" text-anchor="middle" fill="#fff" font-size="10">A1</text>
+      <circle cx="220" cy="110" r="12" fill="#ff9500" opacity="0.3" stroke="#ff9500" stroke-width="2"/>
+      <text x="220" y="114" text-anchor="middle" fill="#fff" font-size="10">A2</text>
+      <circle cx="160" cy="70" r="12" fill="#ff9500" opacity="0.3" stroke="#ff9500" stroke-width="2"/>
+      <text x="160" y="74" text-anchor="middle" fill="#fff" font-size="10">A3</text>
+      <line x1="160" y1="82" x2="160" y2="132" stroke="#ff9500" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="155,128 165,128 160,135" fill="#ff9500"/>
+      <line x1="112" y1="118" x2="148" y2="140" stroke="#ff9500" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+      <line x1="208" y1="118" x2="172" y2="140" stroke="#ff9500" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+      <text x="160" y="35" text-anchor="middle" class="label">Crease shots from multiple angles</text>
+    </svg>`,
+    alley: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="130" y="160" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <text x="160" y="180" text-anchor="middle" fill="#aaa" font-size="9">GOAL</text>
+      <circle cx="160" cy="145" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="149" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="60" cy="90" r="12" fill="#ff9500" opacity="0.3" stroke="#ff9500" stroke-width="2"/>
+      <text x="60" y="94" text-anchor="middle" fill="#fff" font-size="10">A</text>
+      <path d="M 72 96 C 100 110, 120 130, 145 145" stroke="#ff9500" stroke-width="2" stroke-dasharray="6,4" fill="none"/>
+      <polygon points="140,142 148,148 142,150" fill="#ff9500"/>
+      <text x="90" y="60" text-anchor="middle" fill="#ff9500" font-size="10" font-weight="700">ALLEY</text>
+      <line x1="50" y1="70" x2="50" y2="170" stroke="#ff9500" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+      <text x="160" y="35" text-anchor="middle" class="label">Drive from wing &bull; Shoot on the run</text>
+    </svg>`,
+    dodge: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="130" y="160" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="160" cy="145" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="149" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="80" cy="70" r="12" fill="#22c55e" opacity="0.3" stroke="#22c55e" stroke-width="2"/>
+      <text x="80" y="74" text-anchor="middle" fill="#fff" font-size="10">A</text>
+      <circle cx="130" cy="100" r="10" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-width="2"/>
+      <text x="130" y="104" text-anchor="middle" fill="#fff" font-size="9">D</text>
+      <path d="M 88 78 C 110 90, 125 85, 120 100" stroke="#22c55e" stroke-width="2" fill="none"/>
+      <path d="M 120 100 C 115 115, 100 115, 95 105" stroke="#22c55e" stroke-width="2" fill="none"/>
+      <path d="M 95 105 L 150 145" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="146,142 153,148 148,148" fill="#22c55e"/>
+      <text x="55" y="55" fill="#22c55e" font-size="9" font-weight="700">START</text>
+      <text x="160" y="35" text-anchor="middle" class="label">Question Mark shape &bull; Curl back to create space</text>
+    </svg>`,
+    defense: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="130" y="160" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="160" cy="145" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="149" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="120" cy="80" r="12" fill="#22c55e" opacity="0.3" stroke="#22c55e" stroke-width="2"/>
+      <text x="120" y="84" text-anchor="middle" fill="#fff" font-size="10">A</text>
+      <circle cx="155" cy="100" r="12" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-width="2"/>
+      <text x="155" y="104" text-anchor="middle" fill="#fff" font-size="10">D</text>
+      <line x1="130" y1="88" x2="145" y2="95" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="141,92 148,98 143,98" fill="#22c55e"/>
+      <line x1="160" y1="112" x2="160" y2="130" stroke="#ef4444" stroke-width="2"/>
+      <polygon points="155,126 165,126 160,133" fill="#ef4444"/>
+      <text x="200" y="95" fill="#ef4444" font-size="9" font-weight="700">FORCE</text>
+      <text x="200" y="107" fill="#ef4444" font-size="9" font-weight="700">TO HELP</text>
+      <text x="160" y="35" text-anchor="middle" class="label">Top-side position &bull; Force to help defense</text>
+    </svg>`,
+    faceoff: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <line x1="160" y1="10" x2="160" y2="190" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
+      <circle cx="160" cy="100" r="20" fill="none" stroke="#eab308" stroke-width="2"/>
+      <circle cx="140" cy="100" r="10" fill="#eab308" opacity="0.3" stroke="#eab308" stroke-width="2"/>
+      <text x="140" y="104" text-anchor="middle" fill="#fff" font-size="8">FO</text>
+      <circle cx="180" cy="100" r="10" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-width="2"/>
+      <text x="180" y="104" text-anchor="middle" fill="#fff" font-size="8">FO</text>
+      <circle cx="80" cy="70" r="10" fill="#eab308" opacity="0.3" stroke="#eab308" stroke-width="2"/>
+      <text x="80" y="74" text-anchor="middle" fill="#fff" font-size="8">W</text>
+      <circle cx="80" cy="130" r="10" fill="#eab308" opacity="0.3" stroke="#eab308" stroke-width="2"/>
+      <text x="80" y="134" text-anchor="middle" fill="#fff" font-size="8">W</text>
+      <circle cx="240" cy="70" r="10" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-width="2"/>
+      <text x="240" y="74" text-anchor="middle" fill="#fff" font-size="8">W</text>
+      <circle cx="240" cy="130" r="10" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-width="2"/>
+      <text x="240" y="134" text-anchor="middle" fill="#fff" font-size="8">W</text>
+      <text x="160" y="35" text-anchor="middle" class="label">Face-off X &bull; Wing players ready to react</text>
+    </svg>`,
+    clear: `<svg class="drill-diagram" viewBox="0 0 320 240">
+      <rect class="field" x="5" y="5" width="310" height="230"/>
+      <line x1="5" y1="120" x2="315" y2="120" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="280" y="115" class="label">MIDLINE</text>
+      <rect x="130" y="200" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="160" cy="185" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="189" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="100" cy="165" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="100" y="169" text-anchor="middle" fill="#fff" font-size="8">D</text>
+      <circle cx="220" cy="165" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="220" y="169" text-anchor="middle" fill="#fff" font-size="8">D</text>
+      <circle cx="80" cy="110" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="80" y="114" text-anchor="middle" fill="#fff" font-size="8">M</text>
+      <circle cx="160" cy="105" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="160" y="109" text-anchor="middle" fill="#fff" font-size="8">M</text>
+      <circle cx="240" cy="110" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="240" y="114" text-anchor="middle" fill="#fff" font-size="8">M</text>
+      <circle cx="100" cy="50" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="100" y="54" text-anchor="middle" fill="#fff" font-size="8">A</text>
+      <circle cx="220" cy="50" r="10" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
+      <text x="220" y="54" text-anchor="middle" fill="#fff" font-size="8">A</text>
+      <line x1="160" y1="175" x2="105" y2="170" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,3"/>
+      <line x1="100" y1="155" x2="85" y2="118" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,3"/>
+      <line x1="160" y1="97" x2="160" y2="60" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <text x="160" y="25" text-anchor="middle" class="label">2-3-2 Clear: G to D to M to A</text>
+    </svg>`,
+    fastbreak: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="130" y="160" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="160" cy="145" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="149" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="60" cy="80" r="12" fill="#ec4899" opacity="0.3" stroke="#ec4899" stroke-width="2"/>
+      <text x="60" y="84" text-anchor="middle" fill="#fff" font-size="9">O1</text>
+      <circle cx="160" cy="50" r="12" fill="#ec4899" opacity="0.3" stroke="#ec4899" stroke-width="2"/>
+      <text x="160" y="54" text-anchor="middle" fill="#fff" font-size="9">O2</text>
+      <circle cx="260" cy="80" r="12" fill="#ec4899" opacity="0.3" stroke="#ec4899" stroke-width="2"/>
+      <text x="260" y="84" text-anchor="middle" fill="#fff" font-size="9">O3</text>
+      <circle cx="160" cy="130" r="12" fill="#ec4899" opacity="0.3" stroke="#ec4899" stroke-width="2"/>
+      <text x="160" y="134" text-anchor="middle" fill="#fff" font-size="9">O4</text>
+      <circle cx="120" cy="120" r="10" fill="#ef4444" opacity="0.2" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="120" y="124" text-anchor="middle" fill="#ef4444" font-size="8">D</text>
+      <circle cx="200" cy="120" r="10" fill="#ef4444" opacity="0.2" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="200" y="124" text-anchor="middle" fill="#ef4444" font-size="8">D</text>
+      <circle cx="160" cy="105" r="10" fill="#ef4444" opacity="0.2" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="160" y="109" text-anchor="middle" fill="#ef4444" font-size="8">D</text>
+      <line x1="72" y1="76" x2="147" y2="54" stroke="#ec4899" stroke-width="2" stroke-dasharray="5,3"/>
+      <polygon points="143,50 150,51 146,58" fill="#ec4899"/>
+      <line x1="173" y1="54" x2="248" y2="76" stroke="#ec4899" stroke-width="2" stroke-dasharray="5,3"/>
+      <polygon points="244,72 252,79 246,80" fill="#ec4899"/>
+      <line x1="254" y1="92" x2="172" y2="126" stroke="#ec4899" stroke-width="2" stroke-dasharray="5,3"/>
+      <polygon points="176,122 170,130 168,122" fill="#ec4899"/>
+      <text x="160" y="25" text-anchor="middle" class="label">L Fast Break: 4v3 &bull; Move ball faster than D</text>
+    </svg>`,
+    offense: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="130" y="160" width="60" height="30" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="160" cy="145" r="10" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="149" text-anchor="middle" fill="#fff" font-size="9">G</text>
+      <circle cx="50" cy="100" r="12" fill="#e5e7eb" opacity="0.3" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="50" y="104" text-anchor="middle" fill="#fff" font-size="9">A1</text>
+      <circle cx="270" cy="100" r="12" fill="#e5e7eb" opacity="0.3" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="270" y="104" text-anchor="middle" fill="#fff" font-size="9">A2</text>
+      <circle cx="160" cy="170" r="12" fill="#e5e7eb" opacity="0.3" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="160" y="174" text-anchor="middle" fill="#fff" font-size="9">A3</text>
+      <circle cx="100" cy="45" r="12" fill="#e5e7eb" opacity="0.3" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="100" y="49" text-anchor="middle" fill="#fff" font-size="9">M1</text>
+      <circle cx="160" cy="30" r="12" fill="#e5e7eb" opacity="0.3" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="160" y="34" text-anchor="middle" fill="#fff" font-size="9">M2</text>
+      <circle cx="220" cy="45" r="12" fill="#e5e7eb" opacity="0.3" stroke="#e5e7eb" stroke-width="2"/>
+      <text x="220" y="49" text-anchor="middle" fill="#fff" font-size="9">M3</text>
+      <line x1="112" y1="48" x2="147" y2="33" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+      <line x1="173" y1="33" x2="208" y2="48" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+      <line x1="62" y1="104" x2="147" y2="167" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+      <text x="160" y="120" text-anchor="middle" fill="#e5e7eb" font-size="10" font-weight="700" opacity="0.6">2-3-1 SET</text>
+    </svg>`,
+    goalie: `<svg class="drill-diagram" viewBox="0 0 320 200">
+      <rect class="field" x="5" y="5" width="310" height="190"/>
+      <rect x="120" y="140" width="80" height="50" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+      <text x="160" y="170" text-anchor="middle" fill="#aaa" font-size="10">GOAL</text>
+      <path d="M 100 130 C 100 100, 160 80, 220 130" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3" fill="none"/>
+      <text x="160" y="100" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700">ARC</text>
+      <circle cx="160" cy="120" r="14" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
+      <text x="160" y="125" text-anchor="middle" fill="#fff" font-size="11">G</text>
+      <circle cx="80" cy="50" r="10" fill="#ff9500" opacity="0.3" stroke="#ff9500" stroke-width="2"/>
+      <text x="80" y="54" text-anchor="middle" fill="#fff" font-size="8">S</text>
+      <line x1="88" y1="58" x2="152" y2="110" stroke="#ff9500" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="148,107 155,113 150,114" fill="#ff9500"/>
+      <text x="160" y="35" text-anchor="middle" class="label">Stay on the arc &bull; Step to the ball</text>
+    </svg>`
+  };
+  return diagrams[type] || '';
+}
+
+// ========== STATE ==========
+let activeCategory = localStorage.getItem('btb_boys_drill_cat') || 'all';
+let expandedDrill = null;
+let searchQuery = '';
+
+// ========== RENDER CATEGORIES ==========
+function renderCategories() {
+  const grid = document.getElementById('categoryGrid');
+  let html = '';
+  CATEGORIES.forEach(cat => {
+    const isAll = cat.id === 'all';
+    const isActive = activeCategory === cat.id;
+    html += `<div class="cat-btn ${isAll ? 'cat-btn-all' : ''} ${isActive ? 'active' : ''}"
+      style="--cat-color:${cat.color}"
+      onclick="setCategory('${cat.id}')"
+      data-cat="${cat.id}">
+      <span class="cat-emoji">${cat.emoji}</span>
+      <span class="cat-label">${cat.label}</span>
+    </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+// ========== RENDER DRILLS ==========
+function getFilteredDrills() {
+  let filtered = DRILLS;
+  if (activeCategory !== 'all') {
+    filtered = filtered.filter(d => d.cat === activeCategory);
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(d => {
+      const searchText = [d.name, d.purpose, d.cat, d.setup, ...(d.points || []),
+        ...(d.videos || []).map(v => v.title + ' ' + v.channel)].join(' ').toLowerCase();
+      return searchText.includes(q);
+    });
+  }
+  return filtered;
+}
+
+function getCatColor(catId) {
+  const cat = CATEGORIES.find(c => c.id === catId);
+  return cat ? cat.color : '#888';
+}
+
+function renderDrills() {
+  const container = document.getElementById('drillsContainer');
+  const filtered = getFilteredDrills();
+  const countEl = document.getElementById('drillCount');
+  countEl.innerHTML = `Showing <span>${filtered.length}</span> of 70 drills`;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="no-results"><div class="nr-emoji">\u{1F50D}</div>No drills found. Try a different search or category.</div>`;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach(drill => {
+    const color = getCatColor(drill.cat);
+    const isExpanded = expandedDrill === drill.id;
+    const diffDots = Array.from({length: 3}, (_, i) =>
+      `<div class="diff-dot ${i < drill.diff ? 'filled' : ''}" style="--card-color:${color}"></div>`
+    ).join('');
+
+    let detailHtml = '';
+    if (isExpanded) {
+      detailHtml = `<div class="drill-detail-inner">
+        <div class="detail-tags">
+          <div class="detail-tag">\u{1F464} ${drill.players} players</div>
+          <div class="detail-tag">\u{23F1} ${drill.time}</div>
+          <div class="detail-tag">${drill.diff === 1 ? 'Beginner' : drill.diff === 2 ? 'Intermediate' : 'Advanced'}</div>
+        </div>
+        ${drill.diagram ? `<div class="detail-section">${getDiagram(drill.diagram, color)}</div>` : ''}
+        <div class="detail-section">
+          <h4>Setup</h4>
+          <p>${drill.setup}</p>
+        </div>
+        <div class="detail-section">
+          <h4>Coaching Points</h4>
+          <ul>${drill.points.map(p => `<li>${p}</li>`).join('')}</ul>
+        </div>
+        ${drill.videos && drill.videos.length > 0 ? `
+        <div class="detail-section">
+          <h4>\u{1F3AC} Watch & Learn</h4>
+          <div class="video-links">
+            ${drill.videos.map(v => `
+              <a href="${v.url}" target="_blank" rel="noopener" class="video-link" style="--card-color:${color}">
+                <div class="video-play" style="--card-color:${color}">\u{25B6}</div>
+                <div class="video-text">
+                  <div class="video-title">${v.title}</div>
+                  <div class="video-channel">${v.channel}</div>
+                </div>
+                <div class="video-arrow">\u{2197}</div>
+              </a>
+            `).join('')}
+          </div>
+        </div>` : ''}
+      </div>`;
+    }
+
+    html += `<div class="drill-card" data-expanded="${isExpanded}" style="--card-color:${color}">
+      <div class="drill-header" onclick="toggleDrill(${drill.id})">
+        <div class="drill-number" style="background:${color}">${drill.id}</div>
+        <div class="drill-info">
+          <div class="drill-name">${drill.name}</div>
+          <div class="drill-purpose">${drill.purpose}</div>
+        </div>
+        <div class="drill-meta">
+          <div class="difficulty" style="--card-color:${color}">${diffDots}</div>
+          <button class="view-btn" style="--card-color:${color}">${isExpanded ? 'Close' : 'View'}</button>
+        </div>
+      </div>
+      <div class="drill-detail">${detailHtml}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ========== ACTIONS ==========
+function setCategory(catId) {
+  activeCategory = catId;
+  expandedDrill = null;
+  localStorage.setItem('btb_boys_drill_cat', catId);
+  renderCategories();
+  renderDrills();
+  document.getElementById('drillsContainer').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function toggleDrill(id) {
+  expandedDrill = expandedDrill === id ? null : id;
+  renderDrills();
+  if (expandedDrill) {
+    setTimeout(() => {
+      const card = document.querySelector(`.drill-card[data-expanded="true"]`);
+      if (card) card.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 50);
+  }
+}
+
+// ========== SEARCH ==========
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  searchQuery = e.target.value.trim();
+  expandedDrill = null;
+  renderDrills();
+});
+
+// ========== INIT ==========
+renderCategories();
+renderDrills();
+</script>
+</body>
+</html>
