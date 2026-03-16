@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Boys Lacrosse — Analytics Engine</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#000000;--card:#0a0a0a;--border:rgba(255,255,255,0.08);
+--text:#ffffff;--text-dim:rgba(255,255,255,0.55);--text-mid:rgba(255,255,255,0.75);
+--red:#D22630;--blue:#3b82f6;--green:#22c55e;--yellow:#f59e0b;--alert:#ef4444;
+--radius:22px;
+}
+html{scroll-behavior:smooth}
+body{
+font-family:'Montserrat',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+background:var(--bg);color:var(--text);line-height:1.6;
+-webkit-font-smoothing:antialiased;
+}
+.container{max-width:1320px;margin:0 auto;padding:0 20px}
+
+/* HERO */
+.hero{
+background:linear-gradient(90deg,#8b0000,#D22630,#ff4444);
+padding:56px 0 48px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::after{
+content:'';position:absolute;inset:0;
+background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(0,0,0,0.06) 60px,rgba(0,0,0,0.06) 61px);
+}
+.hero h1{font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.5px;position:relative;z-index:1;text-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.hero p{font-size:clamp(0.9rem,1.8vw,1.1rem);opacity:0.92;margin-top:10px;position:relative;z-index:1;max-width:680px;margin-left:auto;margin-right:auto}
+
+/* KPI STRIP */
+.kpi-strip{
+display:grid;grid-template-columns:repeat(5,1fr);gap:16px;
+margin-top:-36px;position:relative;z-index:2;
+}
+.kpi-card{
+background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+padding:24px 16px;text-align:center;
+transition:transform 0.3s,box-shadow 0.3s;
+}
+.kpi-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(210,38,48,0.15)}
+.kpi-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px}
+.kpi-value{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800}
+.kpi-sub{font-size:0.7rem;color:var(--text-dim);margin-top:4px}
+
+/* SECTIONS */
+.section{margin-top:48px}
+.section-title{
+font-size:1.3rem;font-weight:700;margin-bottom:20px;
+display:flex;align-items:center;gap:10px;
+}
+.section-title .dot{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block}
+.section-title .dot-blue{background:var(--blue)}
+
+/* TEAM SELECTOR */
+.selector-wrap{
+margin-top:40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.selector-wrap label{font-size:0.85rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim)}
+.selector-wrap select{
+background:#111;color:#fff;border:1px solid var(--border);border-radius:12px;
+padding:12px 20px;font-size:1rem;font-weight:600;cursor:pointer;min-width:240px;
+appearance:none;-webkit-appearance:none;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+background-repeat:no-repeat;background-position:right 16px center;
+}
+.selector-wrap select:focus{outline:none;border-color:var(--red)}
+
+/* CARDS / PANELS */
+.card{
+background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+padding:28px;transition:opacity 0.4s,transform 0.4s;
+}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card-title .icon{font-size:1.2rem}
+
+/* TREND ENGINE */
+.trend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.trend-card .trend-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.trend-card .trend-label{font-size:0.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+.trend-card .trend-val{font-size:1.8rem;font-weight:800}
+.sparkline-wrap{width:100%;height:60px;margin-top:8px}
+.sparkline-wrap svg{width:100%;height:100%}
+
+/* PROGRESS BARS */
+.metric-row{margin-bottom:18px}
+.metric-row:last-child{margin-bottom:0}
+.metric-label{display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:6px}
+.metric-label span:first-child{color:var(--text-mid)}
+.metric-label span:last-child{font-weight:700}
+.bar-track{height:10px;background:rgba(255,255,255,0.06);border-radius:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:8px;transition:width 1s cubic-bezier(0.22,1,0.36,1);width:0}
+
+/* SHOT QUALITY + FACEOFF GRID */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rec-card{
+margin-top:16px;padding:16px 20px;border-radius:14px;
+background:rgba(59,130,246,0.08);border-left:4px solid var(--blue);
+font-size:0.85rem;line-height:1.7;color:var(--text-mid);
+}
+.rec-card strong{color:var(--blue)}
+
+/* PLAYER TABLE */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead th{
+text-align:left;padding:14px 16px;font-size:0.7rem;text-transform:uppercase;
+letter-spacing:1.5px;color:var(--text-dim);border-bottom:1px solid var(--border);
+}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--border)}
+tbody tr:hover{background:rgba(210,38,48,0.06)}
+.grade-a{color:var(--green);font-weight:700}
+.grade-b{color:var(--blue);font-weight:700}
+.grade-c{color:var(--yellow);font-weight:700}
+.grade-d{color:var(--alert);font-weight:700}
+.impact-high{color:var(--green)}
+.impact-mid{color:var(--yellow)}
+.impact-low{color:var(--alert)}
+
+/* PRACTICE CARDS */
+.practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.practice-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.practice-card .p-name{font-weight:700;font-size:1rem;margin-bottom:4px}
+.practice-card .p-focus{font-size:0.75rem;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.practice-card .p-metric{display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:6px}
+.practice-card .p-metric span:first-child{color:var(--text-dim)}
+.practice-card .p-metric span:last-child{font-weight:700}
+.practice-card .p-score{font-size:1.6rem;font-weight:800;margin:12px 0 4px}
+.practice-card .p-note{font-size:0.78rem;color:var(--text-dim);margin-top:12px;font-style:italic;border-top:1px solid var(--border);padding-top:10px}
+
+/* BOTTOM CARDS */
+.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.bottom-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.bottom-card h3{font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--red)}
+.bottom-card p{font-size:0.85rem;color:var(--text-dim);line-height:1.7}
+
+/* NAV LINKS */
+.nav-links{
+display:flex;justify-content:center;gap:32px;margin:56px 0 40px;flex-wrap:wrap;
+}
+.nav-links a{
+color:var(--text-dim);text-decoration:none;font-size:0.85rem;
+padding:10px 24px;border:1px solid var(--border);border-radius:12px;
+transition:all 0.3s;
+}
+.nav-links a:hover{color:#fff;border-color:var(--red);background:rgba(210,38,48,0.1)}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+.kpi-strip{grid-template-columns:repeat(3,1fr)}
+.trend-grid,.practice-grid,.bottom-grid{grid-template-columns:1fr 1fr}
+.analytics-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+.kpi-strip{grid-template-columns:repeat(2,1fr)}
+.trend-grid,.practice-grid,.bottom-grid,.analytics-grid{grid-template-columns:1fr}
+.container{padding:0 14px}
+.hero{padding:40px 16px 36px}
+.card{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<div class="container">
+<h1>BTB Boys Lacrosse — Analytics Engine</h1>
+<p>Real-time performance analytics across all BTB boys teams. Track face-off dominance, clearing efficiency, shot quality, and player impact to drive coaching decisions.</p>
+</div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="container">
+<div class="kpi-strip" id="kpiStrip">
+<div class="kpi-card fade-in">
+<div class="kpi-label">Teams</div>
+<div class="kpi-value" data-count="9">0</div>
+<div class="kpi-sub">Active Boys Teams</div>
+</div>
+<div class="kpi-card fade-in">
+<div class="kpi-label">Avg Face-Off Win</div>
+<div class="kpi-value" data-count="54" data-suffix="%" id="kpiFO">0%</div>
+<div class="kpi-sub">League avg: 50%</div>
+</div>
+<div class="kpi-card fade-in">
+<div class="kpi-label">Avg Clear</div>
+<div class="kpi-value" data-count="82" data-suffix="%" id="kpiClear">0%</div>
+<div class="kpi-sub">Target: 85%+</div>
+</div>
+<div class="kpi-card fade-in">
+<div class="kpi-label">Avg Ride Stop</div>
+<div class="kpi-value" data-count="28" data-suffix="%" id="kpiRide">0%</div>
+<div class="kpi-sub">Disruption rate</div>
+</div>
+<div class="kpi-card fade-in">
+<div class="kpi-label">Avg Shot Quality</div>
+<div class="kpi-value" data-count="66" data-suffix="%" id="kpiShot">0%</div>
+<div class="kpi-sub">Composite index</div>
+</div>
+</div>
+
+<!-- TEAM SELECTOR -->
+<div class="selector-wrap fade-in">
+<label for="teamSelect">Select Team</label>
+<select id="teamSelect">
+<option value="2028 Black">2028 Black</option>
+<option value="2030 Rage">2030 Rage</option>
+<option value="2031 Carnage">2031 Carnage</option>
+<option value="2032 Cannons">2032 Cannons</option>
+<option value="2033 Renegades">2033 Renegades</option>
+<option value="2034 Snipers">2034 Snipers</option>
+<option value="2034 Hurricanes">2034 Hurricanes</option>
+<option value="2035 Bombers">2035 Bombers</option>
+<option value="2036 Dawgs">2036 Dawgs</option>
+</select>
+</div>
+
+<!-- TREND ENGINE -->
+<div class="section fade-in" id="trendSection">
+<div class="section-title"><span class="dot"></span> Trend Engine — 5-Game Rolling</div>
+<div class="trend-grid">
+<div class="card trend-card" id="trendFO">
+<div class="trend-header">
+<div>
+<div class="trend-label">Face-Off Win Trend</div>
+<div class="trend-val" id="trendFOVal">60%</div>
+</div>
+</div>
+<div class="sparkline-wrap" id="sparkFO"></div>
+</div>
+<div class="card trend-card" id="trendClear">
+<div class="trend-header">
+<div>
+<div class="trend-label">Clear Success Trend</div>
+<div class="trend-val" id="trendClearVal">90%</div>
+</div>
+</div>
+<div class="sparkline-wrap" id="sparkClear"></div>
+</div>
+<div class="card trend-card" id="trendRide">
+<div class="trend-header">
+<div>
+<div class="trend-label">Ride Disruption Trend</div>
+<div class="trend-val" id="trendRideVal">34%</div>
+</div>
+</div>
+<div class="sparkline-wrap" id="sparkRide"></div>
+</div>
+</div>
+</div>
+
+<!-- SHOT QUALITY + FACE-OFF ANALYTICS -->
+<div class="section fade-in" id="analyticsSection">
+<div class="analytics-grid">
+<!-- Shot Quality -->
+<div>
+<div class="section-title"><span class="dot"></span> Shot Quality Engine</div>
+<div class="card" id="shotCard">
+<div class="metric-row">
+<div class="metric-label"><span>Shots on Cage</span><span id="sqCage">61%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barCage" style="background:var(--green)"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-label"><span>Assisted Shot %</span><span id="sqAssist">38%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barAssist" style="background:var(--blue)"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-label"><span>Inside Crease %</span><span id="sqCrease">42%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barCrease" style="background:var(--yellow)"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-label"><span>Low-Value Shot %</span><span id="sqLow">26%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barLow" style="background:var(--alert)"></div></div>
+</div>
+<div class="rec-card" id="shotRec">
+<strong>Recommendation:</strong> Continue emphasizing ball movement through X — assisted shot rate climbing. Target 45%+ inside crease looks to convert more high-quality opportunities.
+</div>
+</div>
+</div>
+<!-- Face-Off Analytics -->
+<div>
+<div class="section-title"><span class="dot dot-blue"></span> Face-Off Analytics</div>
+<div class="card" id="foCard">
+<div class="metric-row">
+<div class="metric-label"><span>FOGO Win Rate</span><span id="foWin">60%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barFOWin" style="background:var(--green)"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-label"><span>Clamp Success %</span><span id="foClamp">72%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barClamp" style="background:var(--blue)"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-label"><span>Ground Balls Won After FO</span><span id="foGB">58%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barGB" style="background:var(--yellow)"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-label"><span>Possession Rate After Win</span><span id="foPoss">84%</span></div>
+<div class="bar-track"><div class="bar-fill" id="barPoss" style="background:var(--green)"></div></div>
+</div>
+<div class="rec-card" id="foRec">
+<strong>Recommendation:</strong> FOGO performing above average. Focus on ground ball conversion after contested face-offs to push possession rate higher.
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- PLAYER IMPACT TABLE -->
+<div class="section fade-in" id="playerSection">
+<div class="section-title"><span class="dot"></span> Player Impact Table</div>
+<div class="card">
+<div class="table-wrap">
+<table id="playerTable">
+<thead>
+<tr>
+<th>Player</th>
+<th>Position</th>
+<th>Impact Score</th>
+<th>Goal Diff</th>
+<th>Decision Grade</th>
+</tr>
+</thead>
+<tbody id="playerBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- PRACTICE EFFECTIVENESS -->
+<div class="section fade-in" id="practiceSection">
+<div class="section-title"><span class="dot dot-blue"></span> Practice Effectiveness</div>
+<div class="practice-grid" id="practiceGrid"></div>
+</div>
+
+<!-- BOTTOM CARDS -->
+<div class="bottom-grid fade-in">
+<div class="bottom-card">
+<h3>What This Engine Completes</h3>
+<p>This dashboard closes the loop between game film, practice design, and player development. Every metric connects to a coaching action. Film reveals the data, practice targets the gaps, and this engine tracks whether the work is moving the needle. No more guessing — just evidence-based development for every BTB boys team.</p>
+</div>
+<div class="bottom-card">
+<h3>How to Wire It Next</h3>
+<p>Connect this engine to an Airtable backend for live data entry by coaches. Each game's stats feed directly into the dashboard, replacing manual updates. Game-day stat sheets sync automatically. Player impact scores calculate in real time. The goal: coaches enter data once, and the engine does the rest.</p>
+</div>
+<div class="bottom-card">
+<h3>BTB Operating Standard</h3>
+<p>Every weekly staff meeting starts here. Pull up the Analytics Engine, review each team's 5-game trends, identify the biggest lever for improvement, and assign that week's practice focus accordingly. This is how BTB turns data into championships — consistent, disciplined, accountable coaching across every age group.</p>
+</div>
+</div>
+
+<!-- NAV LINKS -->
+<div class="nav-links">
+<a href="../boys/index.html">Back to Boys Academy</a>
+<a href="../index.html">Back to Main Dashboard</a>
+</div>
+</div>
+
+<script>
+/* ========================================================
+   BTB BOYS ANALYTICS ENGINE — DATA + LOGIC
+   ======================================================== */
+
+// ---- TEAM DATA ----
+const TEAMS = {
+"2028 Black": {
+  trends: { faceoff:[52,54,56,58,60], clear:[84,86,85,88,90], ride:[26,28,30,32,34] },
+  shotQuality: { cage:61, assist:38, crease:42, low:26 },
+  shotRec: "Continue emphasizing ball movement through X — assisted shot rate climbing. Target 45%+ inside crease looks to convert more high-quality opportunities.",
+  faceoff: { winRate:60, clamp:72, groundBall:58, possession:84 },
+  foRec: "FOGO performing above average. Focus on ground ball conversion after contested face-offs to push possession rate higher.",
+  players: [
+    { name:"Marcus Brennan", pos:"Attack", impact:8.7, diff:"+12", grade:"A" },
+    { name:"Cole Richardson", pos:"Midfield", impact:7.9, diff:"+8", grade:"A" },
+    { name:"Jake Thornton", pos:"FOGO", impact:8.2, diff:"+6", grade:"B+" },
+    { name:"Dylan Prescott", pos:"Defense", impact:7.4, diff:"+4", grade:"B" },
+    { name:"Ryan Castillo", pos:"Goalie", impact:8.1, diff:"+10", grade:"A" }
+  ],
+  practices: [
+    { name:"Tuesday Compete", focus:"Transition Offense", metric:"Fast Break Conversion", lift:"14%", score:88, note:"Best session of the month. Attack finishing in transition was elite." },
+    { name:"Thursday Skills", focus:"Shooting Mechanics", metric:"Shot Accuracy", lift:"9%", score:82, note:"Good progress on off-hand finishing. Need more reps from top-side." },
+    { name:"Saturday Scrimmage", focus:"6v6 Settled", metric:"Assisted Goals", lift:"11%", score:85, note:"Ball movement was crisp. Spacing continues to improve week over week." }
+  ]
+},
+"2030 Rage": {
+  trends: { faceoff:[48,50,52,50,53], clear:[78,80,82,81,83], ride:[22,24,25,27,28] },
+  shotQuality: { cage:55, assist:32, crease:36, low:31 },
+  shotRec: "Shot selection needs tightening — too many perimeter attempts. Run more dodges from up top to create inside looks and drive assisted shot percentage up.",
+  faceoff: { winRate:53, clamp:64, groundBall:50, possession:78 },
+  foRec: "Face-off win rate hovering around average. Add counter-move reps to practice — opponents are reading the clamp. Ground ball effort after the whistle must improve.",
+  players: [
+    { name:"Aiden Murray", pos:"Attack", impact:7.3, diff:"+6", grade:"B+" },
+    { name:"Nolan Vega", pos:"Midfield", impact:6.8, diff:"+3", grade:"B" },
+    { name:"Gavin Holbrook", pos:"FOGO", impact:6.5, diff:"+2", grade:"C+" },
+    { name:"Tyler Jameson", pos:"Defense", impact:7.0, diff:"+4", grade:"B" },
+    { name:"Ethan Sinclair", pos:"Goalie", impact:7.2, diff:"+5", grade:"B+" }
+  ],
+  practices: [
+    { name:"Monday Fundamentals", focus:"Ground Balls", metric:"GB Win Rate", lift:"8%", score:76, note:"Good effort. Need to carry intensity from drills into live play." },
+    { name:"Wednesday Film + Field", focus:"Ride Packages", metric:"Ride Success", lift:"6%", score:72, note:"Film session showed gaps in ride lane assignment. Field work helped." },
+    { name:"Friday Live Reps", focus:"Man-Up Offense", metric:"EMO Conversion", lift:"10%", score:79, note:"Extra-man sets clicking. Need to vary the looks more to keep defenses guessing." }
+  ]
+},
+"2031 Carnage": {
+  trends: { faceoff:[55,57,54,58,60], clear:[82,84,86,85,88], ride:[30,32,28,33,35] },
+  shotQuality: { cage:64, assist:41, crease:45, low:22 },
+  shotRec: "Shot quality is top-tier for this age group. Inside crease percentage and assist rate both trending up. Maintain the unsettled offense focus — it's generating the best looks.",
+  faceoff: { winRate:60, clamp:70, groundBall:62, possession:86 },
+  foRec: "Strong face-off unit. Ground ball recovery is a standout — keep drilling the wing play and secondary efforts that fuel this number.",
+  players: [
+    { name:"Brayden Cross", pos:"Attack", impact:8.4, diff:"+10", grade:"A" },
+    { name:"Liam Oconnell", pos:"Midfield", impact:7.8, diff:"+7", grade:"A-" },
+    { name:"Jaxson Reeves", pos:"FOGO", impact:8.0, diff:"+8", grade:"A" },
+    { name:"Connor Whitfield", pos:"Defense", impact:7.6, diff:"+5", grade:"B+" }
+  ],
+  practices: [
+    { name:"Tuesday Tempo", focus:"Unsettled Offense", metric:"Transition Goals", lift:"16%", score:91, note:"Elite tempo. This team thrives in chaos — keep the pace high." },
+    { name:"Thursday Defensive", focus:"Slide Packages", metric:"On-Time Slides", lift:"12%", score:84, note:"Adjacent slides improving. Communication still needs work on weak-side." },
+    { name:"Saturday Full Game", focus:"Game Management", metric:"Turnover Rate", lift:"7%", score:80, note:"Turnovers down from previous weeks. Decision-making in settled offense getting better." }
+  ]
+},
+"2032 Cannons": {
+  trends: { faceoff:[45,47,49,50,52], clear:[75,77,78,80,82], ride:[20,22,23,25,26] },
+  shotQuality: { cage:52, assist:28, crease:34, low:35 },
+  shotRec: "Low-value shot percentage is too high at 35%. Implement a 'no shot outside 12 yards' rule in practice to build better habits around shot selection and patience.",
+  faceoff: { winRate:52, clamp:60, groundBall:48, possession:74 },
+  foRec: "Face-off win rate is climbing but still below target. Increase face-off reps in practice — the FOGO needs more live-speed work against different styles.",
+  players: [
+    { name:"Mason Delgado", pos:"Attack", impact:6.4, diff:"+2", grade:"B-" },
+    { name:"Owen Gallagher", pos:"Midfield", impact:6.1, diff:"+1", grade:"C+" },
+    { name:"Lucas Pratt", pos:"FOGO", impact:5.8, diff:"0", grade:"C" },
+    { name:"Nathan Corbin", pos:"Defense", impact:6.6, diff:"+3", grade:"B" },
+    { name:"Caleb Hensley", pos:"Goalie", impact:6.3, diff:"+2", grade:"B-" }
+  ],
+  practices: [
+    { name:"Monday Build", focus:"Stick Skills", metric:"Catch & Throw Accuracy", lift:"5%", score:68, note:"Foundational work needed. Left-hand passing still a weak spot for most." },
+    { name:"Wednesday Compete", focus:"1v1 Defense", metric:"Takeaway Rate", lift:"7%", score:71, note:"Defenders showing better footwork. Need to be more aggressive on hands." },
+    { name:"Saturday Scrimmage", focus:"Full-Field Flow", metric:"Possessions per Game", lift:"4%", score:66, note:"Still learning to play fast with control. Turnovers in transition are the main issue." }
+  ]
+},
+"2033 Renegades": {
+  trends: { faceoff:[50,52,48,55,57], clear:[80,82,84,83,86], ride:[25,27,29,28,30] },
+  shotQuality: { cage:58, assist:35, crease:39, low:28 },
+  shotRec: "Improving steadily. Assisted shot rate needs a push — run more 'feed and finish' drills to build chemistry between dodgers and cutters.",
+  faceoff: { winRate:57, clamp:68, groundBall:55, possession:82 },
+  foRec: "Face-off trending upward after a dip in game 3. FOGO is developing well — add more counter situations in practice to prepare for tournament play.",
+  players: [
+    { name:"Carter Malone", pos:"Attack", impact:7.5, diff:"+7", grade:"B+" },
+    { name:"Jackson Flores", pos:"Midfield", impact:7.1, diff:"+5", grade:"B" },
+    { name:"Dominic Steele", pos:"FOGO", impact:7.3, diff:"+6", grade:"B+" },
+    { name:"Hunter Blackwell", pos:"Defense", impact:6.9, diff:"+3", grade:"B" }
+  ],
+  practices: [
+    { name:"Tuesday Attack Flow", focus:"Offensive Sets", metric:"Set Play Execution", lift:"11%", score:83, note:"New 1-4-1 set showing promise. Midfield dodges from up top creating good angles." },
+    { name:"Thursday Defense Day", focus:"Clear Packages", metric:"Clear Success Rate", lift:"8%", score:78, note:"Added a new break-clear look. Need more reps to make it automatic under pressure." },
+    { name:"Saturday Tournament Prep", focus:"Game Situations", metric:"Clutch Play Index", lift:"9%", score:81, note:"Late-game scenarios helping build mental toughness. Team responds well to pressure drills." }
+  ]
+},
+"2034 Snipers": {
+  trends: { faceoff:[58,60,62,61,64], clear:[88,90,89,91,92], ride:[32,34,36,35,38] },
+  shotQuality: { cage:68, assist:44, crease:48, low:20 },
+  shotRec: "Elite-level shot quality metrics. This team generates the best looks in the program. Keep pushing inside crease % above 50 — the extra reps on backside cuts are paying off.",
+  faceoff: { winRate:64, clamp:76, groundBall:66, possession:90 },
+  foRec: "Best face-off unit in the program. Dominant clamp rate and ground ball work. Challenge the FOGO with tougher practice matchups to maintain edge.",
+  players: [
+    { name:"Brody Callahan", pos:"Attack", impact:9.1, diff:"+14", grade:"A+" },
+    { name:"Declan Mercer", pos:"Midfield", impact:8.6, diff:"+11", grade:"A" },
+    { name:"Evan Radcliffe", pos:"FOGO", impact:8.9, diff:"+9", grade:"A" },
+    { name:"Tristan Hargrave", pos:"Defense", impact:8.3, diff:"+7", grade:"A-" },
+    { name:"Cameron Doyle", pos:"Goalie", impact:8.7, diff:"+12", grade:"A" }
+  ],
+  practices: [
+    { name:"Tuesday Elite", focus:"Film Integration", metric:"IQ Score Post-Film", lift:"18%", score:94, note:"Film-to-field sessions are the gold standard. Players are self-correcting in real time." },
+    { name:"Thursday Championship", focus:"Pressure Situations", metric:"Conversion Under Pressure", lift:"14%", score:90, note:"Clutch performance metrics off the charts. This group thrives in high-stakes moments." },
+    { name:"Saturday Showcase", focus:"Full Scrimmage vs 2028s", metric:"Compete Score", lift:"12%", score:88, note:"Playing up against older team. Held their own — great development indicator." }
+  ]
+},
+"2034 Hurricanes": {
+  trends: { faceoff:[46,48,50,52,54], clear:[76,78,80,79,82], ride:[24,26,25,28,30] },
+  shotQuality: { cage:56, assist:33, crease:37, low:30 },
+  shotRec: "Low-value shots still at 30% — too many rushed attempts. Slow the offense down in settled situations and let the play develop before shooting.",
+  faceoff: { winRate:54, clamp:66, groundBall:52, possession:80 },
+  foRec: "Steady improvement on face-offs. Ground ball recovery is the weak link — add more 50/50 ball drills to practice with an emphasis on body positioning.",
+  players: [
+    { name:"Logan Archer", pos:"Attack", impact:6.8, diff:"+4", grade:"B" },
+    { name:"Brandon Kemp", pos:"Midfield", impact:6.5, diff:"+2", grade:"B-" },
+    { name:"Derek Nolan", pos:"FOGO", impact:6.7, diff:"+3", grade:"B" },
+    { name:"Shane Decker", pos:"Defense", impact:6.3, diff:"+1", grade:"C+" }
+  ],
+  practices: [
+    { name:"Monday Development", focus:"Dodging & Finishing", metric:"Dodge Success Rate", lift:"7%", score:73, note:"Improving but need more split-dodge work. Players tend to default to one move." },
+    { name:"Wednesday Team", focus:"Zone Ride", metric:"Ride Conversion", lift:"6%", score:70, note:"Zone ride creating some turnovers. Communication between middies needs work." },
+    { name:"Friday Scrimmage", focus:"Live Game Flow", metric:"Poise Under Pressure", lift:"8%", score:75, note:"Better composure this week. Fewer panicked passes in clearing situations." }
+  ]
+},
+"2035 Bombers": {
+  trends: { faceoff:[42,44,46,48,50], clear:[72,74,76,78,80], ride:[18,20,22,24,26] },
+  shotQuality: { cage:49, assist:25, crease:30, low:38 },
+  shotRec: "Low-value shot % at 38% is the highest in the program. This team needs major work on shot selection discipline. Implement 'paint touch' requirement before any shot in practice.",
+  faceoff: { winRate:50, clamp:58, groundBall:46, possession:72 },
+  foRec: "Face-off is a development area. FOGO needs more 1-on-1 coaching time. Focus on hand speed and body positioning before adding advanced moves.",
+  players: [
+    { name:"Miles Harrington", pos:"Attack", impact:5.9, diff:"+1", grade:"C+" },
+    { name:"Austin Cooley", pos:"Midfield", impact:5.6, diff:"0", grade:"C" },
+    { name:"Zach Pemberton", pos:"FOGO", impact:5.4, diff:"-1", grade:"C" },
+    { name:"Reed Calloway", pos:"Defense", impact:5.8, diff:"+1", grade:"C+" },
+    { name:"Trevor Langston", pos:"Goalie", impact:6.0, diff:"+2", grade:"B-" }
+  ],
+  practices: [
+    { name:"Monday Basics", focus:"Catching & Throwing", metric:"Completion Rate", lift:"4%", score:62, note:"Still building fundamentals. Wall ball homework assigned — 200 reps per hand per day." },
+    { name:"Wednesday Positioning", focus:"Defensive Positioning", metric:"Force Rate", lift:"5%", score:64, note:"Players learning to force to the sideline. Help-side defense still a new concept." },
+    { name:"Saturday Growth", focus:"Small-Sided Games", metric:"Decision Speed", lift:"6%", score:67, note:"3v3 and 4v4 games accelerating reads. Keep this format — it's the best teacher." }
+  ]
+},
+"2036 Dawgs": {
+  trends: { faceoff:[40,42,44,46,48], clear:[70,72,74,75,78], ride:[16,18,20,22,24] },
+  shotQuality: { cage:46, assist:22, crease:28, low:42 },
+  shotRec: "Youngest team in the program — shot quality will come with time. Focus on proper shooting form and footwork. The numbers will follow the fundamentals.",
+  faceoff: { winRate:48, clamp:54, groundBall:42, possession:68 },
+  foRec: "Face-off development is age-appropriate. Emphasize stance and hand positioning. Keep it simple — clamp and react. Advanced techniques can wait.",
+  players: [
+    { name:"Beckett Townsend", pos:"Attack", impact:5.2, diff:"0", grade:"C" },
+    { name:"Sawyer Griffin", pos:"Midfield", impact:5.0, diff:"-1", grade:"C-" },
+    { name:"Finn Davenport", pos:"FOGO", impact:4.8, diff:"-1", grade:"C-" },
+    { name:"Landon Kirby", pos:"Defense", impact:5.3, diff:"+1", grade:"C" }
+  ],
+  practices: [
+    { name:"Monday Intro", focus:"Lacrosse IQ", metric:"Rules & Concepts Quiz", lift:"10%", score:58, note:"Building the foundation. Players learning field awareness and basic positioning." },
+    { name:"Wednesday Fun Comp", focus:"Competitive Games", metric:"Engagement Score", lift:"15%", score:70, note:"High energy sessions. Fun-first approach is keeping these kids locked in and loving the game." },
+    { name:"Saturday Mini-Games", focus:"2v2 and 3v3", metric:"Skill Application", lift:"8%", score:63, note:"Small-sided games forcing decision-making. Progress is visible week to week." }
+  ]
+}
+};
+
+// ---- UTILITY FUNCTIONS ----
+function getColor(val, thresholds) {
+  // thresholds: [redBelow, yellowBelow] — anything >= yellowBelow is green
+  if (val < thresholds[0]) return 'var(--alert)';
+  if (val < thresholds[1]) return 'var(--yellow)';
+  return 'var(--green)';
+}
+
+function gradeClass(g) {
+  if (g.startsWith('A')) return 'grade-a';
+  if (g.startsWith('B')) return 'grade-b';
+  if (g.startsWith('C')) return 'grade-c';
+  return 'grade-d';
+}
+
+function impactClass(v) {
+  if (v >= 7.5) return 'impact-high';
+  if (v >= 6.0) return 'impact-mid';
+  return 'impact-low';
+}
+
+function scoreColor(s) {
+  if (s >= 85) return 'var(--green)';
+  if (s >= 70) return 'var(--yellow)';
+  return 'var(--alert)';
+}
+
+// ---- SPARKLINE DRAWING ----
+function drawSparkline(containerId, data, color) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const w = 240, h = 56, pad = 8;
+  const min = Math.min(...data) - 4, max = Math.max(...data) + 4;
+  const range = max - min || 1;
+  const pts = data.map((v, i) => {
+    const x = pad + (i / (data.length - 1)) * (w - 2 * pad);
+    const y = h - pad - ((v - min) / range) * (h - 2 * pad);
+    return { x, y };
+  });
+  const polyline = pts.map(p => `${p.x},${p.y}`).join(' ');
+  // gradient area
+  const areaPath = `M${pts[0].x},${h} L${pts.map(p=>`${p.x},${p.y}`).join(' L')} L${pts[pts.length-1].x},${h} Z`;
+  const dots = pts.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="${color}" opacity="0.9"/>`).join('');
+  const lastDot = pts[pts.length - 1];
+
+  el.innerHTML = `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="grad-${containerId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${color}" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="${color}" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <path d="${areaPath}" fill="url(#grad-${containerId})"/>
+      <polyline points="${polyline}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${dots}
+      <circle cx="${lastDot.x}" cy="${lastDot.y}" r="5" fill="${color}" opacity="0.5">
+        <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>`;
+}
+
+// ---- ANIMATED BARS ----
+function animateBar(id, pct) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.width = '0%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      el.style.width = pct + '%';
+    });
+  });
+}
+
+// ---- KPI COUNTER ANIMATION ----
+function animateCounters() {
+  document.querySelectorAll('.kpi-value[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1200;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * ease) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+// ---- COLOR CODE KPIs ----
+function colorKPIs() {
+  const foEl = document.getElementById('kpiFO');
+  if (foEl) foEl.style.color = getColor(54, [45, 52]);
+  const clEl = document.getElementById('kpiClear');
+  if (clEl) clEl.style.color = getColor(82, [75, 82]);
+  const rdEl = document.getElementById('kpiRide');
+  if (rdEl) rdEl.style.color = getColor(28, [20, 28]);
+  const shEl = document.getElementById('kpiShot');
+  if (shEl) shEl.style.color = getColor(66, [55, 65]);
+}
+
+// ---- LOAD TEAM DATA ----
+function loadTeam(teamName) {
+  const t = TEAMS[teamName];
+  if (!t) return;
+
+  // Trends
+  const foData = t.trends.faceoff;
+  const clData = t.trends.clear;
+  const rdData = t.trends.ride;
+  document.getElementById('trendFOVal').textContent = foData[foData.length - 1] + '%';
+  document.getElementById('trendClearVal').textContent = clData[clData.length - 1] + '%';
+  document.getElementById('trendRideVal').textContent = rdData[rdData.length - 1] + '%';
+  document.getElementById('trendFOVal').style.color = getColor(foData[foData.length-1],[45,52]);
+  document.getElementById('trendClearVal').style.color = getColor(clData[clData.length-1],[75,82]);
+  document.getElementById('trendRideVal').style.color = getColor(rdData[rdData.length-1],[20,28]);
+  drawSparkline('sparkFO', foData, '#D22630');
+  drawSparkline('sparkClear', clData, '#22c55e');
+  drawSparkline('sparkRide', rdData, '#f59e0b');
+
+  // Shot Quality
+  const sq = t.shotQuality;
+  document.getElementById('sqCage').textContent = sq.cage + '%';
+  document.getElementById('sqAssist').textContent = sq.assist + '%';
+  document.getElementById('sqCrease').textContent = sq.crease + '%';
+  document.getElementById('sqLow').textContent = sq.low + '%';
+  animateBar('barCage', sq.cage);
+  animateBar('barAssist', sq.assist);
+  animateBar('barCrease', sq.crease);
+  animateBar('barLow', sq.low);
+  document.getElementById('shotRec').innerHTML = `<strong>Recommendation:</strong> ${t.shotRec}`;
+
+  // Face-Off Analytics
+  const fo = t.faceoff;
+  document.getElementById('foWin').textContent = fo.winRate + '%';
+  document.getElementById('foClamp').textContent = fo.clamp + '%';
+  document.getElementById('foGB').textContent = fo.groundBall + '%';
+  document.getElementById('foPoss').textContent = fo.possession + '%';
+  animateBar('barFOWin', fo.winRate);
+  animateBar('barClamp', fo.clamp);
+  animateBar('barGB', fo.groundBall);
+  animateBar('barPoss', fo.possession);
+  document.getElementById('foRec').innerHTML = `<strong>Recommendation:</strong> ${t.foRec}`;
+
+  // Player Table
+  const tbody = document.getElementById('playerBody');
+  tbody.innerHTML = t.players.map(p => `
+    <tr>
+      <td style="font-weight:600">${p.name}</td>
+      <td>${p.pos}</td>
+      <td class="${impactClass(p.impact)}" style="font-weight:700">${p.impact}</td>
+      <td style="font-weight:600;color:${p.diff.startsWith('+') ? 'var(--green)' : p.diff === '0' ? 'var(--text-dim)' : 'var(--alert)'}">${p.diff}</td>
+      <td class="${gradeClass(p.grade)}">${p.grade}</td>
+    </tr>
+  `).join('');
+
+  // Practice Effectiveness
+  const grid = document.getElementById('practiceGrid');
+  grid.innerHTML = t.practices.map(p => `
+    <div class="practice-card">
+      <div class="p-name">${p.name}</div>
+      <div class="p-focus">${p.focus}</div>
+      <div class="p-metric"><span>${p.metric}</span><span style="color:var(--green)">+${p.lift}</span></div>
+      <div class="p-score" style="color:${scoreColor(p.score)}">${p.score}<span style="font-size:0.7rem;color:var(--text-dim);margin-left:4px">/100</span></div>
+      <div class="bar-track"><div class="bar-fill" style="background:${scoreColor(p.score)};width:${p.score}%;transition:width 1s cubic-bezier(0.22,1,0.36,1)"></div></div>
+      <div class="p-note">${p.note}</div>
+    </div>
+  `).join('');
+}
+
+// ---- INTERSECTION OBSERVER (FADE IN) ----
+function setupObserver() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}
+
+// ---- TEAM SELECTOR EVENT ----
+document.getElementById('teamSelect').addEventListener('change', function() {
+  loadTeam(this.value);
+});
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', function() {
+  setupObserver();
+  animateCounters();
+  colorKPIs();
+  loadTeam('2028 Black');
+});
+</script>
+</body>
+</html>
