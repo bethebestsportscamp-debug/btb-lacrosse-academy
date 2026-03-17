@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Girls Offensive IQ Study Library</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#111;color:#fff;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.header{
+  background:#1A1A1A;border-bottom:2px solid #C8102E;
+  padding:28px 32px 20px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.header h1{font-size:1.6rem;font-weight:700;letter-spacing:0.5px}
+.header h1 .btb{color:#C8102E}
+.filters{display:flex;gap:12px;flex-wrap:wrap}
+.filters select{
+  background:#111;color:#fff;border:1px solid #333;border-radius:6px;
+  padding:8px 32px 8px 12px;font-size:0.85rem;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='%23999'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.filters select:focus{outline:none;border-color:#C8102E}
+
+/* KPI STRIP */
+.kpi-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  padding:24px 32px;
+}
+.kpi-card{
+  background:#1A1A1A;border:1px solid #333;border-left:4px solid #C8102E;
+  border-radius:6px;padding:16px 20px;
+}
+.kpi-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:4px}
+.kpi-value{font-size:1.8rem;font-weight:700;color:#fff}
+
+/* CHARTS */
+.charts-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  padding:0 32px 24px;
+}
+.chart-card{
+  background:#1A1A1A;border:1px solid #333;border-radius:6px;padding:20px;
+}
+.chart-card h3{font-size:0.85rem;font-weight:600;margin-bottom:12px;color:#ccc}
+.chart-wrap{position:relative;width:100%;max-height:280px}
+
+/* TABLE */
+.table-section{padding:0 32px 32px}
+.table-wrap{
+  background:#1A1A1A;border:1px solid #333;border-radius:6px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;max-height:600px;overflow-y:auto;
+}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead th{
+  text-align:left;padding:12px 14px;font-size:0.68rem;text-transform:uppercase;
+  letter-spacing:1.2px;color:#888;border-bottom:1px solid #333;
+  cursor:pointer;user-select:none;position:sticky;top:0;background:#1A1A1A;z-index:2;
+  white-space:nowrap;
+}
+thead th:hover{color:#C8102E}
+thead th .sort-arrow{font-size:0.6rem;margin-left:4px;color:#C8102E}
+tbody td{padding:10px 14px;border-bottom:1px solid #222;color:#ccc}
+tbody tr:hover{background:rgba(200,16,46,0.08)}
+tbody tr:nth-child(even){background:rgba(255,255,255,0.015)}
+tbody tr:nth-child(even):hover{background:rgba(200,16,46,0.08)}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:24px;font-size:0.7rem;color:#555;border-top:1px solid #222;
+  margin-top:16px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .header{flex-direction:column;align-items:flex-start}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .charts-row{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .kpi-strip{grid-template-columns:1fr}
+  .header h1{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1><span class="btb">BTB</span> Girls Offensive IQ Study Library</h1>
+  <div class="filters">
+    <select id="filterCategory"><option value="All">All Categories</option></select>
+    <select id="filterProgram"><option value="All">All Programs</option></select>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi-card"><div class="kpi-label">Total Clips</div><div class="kpi-value" id="kpiClips">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Categories</div><div class="kpi-value" id="kpiCats">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Programs</div><div class="kpi-value" id="kpiProgs">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Unique Drills</div><div class="kpi-value" id="kpiDrills">0</div></div>
+</div>
+
+<!-- CHARTS -->
+<div class="charts-row">
+  <div class="chart-card">
+    <h3>Clips by Category</h3>
+    <div class="chart-wrap"><canvas id="chartCategory"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>Clips by Program</h3>
+    <div class="chart-wrap"><canvas id="chartProgram"></canvas></div>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-section">
+  <div class="table-wrap">
+    <table>
+      <thead><tr id="tableHead"></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">BTB Lacrosse Club &mdash; Offensive IQ Study Library &mdash; Girls Program</div>
+
+<script>
+/* ===== DATA ===== */
+const DATA = [
+  // DODGING (15)
+  {Category:"Dodging",Team:"2030 Tidal Wave",Opponent:"Yellow Jackets",Technique:"Split Dodge",Cue:"Attack top side, change hands at full speed",Drill:"Alley Dodge 1v1",YouTube:"women's lacrosse split dodge tutorial"},
+  {Category:"Dodging",Team:"2031 Cyclones",Opponent:"Long Island Top Guns",Technique:"Roll Dodge",Cue:"Plant hard, protect stick on the roll",Drill:"Cone Roll Dodge Series",YouTube:"women's lacrosse roll dodge technique"},
+  {Category:"Dodging",Team:"2032 Riptide",Opponent:"Igloo",Technique:"Face Dodge",Cue:"Sell shot fake then pull across face",Drill:"Mirror Dodge Drill",YouTube:"girls lacrosse face dodge tutorial"},
+  {Category:"Dodging",Team:"2033 Red Storm",Opponent:"Legacy",Technique:"Rocker Dodge",Cue:"Rock back, hesitate, then explode forward",Drill:"Rocker Step Drill",YouTube:"women's lacrosse rocker dodge"},
+  {Category:"Dodging",Team:"2034 Tsunami",Opponent:"Shore2Shore",Technique:"Hesitation Dodge",Cue:"Change of pace sells the move",Drill:"Hesitation Change of Speed Drill",YouTube:"girls lacrosse hesitation move"},
+  {Category:"Dodging",Team:"2034 Thunder",Opponent:"LI Express",Technique:"Split Dodge",Cue:"Two-step setup, explode opposite direction",Drill:"2-Step Split Series",YouTube:"girls lacrosse split dodge drill"},
+  {Category:"Dodging",Team:"2035 Hurricanes",Opponent:"Rebels",Technique:"Roll Dodge",Cue:"Stay tight to defender, accelerate out",Drill:"Tight Roll Drill",YouTube:"women's lacrosse roll dodge drill"},
+  {Category:"Dodging",Team:"2036 Avalanche",Opponent:"LILJ",Technique:"Face Dodge",Cue:"Quick hands, keep feet moving through",Drill:"Face Dodge Reaction Drill",YouTube:"NCAA women's lacrosse face dodge"},
+  {Category:"Dodging",Team:"2030 Tidal Wave",Opponent:"Prime Time",Technique:"Rocker Dodge",Cue:"Sell the direction change with your hips",Drill:"Rocker to Finish Drill",YouTube:"women's lacrosse rocker step move"},
+  {Category:"Dodging",Team:"2031 Cyclones",Opponent:"Thunder",Technique:"Hesitation Dodge",Cue:"Full speed to dead stop, then burst",Drill:"Speed Control Dodge Drill",YouTube:"girls lacrosse change of pace dodge"},
+  {Category:"Dodging",Team:"2032 Riptide",Opponent:"Edge",Technique:"Split Dodge",Cue:"Sell one way with eyes, go the other",Drill:"Full Speed Split Drill",YouTube:"women's lacrosse split dodge highlights"},
+  {Category:"Dodging",Team:"2033 Red Storm",Opponent:"Hawks",Technique:"Roll Dodge",Cue:"Protect stick, finish with opposite hand",Drill:"Roll to Finish Drill",YouTube:"girls lacrosse roll dodge and shoot"},
+  {Category:"Dodging",Team:"2035 Hurricanes",Opponent:"FCA",Technique:"Face Dodge",Cue:"Make defender commit then pull through",Drill:"Fake Shot Face Dodge Drill",YouTube:"women's lacrosse face dodge and score"},
+  {Category:"Dodging",Team:"2034 Tsunami",Opponent:"Empire",Technique:"Rocker Dodge",Cue:"Drop step back, drive forward hard",Drill:"Drop Step Rocker Drill",YouTube:"girls lacrosse dodging moves"},
+  {Category:"Dodging",Team:"2036 Avalanche",Opponent:"Nassau County",Technique:"Hesitation Dodge",Cue:"Head fake plus hesitation, then go",Drill:"Combo Move Dodge Drill",YouTube:"women's lacrosse dodging techniques"},
+
+  // FEEDING (12)
+  {Category:"Feeding",Team:"2030 Tidal Wave",Opponent:"Igloo",Technique:"Feed from Behind",Cue:"Wait for cutter's stick, hit the hands",Drill:"Behind Cage Feed Drill",YouTube:"women's lacrosse feeding from behind"},
+  {Category:"Feeding",Team:"2031 Cyclones",Opponent:"Legacy",Technique:"Feed from Wing",Cue:"Step into pass, hit the far ear",Drill:"Wing Feed Target Drill",YouTube:"girls lacrosse wing feeding technique"},
+  {Category:"Feeding",Team:"2032 Riptide",Opponent:"Shore2Shore",Technique:"Feed from 8-Meter",Cue:"Wait for window, throw through the seam",Drill:"8-Meter Seam Pass Drill",YouTube:"women's lacrosse 8 meter feeding"},
+  {Category:"Feeding",Team:"2033 Red Storm",Opponent:"LI Express",Technique:"Skip Feed",Cue:"Load and rip, throw on a line across",Drill:"Skip Feed Long Range Drill",YouTube:"girls lacrosse skip pass tutorial"},
+  {Category:"Feeding",Team:"2034 Tsunami",Opponent:"Rebels",Technique:"Crease Feed",Cue:"Quick stick to crease, no wind up",Drill:"Quick Stick Crease Feed Drill",YouTube:"women's lacrosse crease feeding"},
+  {Category:"Feeding",Team:"2034 Thunder",Opponent:"LILJ",Technique:"Feed from Behind",Cue:"Fake high, feed low to crease cutter",Drill:"High-Low Feed Drill",YouTube:"girls lacrosse behind cage feeds"},
+  {Category:"Feeding",Team:"2035 Hurricanes",Opponent:"Prime Time",Technique:"Feed from Wing",Cue:"Step around check, hit the backside cutter",Drill:"Wing Dodge and Feed Drill",YouTube:"women's lacrosse wing dodge and feed"},
+  {Category:"Feeding",Team:"2036 Avalanche",Opponent:"Thunder",Technique:"Feed from 8-Meter",Cue:"Hands up, step into the pass",Drill:"8-Meter Feed Accuracy Drill",YouTube:"girls lacrosse 8 meter passing"},
+  {Category:"Feeding",Team:"2030 Tidal Wave",Opponent:"Edge",Technique:"Skip Feed",Cue:"Sell fake one way, rip skip the other",Drill:"Fake and Skip Drill",YouTube:"women's lacrosse skip pass highlights"},
+  {Category:"Feeding",Team:"2031 Cyclones",Opponent:"Hawks",Technique:"Crease Feed",Cue:"Inside hand, quick release to crease",Drill:"Inside Feed Quick Stick Drill",YouTube:"girls lacrosse crease quick stick feed"},
+  {Category:"Feeding",Team:"2033 Red Storm",Opponent:"FCA",Technique:"Feed from Behind",Cue:"Read the slide, hit the open cutter",Drill:"Behind Cage Read and Feed",YouTube:"women's lacrosse feeding from X"},
+  {Category:"Feeding",Team:"2032 Riptide",Opponent:"Empire",Technique:"Feed from Wing",Cue:"Drive and dish, find the backside",Drill:"Drive and Dish Drill",YouTube:"girls lacrosse drive and dish"},
+
+  // OFF-BALL MOVEMENT (12)
+  {Category:"Off-Ball Movement",Team:"2034 Tsunami",Opponent:"Yellow Jackets",Technique:"V-Cut",Cue:"Walk your defender down then explode up",Drill:"V-Cut Pop Drill",YouTube:"women's lacrosse V-cut off ball"},
+  {Category:"Off-Ball Movement",Team:"2034 Thunder",Opponent:"Long Island Top Guns",Technique:"L-Cut",Cue:"Set up flat then cut hard to ball",Drill:"L-Cut Timing Drill",YouTube:"girls lacrosse L-cut off ball"},
+  {Category:"Off-Ball Movement",Team:"2035 Hurricanes",Opponent:"Igloo",Technique:"Back-Door Cut",Cue:"Sell the pop, cut backdoor hard",Drill:"Backdoor Cut Live Reps",YouTube:"women's lacrosse backdoor cut tutorial"},
+  {Category:"Off-Ball Movement",Team:"2036 Avalanche",Opponent:"Legacy",Technique:"Crease Cut",Cue:"Time your cut with the dodge, present stick",Drill:"Crease Timing Cut Drill",YouTube:"girls lacrosse crease cuts"},
+  {Category:"Off-Ball Movement",Team:"2030 Tidal Wave",Opponent:"Shore2Shore",Technique:"Drift",Cue:"Drift away from the dodge, create space",Drill:"Drift and Receive Drill",YouTube:"women's lacrosse off ball drift"},
+  {Category:"Off-Ball Movement",Team:"2031 Cyclones",Opponent:"LI Express",Technique:"Fill",Cue:"Fill the vacated spot immediately on dodge",Drill:"Fill the Lane Drill",YouTube:"girls lacrosse fill movement offense"},
+  {Category:"Off-Ball Movement",Team:"2032 Riptide",Opponent:"Rebels",Technique:"Cut-Through",Cue:"Cut through the middle, clear out opposite",Drill:"Cut-Through Clear Drill",YouTube:"women's lacrosse cutting patterns"},
+  {Category:"Off-Ball Movement",Team:"2033 Red Storm",Opponent:"LILJ",Technique:"V-Cut",Cue:"Sell the V-cut, change speed on explosion",Drill:"Speed Change Cutting Drill",YouTube:"girls lacrosse getting open off ball"},
+  {Category:"Off-Ball Movement",Team:"2030 Tidal Wave",Opponent:"Prime Time",Technique:"L-Cut",Cue:"Plant foot hard, show hands on cut",Drill:"L-Cut to Catch and Shoot",YouTube:"women's lacrosse off ball cutting"},
+  {Category:"Off-Ball Movement",Team:"2035 Hurricanes",Opponent:"Edge",Technique:"Back-Door Cut",Cue:"Read the overplay, cut behind defender",Drill:"4v3 Backdoor Read Drill",YouTube:"girls lacrosse backdoor cut finish"},
+  {Category:"Off-Ball Movement",Team:"2031 Cyclones",Opponent:"Nassau County",Technique:"Crease Cut",Cue:"Start low, cut across crease with speed",Drill:"Crease Cross Cut Drill",YouTube:"women's lacrosse crease movement"},
+  {Category:"Off-Ball Movement",Team:"2036 Avalanche",Opponent:"Thunder",Technique:"Drift",Cue:"Space from the ball carrier, stay ready",Drill:"Drift Spacing Drill",YouTube:"girls lacrosse off ball movement drills"},
+
+  // SHOOTING (15)
+  {Category:"Shooting",Team:"2030 Tidal Wave",Opponent:"Igloo",Technique:"Time & Room",Cue:"Step into shot, aim far pipe",Drill:"Top of Arc Shooting Drill",YouTube:"women's lacrosse time and room shooting"},
+  {Category:"Shooting",Team:"2031 Cyclones",Opponent:"Legacy",Technique:"On-the-Run",Cue:"Keep feet moving, shoot across body",Drill:"Alley Shooting Drill",YouTube:"girls lacrosse shooting on the run"},
+  {Category:"Shooting",Team:"2032 Riptide",Opponent:"Shore2Shore",Technique:"Inside 8m Finishing",Cue:"Get hands free, quick release inside",Drill:"8-Meter Finishing Circuit",YouTube:"women's lacrosse inside finishing"},
+  {Category:"Shooting",Team:"2033 Red Storm",Opponent:"LI Express",Technique:"Free Position Shot",Cue:"Pick your corner before the whistle",Drill:"Free Position Accuracy Drill",YouTube:"girls lacrosse free position shooting"},
+  {Category:"Shooting",Team:"2034 Tsunami",Opponent:"Rebels",Technique:"Fake & Shoot",Cue:"Sell the fake high, go low",Drill:"Fake High Shoot Low Drill",YouTube:"women's lacrosse pump fake and shoot"},
+  {Category:"Shooting",Team:"2034 Thunder",Opponent:"LILJ",Technique:"Time & Room",Cue:"Hip rotation generates power",Drill:"Wall Ball Power Shooting",YouTube:"girls lacrosse shooting mechanics"},
+  {Category:"Shooting",Team:"2035 Hurricanes",Opponent:"Prime Time",Technique:"On-the-Run",Cue:"Plant outside foot, release high",Drill:"On-the-Run Dodge and Shoot",YouTube:"women's lacrosse shooting on the run drill"},
+  {Category:"Shooting",Team:"2036 Avalanche",Opponent:"Thunder",Technique:"Inside 8m Finishing",Cue:"Catch and shoot in one motion",Drill:"Quick Stick Shooting Drill",YouTube:"girls lacrosse quick stick shooting"},
+  {Category:"Shooting",Team:"2030 Tidal Wave",Opponent:"Edge",Technique:"Free Position Shot",Cue:"Vary your free position looks, be unpredictable",Drill:"Free Position Variety Drill",YouTube:"women's lacrosse free position technique"},
+  {Category:"Shooting",Team:"2031 Cyclones",Opponent:"Hawks",Technique:"Fake & Shoot",Cue:"Sell with eyes and body, not just stick",Drill:"Full Body Fake Drill",YouTube:"girls lacrosse shot fake tutorial"},
+  {Category:"Shooting",Team:"2032 Riptide",Opponent:"FCA",Technique:"Time & Room",Cue:"Pick corners, change eye level before release",Drill:"Corner Picking Drill",YouTube:"women's lacrosse shooting placement"},
+  {Category:"Shooting",Team:"2033 Red Storm",Opponent:"Empire",Technique:"On-the-Run",Cue:"Opposite hand catches, shoot same motion",Drill:"Catch and Shoot Circuit",YouTube:"girls lacrosse catch and shoot drill"},
+  {Category:"Shooting",Team:"2034 Tsunami",Opponent:"Nassau County",Technique:"Inside 8m Finishing",Cue:"High to low, make goalie move first",Drill:"High Low Finishing Drill",YouTube:"women's lacrosse crease finishing drills"},
+  {Category:"Shooting",Team:"2035 Hurricanes",Opponent:"Yellow Jackets",Technique:"Free Position Shot",Cue:"Step through on the whistle, commit to a spot",Drill:"Free Position Step Through Drill",YouTube:"girls lacrosse free position drills"},
+  {Category:"Shooting",Team:"2036 Avalanche",Opponent:"Long Island Top Guns",Technique:"Fake & Shoot",Cue:"Hold fake until defender commits, then fire",Drill:"Patience Fake Drill",YouTube:"women's lacrosse fake and finish"},
+
+  // TRANSITION (12)
+  {Category:"Transition",Team:"2030 Tidal Wave",Opponent:"Legacy",Technique:"Fast Break off Draw",Cue:"Win draw, push pace immediately",Drill:"Draw to Attack Drill",YouTube:"women's lacrosse fast break off draw"},
+  {Category:"Transition",Team:"2031 Cyclones",Opponent:"Rebels",Technique:"Secondary Break",Cue:"Fill lanes, attack before defense is set",Drill:"4v3 Secondary Break Drill",YouTube:"girls lacrosse secondary break offense"},
+  {Category:"Transition",Team:"2032 Riptide",Opponent:"LILJ",Technique:"Numbers Advantage",Cue:"Find the open player, move the ball quick",Drill:"Odd Man Rush Drill",YouTube:"women's lacrosse numbers advantage"},
+  {Category:"Transition",Team:"2033 Red Storm",Opponent:"Prime Time",Technique:"Fast Break off Draw",Cue:"Sprint to attack, look to score early",Drill:"Full Field Fast Break Drill",YouTube:"girls lacrosse fast break transition"},
+  {Category:"Transition",Team:"2034 Tsunami",Opponent:"Igloo",Technique:"Secondary Break",Cue:"Trail player crashes late, finish backside",Drill:"Trail Player Finish Drill",YouTube:"women's lacrosse secondary break drill"},
+  {Category:"Transition",Team:"2034 Thunder",Opponent:"Shore2Shore",Technique:"Numbers Advantage",Cue:"One more pass for the easy goal",Drill:"Extra Pass Transition Drill",YouTube:"girls lacrosse transition offense"},
+  {Category:"Transition",Team:"2035 Hurricanes",Opponent:"LI Express",Technique:"Fast Break off Draw",Cue:"Ball moves faster than feet, swing it wide",Drill:"Swing Ball Fast Break Drill",YouTube:"women's lacrosse fast break ball movement"},
+  {Category:"Transition",Team:"2036 Avalanche",Opponent:"Edge",Technique:"Secondary Break",Cue:"Set up width, attack the seams",Drill:"Width and Attack Drill",YouTube:"girls lacrosse transition offense youth"},
+  {Category:"Transition",Team:"2030 Tidal Wave",Opponent:"Hawks",Technique:"Numbers Advantage",Cue:"Play fast but under control",Drill:"Controlled Fast Break Drill",YouTube:"women's lacrosse odd man break finishing"},
+  {Category:"Transition",Team:"2031 Cyclones",Opponent:"FCA",Technique:"Fast Break off Draw",Cue:"Outlet wide after draw win, attack quickly",Drill:"Draw Win Outlet Drill",YouTube:"girls lacrosse draw to fast break"},
+  {Category:"Transition",Team:"2033 Red Storm",Opponent:"Thunder",Technique:"Secondary Break",Cue:"Read the defense, attack before they set up",Drill:"Secondary Read Break Drill",YouTube:"women's lacrosse secondary transition"},
+  {Category:"Transition",Team:"2032 Riptide",Opponent:"Empire",Technique:"Numbers Advantage",Cue:"Extra pass beats the recovering defender",Drill:"Recovery Defense Break Drill",YouTube:"girls lacrosse numbers up finishing"},
+
+  // 2-PLAYER GAME (10)
+  {Category:"2-Player Game",Team:"2034 Tsunami",Opponent:"Yellow Jackets",Technique:"Pick & Roll",Cue:"Set the pick, roll to space for the feed",Drill:"2-Player Pick and Roll Drill",YouTube:"women's lacrosse pick and roll offense"},
+  {Category:"2-Player Game",Team:"2034 Thunder",Opponent:"Long Island Top Guns",Technique:"Pick & Slip",Cue:"Show the screen, slip early to space",Drill:"Slip Timing Drill",YouTube:"girls lacrosse pick and slip"},
+  {Category:"2-Player Game",Team:"2035 Hurricanes",Opponent:"Legacy",Technique:"Give & Go",Cue:"Pass and cut hard, expect the return feed",Drill:"Give and Go Fast Reps",YouTube:"women's lacrosse give and go"},
+  {Category:"2-Player Game",Team:"2036 Avalanche",Opponent:"Shore2Shore",Technique:"Pick & Roll",Cue:"Read the switch, attack the mismatch",Drill:"Switch Read 2-Player Drill",YouTube:"girls lacrosse 2 player game concepts"},
+  {Category:"2-Player Game",Team:"2030 Tidal Wave",Opponent:"LI Express",Technique:"Pick & Slip",Cue:"Sell pick, cut backdoor on the slip",Drill:"Backdoor Slip Drill",YouTube:"women's lacrosse pick slip backdoor"},
+  {Category:"2-Player Game",Team:"2031 Cyclones",Opponent:"Rebels",Technique:"Give & Go",Cue:"Cut to space after the pass, call for ball",Drill:"Give and Go 2v1 Drill",YouTube:"girls lacrosse give and go drill"},
+  {Category:"2-Player Game",Team:"2032 Riptide",Opponent:"LILJ",Technique:"Pick & Roll",Cue:"Roll hard to goal, present stick target",Drill:"Roll and Finish Drill",YouTube:"women's lacrosse 2 player pick roll"},
+  {Category:"2-Player Game",Team:"2033 Red Storm",Opponent:"Prime Time",Technique:"Pick & Slip",Cue:"Slip when defender jumps the pick early",Drill:"Early Switch Slip Drill",YouTube:"girls lacrosse slip screen offense"},
+  {Category:"2-Player Game",Team:"2030 Tidal Wave",Opponent:"Nassau County",Technique:"Give & Go",Cue:"Quick pass, immediate cut inside the 8m",Drill:"Inside Give and Go Drill",YouTube:"women's lacrosse give and go fundamentals"},
+  {Category:"2-Player Game",Team:"2035 Hurricanes",Opponent:"Igloo",Technique:"Pick & Roll",Cue:"Set feet first, screen the hip, then roll",Drill:"Pick and Roll 3v3 Drill",YouTube:"girls lacrosse pick and roll drill"},
+
+  // MOTION OFFENSE (12)
+  {Category:"Motion Offense",Team:"2030 Tidal Wave",Opponent:"FCA",Technique:"3-2-2 Motion",Cue:"Stay in shape, move as a unit on ball movement",Drill:"3-2-2 Shape Drill",YouTube:"women's lacrosse 3-2-2 motion offense"},
+  {Category:"Motion Offense",Team:"2031 Cyclones",Opponent:"Empire",Technique:"Ball Movement",Cue:"Move it quick, make the defense shift",Drill:"Rapid Ball Movement Drill",YouTube:"girls lacrosse motion offense ball movement"},
+  {Category:"Motion Offense",Team:"2032 Riptide",Opponent:"Yellow Jackets",Technique:"Spacing",Cue:"Stay wide, maintain proper spacing around the arc",Drill:"Spacing Awareness Drill",YouTube:"women's lacrosse offensive spacing"},
+  {Category:"Motion Offense",Team:"2033 Red Storm",Opponent:"Long Island Top Guns",Technique:"Cutting Patterns",Cue:"Cut with purpose, clear with purpose",Drill:"Pattern Cut 5v5 Drill",YouTube:"girls lacrosse cutting patterns offense"},
+  {Category:"Motion Offense",Team:"2034 Tsunami",Opponent:"Igloo",Technique:"Crease Rotation",Cue:"Rotate through crease, time it with the ball",Drill:"Crease Rotation Timing Drill",YouTube:"women's lacrosse crease rotation"},
+  {Category:"Motion Offense",Team:"2034 Thunder",Opponent:"Edge",Technique:"3-2-2 Motion",Cue:"Read the adjacent defender, time your cut",Drill:"Read and React Motion Drill",YouTube:"girls lacrosse motion offense concepts"},
+  {Category:"Motion Offense",Team:"2035 Hurricanes",Opponent:"Thunder",Technique:"Ball Movement",Cue:"Touch and throw, keep it moving around",Drill:"1-Touch Passing Drill",YouTube:"women's lacrosse quick ball movement"},
+  {Category:"Motion Offense",Team:"2036 Avalanche",Opponent:"Hawks",Technique:"Spacing",Cue:"Don't drift into each other, own your space",Drill:"Cone Spacing Drill",YouTube:"girls lacrosse offense spacing youth"},
+  {Category:"Motion Offense",Team:"2031 Cyclones",Opponent:"Shore2Shore",Technique:"Cutting Patterns",Cue:"Cut when ball is moving, not sitting",Drill:"Ball Movement Trigger Cuts",YouTube:"women's lacrosse timing cuts offense"},
+  {Category:"Motion Offense",Team:"2030 Tidal Wave",Opponent:"Rebels",Technique:"Crease Rotation",Cue:"Rotate opposite the ball, present stick on exit",Drill:"Crease Rotation Opposite Drill",YouTube:"girls lacrosse crease play offense"},
+  {Category:"Motion Offense",Team:"2033 Red Storm",Opponent:"LILJ",Technique:"3-2-2 Motion",Cue:"Stretch the defense wide, create inside seams",Drill:"Stretch and Attack Drill",YouTube:"NCAA women's lacrosse motion offense"},
+  {Category:"Motion Offense",Team:"2036 Avalanche",Opponent:"Prime Time",Technique:"Ball Movement",Cue:"Skip to backside, reverse the field",Drill:"Skip and Reverse Drill",YouTube:"girls lacrosse ball reversal offense"},
+
+  // DRAW-TO-OFFENSE (12)
+  {Category:"Draw-to-Offense",Team:"2030 Tidal Wave",Opponent:"Legacy",Technique:"Draw Control Win to Attack",Cue:"Win the draw, push immediately to goal",Drill:"Draw Win Sprint to Goal Drill",YouTube:"women's lacrosse draw control to attack"},
+  {Category:"Draw-to-Offense",Team:"2031 Cyclones",Opponent:"Rebels",Technique:"Wing Play",Cue:"Wing players crash to ball, secure possession",Drill:"Wing Crash Drill",YouTube:"girls lacrosse draw wing positioning"},
+  {Category:"Draw-to-Offense",Team:"2032 Riptide",Opponent:"Edge",Technique:"Outlet Pattern",Cue:"Outlet wide after draw, set up attack shape",Drill:"Draw Outlet Pattern Drill",YouTube:"women's lacrosse draw outlet patterns"},
+  {Category:"Draw-to-Offense",Team:"2033 Red Storm",Opponent:"Thunder",Technique:"Draw Control Win to Attack",Cue:"Win draw to self, turn and attack downfield",Drill:"Self-Draw Attack Drill",YouTube:"girls lacrosse draw control technique"},
+  {Category:"Draw-to-Offense",Team:"2034 Tsunami",Opponent:"LILJ",Technique:"Wing Play",Cue:"Wings anticipate the draw direction, react fast",Drill:"Wing Anticipation Drill",YouTube:"women's lacrosse draw wing play"},
+  {Category:"Draw-to-Offense",Team:"2034 Thunder",Opponent:"FCA",Technique:"Outlet Pattern",Cue:"First pass after draw sets the tempo",Drill:"First Pass Tempo Drill",YouTube:"girls lacrosse draw to transition"},
+  {Category:"Draw-to-Offense",Team:"2035 Hurricanes",Opponent:"Empire",Technique:"Draw Control Win to Attack",Cue:"Secure the ground ball, head up, go to goal",Drill:"Ground Ball to Attack Drill",YouTube:"women's lacrosse draw to goal"},
+  {Category:"Draw-to-Offense",Team:"2036 Avalanche",Opponent:"Nassau County",Technique:"Wing Play",Cue:"Boxing out on the draw, win the 50/50",Drill:"Wing Box Out Drill",YouTube:"girls lacrosse draw circle wing play"},
+  {Category:"Draw-to-Offense",Team:"2030 Tidal Wave",Opponent:"Yellow Jackets",Technique:"Outlet Pattern",Cue:"Outlet to the open side, attack with numbers",Drill:"Numbers Up off Draw Drill",YouTube:"women's lacrosse draw to numbers advantage"},
+  {Category:"Draw-to-Offense",Team:"2031 Cyclones",Opponent:"Long Island Top Guns",Technique:"Draw Control Win to Attack",Cue:"Draw winner sprints, teammates fill lanes",Drill:"Draw Sprint and Fill Drill",YouTube:"girls lacrosse draw and fast break"},
+  {Category:"Draw-to-Offense",Team:"2033 Red Storm",Opponent:"Shore2Shore",Technique:"Wing Play",Cue:"Win the ground ball battle on the wings",Drill:"Wing Ground Ball Battle Drill",YouTube:"women's lacrosse wing ground ball drill"},
+  {Category:"Draw-to-Offense",Team:"2032 Riptide",Opponent:"Prime Time",Technique:"Outlet Pattern",Cue:"Set the outlet early, transition before D recovers",Drill:"Early Outlet Transition Drill",YouTube:"girls lacrosse draw outlet to attack"}
+];
+
+const COLS = ["#","Category","Team","Opponent","Technique","BTB Coaching Cue","Reinforcement Drill","YouTube Search Term"];
+
+const CAT_COLORS = [
+  "#C8102E","#E8453C","#FF6B5A","#D94F6B","#B5365A","#9E2A4F","#C75B3F","#E07850"
+];
+const PROG_COLORS = [
+  "#C8102E","#A00D24","#E8453C","#FF6B5A","#D94F6B","#B5365A","#9E2A4F","#C75B3F"
+];
+
+/* ===== STATE ===== */
+let sortCol = null;
+let sortDir = 1;
+let catChart = null;
+let progChart = null;
+
+/* ===== INIT ===== */
+function init(){
+  populateFilters();
+  document.getElementById("filterCategory").addEventListener("change",applyFilters);
+  document.getElementById("filterProgram").addEventListener("change",applyFilters);
+  applyFilters();
+}
+
+function populateFilters(){
+  const cats = [...new Set(DATA.map(d=>d.Category))].sort();
+  const progs = [...new Set(DATA.map(d=>d.Team))].sort();
+  const catSel = document.getElementById("filterCategory");
+  const progSel = document.getElementById("filterProgram");
+  cats.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;catSel.appendChild(o)});
+  progs.forEach(p=>{const o=document.createElement("option");o.value=p;o.textContent=p;progSel.appendChild(o)});
+}
+
+function getFiltered(){
+  const cat = document.getElementById("filterCategory").value;
+  const prog = document.getElementById("filterProgram").value;
+  return DATA.filter(d=>(cat==="All"||d.Category===cat)&&(prog==="All"||d.Team===prog));
+}
+
+function applyFilters(){
+  const filtered = getFiltered();
+  updateKPIs(filtered);
+  updateCharts(filtered);
+  renderTable(filtered);
+}
+
+/* ===== KPIs ===== */
+function updateKPIs(data){
+  document.getElementById("kpiClips").textContent = data.length;
+  document.getElementById("kpiCats").textContent = new Set(data.map(d=>d.Category)).size;
+  document.getElementById("kpiProgs").textContent = new Set(data.map(d=>d.Team)).size;
+  document.getElementById("kpiDrills").textContent = new Set(data.map(d=>d.Drill)).size;
+}
+
+/* ===== CHARTS ===== */
+function updateCharts(data){
+  // Category doughnut
+  const catCounts = {};
+  data.forEach(d=>{catCounts[d.Category]=(catCounts[d.Category]||0)+1});
+  const catLabels = Object.keys(catCounts).sort();
+  const catValues = catLabels.map(c=>catCounts[c]);
+
+  if(catChart) catChart.destroy();
+  catChart = new Chart(document.getElementById("chartCategory"),{
+    type:"doughnut",
+    data:{
+      labels:catLabels,
+      datasets:[{data:catValues,backgroundColor:CAT_COLORS.slice(0,catLabels.length),borderColor:"#1A1A1A",borderWidth:2}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:"right",labels:{color:"#aaa",font:{size:11},padding:12,boxWidth:14}},
+        tooltip:{backgroundColor:"#222",titleColor:"#fff",bodyColor:"#ccc"}
+      }
+    }
+  });
+
+  // Program horizontal bar
+  const progCounts = {};
+  data.forEach(d=>{progCounts[d.Team]=(progCounts[d.Team]||0)+1});
+  const progLabels = Object.keys(progCounts).sort();
+  const progValues = progLabels.map(p=>progCounts[p]);
+
+  if(progChart) progChart.destroy();
+  progChart = new Chart(document.getElementById("chartProgram"),{
+    type:"bar",
+    data:{
+      labels:progLabels,
+      datasets:[{data:progValues,backgroundColor:"#C8102E",borderRadius:4,barThickness:18}]
+    },
+    options:{
+      indexAxis:"y",responsive:true,maintainAspectRatio:false,
+      scales:{
+        x:{grid:{color:"#222"},ticks:{color:"#888",font:{size:11}}},
+        y:{grid:{display:false},ticks:{color:"#ccc",font:{size:11}}}
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:"#222",titleColor:"#fff",bodyColor:"#ccc"}
+      }
+    }
+  });
+}
+
+/* ===== TABLE ===== */
+function renderTable(data){
+  // Build header
+  const thead = document.getElementById("tableHead");
+  thead.innerHTML = "";
+  COLS.forEach((col,i)=>{
+    const th = document.createElement("th");
+    let label = col;
+    if(sortCol===i) label += sortDir===1?' <span class="sort-arrow">&#9650;</span>':' <span class="sort-arrow">&#9660;</span>';
+    th.innerHTML = label;
+    th.addEventListener("click",()=>sortTable(i));
+    thead.appendChild(th);
+  });
+
+  // Sort data
+  let sorted = [...data];
+  if(sortCol!==null){
+    const key = getColKey(COLS[sortCol]);
+    sorted.sort((a,b)=>{
+      const av = key==="#"? 0 : (a[key]||"");
+      const bv = key==="#"? 0 : (b[key]||"");
+      if(typeof av==="string") return av.localeCompare(bv)*sortDir;
+      return (av-bv)*sortDir;
+    });
+  }
+
+  // Build rows
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+  sorted.forEach((row,idx)=>{
+    const tr = document.createElement("tr");
+    COLS.forEach(col=>{
+      const td = document.createElement("td");
+      const key = getColKey(col);
+      td.textContent = key==="#"? (idx+1) : (row[key]||"");
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function getColKey(col){
+  const map = {
+    "#":"#",
+    "Category":"Category",
+    "Team":"Team",
+    "Opponent":"Opponent",
+    "Technique":"Technique",
+    "BTB Coaching Cue":"Cue",
+    "Reinforcement Drill":"Drill",
+    "YouTube Search Term":"YouTube"
+  };
+  return map[col]||col;
+}
+
+function sortTable(colIdx){
+  if(sortCol===colIdx){sortDir*=-1}
+  else{sortCol=colIdx;sortDir=1}
+  applyFilters();
+}
+
+/* ===== START ===== */
+document.addEventListener("DOMContentLoaded",init);
+</script>
+</body>
+</html>
