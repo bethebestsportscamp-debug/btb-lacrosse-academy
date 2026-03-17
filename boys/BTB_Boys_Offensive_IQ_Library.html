@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Offensive IQ Study Library</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#111;color:#fff;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.header{
+  background:#1A1A1A;border-bottom:2px solid #C8102E;
+  padding:28px 32px 20px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.header h1{font-size:1.6rem;font-weight:700;letter-spacing:0.5px}
+.header h1 .btb{color:#C8102E}
+.filters{display:flex;gap:12px;flex-wrap:wrap}
+.filters select{
+  background:#111;color:#fff;border:1px solid #333;border-radius:6px;
+  padding:8px 32px 8px 12px;font-size:0.85rem;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='%23999'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.filters select:focus{outline:none;border-color:#C8102E}
+
+/* KPI STRIP */
+.kpi-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  padding:24px 32px;
+}
+.kpi-card{
+  background:#1A1A1A;border:1px solid #333;border-left:4px solid #C8102E;
+  border-radius:6px;padding:16px 20px;
+}
+.kpi-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:4px}
+.kpi-value{font-size:1.8rem;font-weight:700;color:#fff}
+
+/* CHARTS */
+.charts-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  padding:0 32px 24px;
+}
+.chart-card{
+  background:#1A1A1A;border:1px solid #333;border-radius:6px;padding:20px;
+}
+.chart-card h3{font-size:0.85rem;font-weight:600;margin-bottom:12px;color:#ccc}
+.chart-wrap{position:relative;width:100%;max-height:280px}
+
+/* TABLE */
+.table-section{padding:0 32px 32px}
+.table-wrap{
+  background:#1A1A1A;border:1px solid #333;border-radius:6px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;max-height:600px;overflow-y:auto;
+}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead th{
+  text-align:left;padding:12px 14px;font-size:0.68rem;text-transform:uppercase;
+  letter-spacing:1.2px;color:#888;border-bottom:1px solid #333;
+  cursor:pointer;user-select:none;position:sticky;top:0;background:#1A1A1A;z-index:2;
+  white-space:nowrap;
+}
+thead th:hover{color:#C8102E}
+thead th .sort-arrow{font-size:0.6rem;margin-left:4px;color:#C8102E}
+tbody td{padding:10px 14px;border-bottom:1px solid #222;color:#ccc}
+tbody tr:hover{background:rgba(200,16,46,0.08)}
+tbody tr:nth-child(even){background:rgba(255,255,255,0.015)}
+tbody tr:nth-child(even):hover{background:rgba(200,16,46,0.08)}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:24px;font-size:0.7rem;color:#555;border-top:1px solid #222;
+  margin-top:16px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .header{flex-direction:column;align-items:flex-start}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .charts-row{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .kpi-strip{grid-template-columns:1fr}
+  .header h1{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1><span class="btb">BTB</span> Offensive IQ Study Library</h1>
+  <div class="filters">
+    <select id="filterCategory"><option value="All">All Categories</option></select>
+    <select id="filterProgram"><option value="All">All Programs</option></select>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi-card"><div class="kpi-label">Total Clips</div><div class="kpi-value" id="kpiClips">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Categories</div><div class="kpi-value" id="kpiCats">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Programs</div><div class="kpi-value" id="kpiProgs">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Unique Drills</div><div class="kpi-value" id="kpiDrills">0</div></div>
+</div>
+
+<!-- CHARTS -->
+<div class="charts-row">
+  <div class="chart-card">
+    <h3>Clips by Category</h3>
+    <div class="chart-wrap"><canvas id="chartCategory"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>Clips by Program</h3>
+    <div class="chart-wrap"><canvas id="chartProgram"></canvas></div>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-section">
+  <div class="table-wrap">
+    <table>
+      <thead><tr id="tableHead"></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">BTB Lacrosse Club &mdash; Offensive IQ Study Library &mdash; Boys Program</div>
+
+<script>
+/* ===== DATA ===== */
+const DATA = [
+  // DODGING (15)
+  {Category:"Dodging",Team:"2034 Snipers",Opponent:"Team 91",Technique:"Split Dodge",Cue:"Attack top side, sell with eyes",Drill:"Alley Dodge 1v1",YouTube:"lacrosse split dodge tutorial"},
+  {Category:"Dodging",Team:"2033 Renegades",Opponent:"Igloo",Technique:"Roll Dodge",Cue:"Plant hard, protect stick on roll",Drill:"Cone Roll Dodge Series",YouTube:"lacrosse roll dodge technique"},
+  {Category:"Dodging",Team:"2031 Carnage",Opponent:"LI Express",Technique:"Face Dodge",Cue:"Sell shot fake then pull across",Drill:"Mirror Dodge Drill",YouTube:"lacrosse face dodge highlight"},
+  {Category:"Dodging",Team:"2030 Rage",Opponent:"Shore2Shore",Technique:"Bull Dodge",Cue:"Lower shoulder, drive through contact",Drill:"Bull Dodge Pad Work",YouTube:"lacrosse bull dodge power move"},
+  {Category:"Dodging",Team:"2032 Cannons",Opponent:"Legacy",Technique:"Question Mark Dodge",Cue:"Start roll then redirect back topside",Drill:"Q-Mark Cone Series",YouTube:"lacrosse question mark dodge"},
+  {Category:"Dodging",Team:"2028 Black",Opponent:"Rebels",Technique:"Inside Roll",Cue:"Seal defender on hip, roll tight",Drill:"Island 1v1 Drill",YouTube:"lacrosse inside roll dodge tutorial"},
+  {Category:"Dodging",Team:"2035 Bombers",Opponent:"Edge",Technique:"Split Dodge",Cue:"Change hands at full speed",Drill:"Full Speed Split Drill",YouTube:"youth lacrosse split dodge"},
+  {Category:"Dodging",Team:"2036 Dawgs",Opponent:"Thunder",Technique:"Roll Dodge",Cue:"Protect stick, finish with opposite hand",Drill:"Roll to Finish Drill",YouTube:"lacrosse roll dodge for beginners"},
+  {Category:"Dodging",Team:"2034 Hurricanes",Opponent:"LILJ",Technique:"Face Dodge",Cue:"Quick hands, keep feet moving",Drill:"Face Dodge Reaction Drill",YouTube:"PLL face dodge highlights"},
+  {Category:"Dodging",Team:"2033 Renegades",Opponent:"Prime Time",Technique:"Bull Dodge",Cue:"Get hands free after contact",Drill:"Contact Finishing Drill",YouTube:"lacrosse bull dodge and shoot"},
+  {Category:"Dodging",Team:"2031 Carnage",Opponent:"Crabs",Technique:"Split Dodge",Cue:"Two-step setup, explode opposite",Drill:"2-Step Split Series",YouTube:"lacrosse split dodge drill"},
+  {Category:"Dodging",Team:"2032 Cannons",Opponent:"Hawks",Technique:"Question Mark Dodge",Cue:"Sell the roll, snap back topside",Drill:"Q-Mark Live Reps",YouTube:"college lacrosse question mark dodge"},
+  {Category:"Dodging",Team:"2030 Rage",Opponent:"FCA",Technique:"Inside Roll",Cue:"Use body to shield, finish low",Drill:"Seal and Finish Drill",YouTube:"lacrosse inside roll from X"},
+  {Category:"Dodging",Team:"2028 Black",Opponent:"Dolphins",Technique:"Face Dodge",Cue:"Make defender commit then pull through",Drill:"Fake Shot Face Dodge",YouTube:"lacrosse face dodge and score"},
+  {Category:"Dodging",Team:"2036 Dawgs",Opponent:"Baymen",Technique:"Roll Dodge",Cue:"Stay tight to defender, accelerate out",Drill:"Tight Roll Drill",YouTube:"youth lacrosse roll dodge drill"},
+
+  // FEEDING (12)
+  {Category:"Feeding",Team:"2034 Snipers",Opponent:"Legacy",Technique:"Feed from X",Cue:"Wait for cutter's stick, hit the hands",Drill:"X Feed Repetition Drill",YouTube:"lacrosse feeding from X tutorial"},
+  {Category:"Feeding",Team:"2033 Renegades",Opponent:"Thunder",Technique:"Feed from Wing",Cue:"Step into pass, hit the far ear",Drill:"Wing Feed Target Drill",YouTube:"lacrosse wing feeding technique"},
+  {Category:"Feeding",Team:"2032 Cannons",Opponent:"Team 91",Technique:"Feed from Up Top",Cue:"Wait for window, throw through the seam",Drill:"Seam Pass Drill",YouTube:"lacrosse passing from up top"},
+  {Category:"Feeding",Team:"2031 Carnage",Opponent:"Igloo",Technique:"Skip Feed",Cue:"Load and rip, throw on a line",Drill:"Skip Feed Long Range Drill",YouTube:"lacrosse skip pass tutorial"},
+  {Category:"Feeding",Team:"2035 Bombers",Opponent:"LI Express",Technique:"Crease Feed",Cue:"Quick stick to crease, no wind up",Drill:"Quick Stick Crease Feed",YouTube:"lacrosse crease feeding drill"},
+  {Category:"Feeding",Team:"2028 Black",Opponent:"Shore2Shore",Technique:"Feed from X",Cue:"Fake high, feed low to crease",Drill:"High-Low Feed Drill",YouTube:"lacrosse X behind feeding"},
+  {Category:"Feeding",Team:"2036 Dawgs",Opponent:"Rebels",Technique:"Feed from Wing",Cue:"Step around check, hit the backside cutter",Drill:"Wing Dodge and Feed",YouTube:"lacrosse wing dodge and feed"},
+  {Category:"Feeding",Team:"2030 Rage",Opponent:"Edge",Technique:"Feed from Up Top",Cue:"Hands up, step into pass",Drill:"Top Feed Accuracy Drill",YouTube:"lacrosse feeding accuracy drills"},
+  {Category:"Feeding",Team:"2034 Hurricanes",Opponent:"LILJ",Technique:"Skip Feed",Cue:"Sell fake one way, rip skip the other",Drill:"Fake and Skip Drill",YouTube:"lacrosse skip pass highlights"},
+  {Category:"Feeding",Team:"2033 Renegades",Opponent:"Prime Time",Technique:"Crease Feed",Cue:"Inside hand, quick release to crease",Drill:"Inside Feed Quick Stick",YouTube:"lacrosse crease quick stick feed"},
+  {Category:"Feeding",Team:"2031 Carnage",Opponent:"Crabs",Technique:"Feed from X",Cue:"Read the slide, hit the open man",Drill:"X Read and Feed",YouTube:"lacrosse reading the slide feed"},
+  {Category:"Feeding",Team:"2032 Cannons",Opponent:"Hawks",Technique:"Feed from Wing",Cue:"Drive and dish, find the backside",Drill:"Drive and Dish Drill",YouTube:"lacrosse drive and dish tutorial"},
+
+  // OFF-BALL MOVEMENT (12)
+  {Category:"Off-Ball Movement",Team:"2034 Snipers",Opponent:"FCA",Technique:"V-Cut",Cue:"Walk your man down then explode up",Drill:"V-Cut Pop Drill",YouTube:"lacrosse V-cut off ball movement"},
+  {Category:"Off-Ball Movement",Team:"2028 Black",Opponent:"Dolphins",Technique:"L-Cut",Cue:"Set up flat then cut hard to ball",Drill:"L-Cut Timing Drill",YouTube:"lacrosse L-cut off ball"},
+  {Category:"Off-Ball Movement",Team:"2030 Rage",Opponent:"Baymen",Technique:"Back-Door Cut",Cue:"Sell the pop, cut backdoor hard",Drill:"Backdoor Cut Live Reps",YouTube:"lacrosse backdoor cut tutorial"},
+  {Category:"Off-Ball Movement",Team:"2035 Bombers",Opponent:"Team 91",Technique:"Seal",Cue:"Get body on defender, present stick",Drill:"Crease Seal Drill",YouTube:"lacrosse crease seal technique"},
+  {Category:"Off-Ball Movement",Team:"2036 Dawgs",Opponent:"Igloo",Technique:"Pick",Cue:"Set feet, screen the hip",Drill:"Pick and Roll 3v3",YouTube:"lacrosse off ball pick setting"},
+  {Category:"Off-Ball Movement",Team:"2033 Renegades",Opponent:"LI Express",Technique:"Slip",Cue:"Show the pick then slip to space",Drill:"Pick and Slip Drill",YouTube:"lacrosse pick and slip move"},
+  {Category:"Off-Ball Movement",Team:"2034 Hurricanes",Opponent:"Shore2Shore",Technique:"V-Cut",Cue:"Change speed, burst to get open",Drill:"Speed Change Cutting Drill",YouTube:"lacrosse getting open off ball"},
+  {Category:"Off-Ball Movement",Team:"2031 Carnage",Opponent:"Legacy",Technique:"L-Cut",Cue:"Plant foot hard, show hands on cut",Drill:"L-Cut to Catch and Shoot",YouTube:"lacrosse off ball cutting"},
+  {Category:"Off-Ball Movement",Team:"2032 Cannons",Opponent:"Rebels",Technique:"Back-Door Cut",Cue:"Read the slide, cut opposite",Drill:"4v3 Backdoor Read Drill",YouTube:"lacrosse backdoor cut finish"},
+  {Category:"Off-Ball Movement",Team:"2028 Black",Opponent:"Edge",Technique:"Seal",Cue:"Keep low, hold position with body",Drill:"1v1 Crease Seal Battle",YouTube:"lacrosse crease play technique"},
+  {Category:"Off-Ball Movement",Team:"2030 Rage",Opponent:"Thunder",Technique:"Pick",Cue:"Sprint to hip, set early and still",Drill:"Pick Timing Drill",YouTube:"lacrosse setting picks on ball"},
+  {Category:"Off-Ball Movement",Team:"2035 Bombers",Opponent:"LILJ",Technique:"Slip",Cue:"Time the slip with dodge",Drill:"Slip to Space Drill",YouTube:"lacrosse slip screen offense"},
+
+  // SHOOTING (15)
+  {Category:"Shooting",Team:"2034 Snipers",Opponent:"Prime Time",Technique:"Time & Room",Cue:"Step into shot, aim far pipe",Drill:"Top of Box Shooting Drill",YouTube:"lacrosse time and room shooting"},
+  {Category:"Shooting",Team:"2033 Renegades",Opponent:"Crabs",Technique:"On-the-Run",Cue:"Keep feet moving, shoot across body",Drill:"Alley Shooting Drill",YouTube:"lacrosse shooting on the run"},
+  {Category:"Shooting",Team:"2032 Cannons",Opponent:"Hawks",Technique:"Inside Finishing",Cue:"Get hands free, quick release",Drill:"Crease Finishing Circuit",YouTube:"lacrosse inside finishing crease"},
+  {Category:"Shooting",Team:"2031 Carnage",Opponent:"FCA",Technique:"Bounce Shot",Cue:"Aim 2 feet in front of goalie",Drill:"Bounce Shot Accuracy Drill",YouTube:"lacrosse bounce shot tutorial"},
+  {Category:"Shooting",Team:"2030 Rage",Opponent:"Dolphins",Technique:"Fake & Shoot",Cue:"Sell the fake high, go low",Drill:"Fake High Shoot Low Drill",YouTube:"lacrosse pump fake and shoot"},
+  {Category:"Shooting",Team:"2028 Black",Opponent:"Baymen",Technique:"Time & Room",Cue:"Hip rotation generates power",Drill:"Wall Ball Power Shooting",YouTube:"lacrosse shooting mechanics tutorial"},
+  {Category:"Shooting",Team:"2036 Dawgs",Opponent:"Team 91",Technique:"On-the-Run",Cue:"Plant outside foot, release high",Drill:"On-the-Run Dodge and Shoot",YouTube:"lacrosse shooting on the run drill"},
+  {Category:"Shooting",Team:"2035 Bombers",Opponent:"Igloo",Technique:"Inside Finishing",Cue:"Catch and shoot in one motion",Drill:"Quick Stick Shooting Drill",YouTube:"lacrosse quick stick shooting"},
+  {Category:"Shooting",Team:"2034 Hurricanes",Opponent:"LI Express",Technique:"Bounce Shot",Cue:"Snap wrists down, short stick side",Drill:"Bounce Shot Target Drill",YouTube:"lacrosse bounce shot technique"},
+  {Category:"Shooting",Team:"2033 Renegades",Opponent:"Shore2Shore",Technique:"Fake & Shoot",Cue:"Sell with eyes and body, not just stick",Drill:"Full Body Fake Drill",YouTube:"lacrosse shot fake tutorial"},
+  {Category:"Shooting",Team:"2031 Carnage",Opponent:"Legacy",Technique:"Time & Room",Cue:"Pick corners, change eye level",Drill:"Corner Picking Drill",YouTube:"lacrosse shooting placement drill"},
+  {Category:"Shooting",Team:"2032 Cannons",Opponent:"Rebels",Technique:"On-the-Run",Cue:"Opposite hand catches, shoot same motion",Drill:"Catch and Shoot Circuit",YouTube:"lacrosse catch and shoot drill"},
+  {Category:"Shooting",Team:"2034 Snipers",Opponent:"Edge",Technique:"Inside Finishing",Cue:"High to low, make goalie move",Drill:"High Low Crease Finish",YouTube:"lacrosse crease finishing drills"},
+  {Category:"Shooting",Team:"2028 Black",Opponent:"Thunder",Technique:"Bounce Shot",Cue:"Low angle, aim at goalie's feet",Drill:"Low Angle Bounce Shot Drill",YouTube:"lacrosse low angle shooting"},
+  {Category:"Shooting",Team:"2036 Dawgs",Opponent:"LILJ",Technique:"Fake & Shoot",Cue:"Hold fake until defender commits",Drill:"Patience Fake Drill",YouTube:"lacrosse fake and finish"},
+
+  // TRANSITION (12)
+  {Category:"Transition",Team:"2030 Rage",Opponent:"Prime Time",Technique:"Fast Break",Cue:"Push pace, look to score early",Drill:"3v2 Fast Break Drill",YouTube:"lacrosse fast break offense"},
+  {Category:"Transition",Team:"2034 Snipers",Opponent:"Crabs",Technique:"Secondary Break",Cue:"Fill lanes, attack before D is set",Drill:"4v3 Secondary Break",YouTube:"lacrosse secondary break offense"},
+  {Category:"Transition",Team:"2033 Renegades",Opponent:"Hawks",Technique:"Numbers Advantage",Cue:"Find the open man, move the ball",Drill:"Odd Man Rush Drill",YouTube:"lacrosse numbers advantage transition"},
+  {Category:"Transition",Team:"2031 Carnage",Opponent:"FCA",Technique:"Outlet Pass",Cue:"Head up, hit the wing on the run",Drill:"Outlet to Wing Sprint Drill",YouTube:"lacrosse outlet pass technique"},
+  {Category:"Transition",Team:"2028 Black",Opponent:"Dolphins",Technique:"Fast Break",Cue:"Sprint to cage, attack the crease",Drill:"Full Field Fast Break",YouTube:"lacrosse fast break 4v3"},
+  {Category:"Transition",Team:"2036 Dawgs",Opponent:"Baymen",Technique:"Secondary Break",Cue:"Trail man crashes late, finish backside",Drill:"Trail Man Finish Drill",YouTube:"lacrosse secondary break drill"},
+  {Category:"Transition",Team:"2032 Cannons",Opponent:"Team 91",Technique:"Numbers Advantage",Cue:"One more pass for easy goal",Drill:"Extra Pass Transition Drill",YouTube:"lacrosse transition offense"},
+  {Category:"Transition",Team:"2035 Bombers",Opponent:"Igloo",Technique:"Outlet Pass",Cue:"Snap outlet quickly, find the middle",Drill:"Goalie Outlet Drill",YouTube:"lacrosse goalie outlet pass"},
+  {Category:"Transition",Team:"2034 Hurricanes",Opponent:"LI Express",Technique:"Fast Break",Cue:"Ball moves faster than feet, swing it",Drill:"Swing Ball Fast Break",YouTube:"lacrosse fast break ball movement"},
+  {Category:"Transition",Team:"2030 Rage",Opponent:"Shore2Shore",Technique:"Secondary Break",Cue:"Set up width, attack seams",Drill:"Width and Attack Drill",YouTube:"lacrosse transition offense youth"},
+  {Category:"Transition",Team:"2033 Renegades",Opponent:"Legacy",Technique:"Numbers Advantage",Cue:"Play fast but under control",Drill:"Controlled Fast Break Drill",YouTube:"lacrosse odd man break finishing"},
+  {Category:"Transition",Team:"2031 Carnage",Opponent:"Rebels",Technique:"Outlet Pass",Cue:"Two hands on stick, strong outlet",Drill:"Pressure Outlet Drill",YouTube:"lacrosse clearing and outlet"},
+
+  // 2-MAN GAME (12)
+  {Category:"2-Man Game",Team:"2034 Snipers",Opponent:"Edge",Technique:"Pick & Roll",Cue:"Set the pick, roll to space",Drill:"2-Man Pick and Roll Drill",YouTube:"lacrosse pick and roll offense"},
+  {Category:"2-Man Game",Team:"2032 Cannons",Opponent:"Thunder",Technique:"Pick & Pop",Cue:"Set pick, pop out for the catch and shoot",Drill:"Pick and Pop Shooting",YouTube:"lacrosse pick and pop tutorial"},
+  {Category:"2-Man Game",Team:"2028 Black",Opponent:"LILJ",Technique:"Pick & Slip",Cue:"Show the screen, slip early to crease",Drill:"Slip Timing Drill",YouTube:"lacrosse pick and slip 2-man game"},
+  {Category:"2-Man Game",Team:"2036 Dawgs",Opponent:"Prime Time",Technique:"Give & Go",Cue:"Pass and cut hard, expect the return",Drill:"Give and Go Fast Reps",YouTube:"lacrosse give and go offense"},
+  {Category:"2-Man Game",Team:"2035 Bombers",Opponent:"Crabs",Technique:"Pick & Roll",Cue:"Read the switch, attack the mismatch",Drill:"Switch Read 2-Man Drill",YouTube:"POWLAX 2-man game"},
+  {Category:"2-Man Game",Team:"2033 Renegades",Opponent:"Hawks",Technique:"Pick & Pop",Cue:"Seal and pop, present stick target",Drill:"Pop and Catch Drill",YouTube:"lacrosse two man game concepts"},
+  {Category:"2-Man Game",Team:"2031 Carnage",Opponent:"FCA",Technique:"Pick & Slip",Cue:"Sell pick, cut backdoor on slip",Drill:"Backdoor Slip Drill",YouTube:"lacrosse pick slip backdoor"},
+  {Category:"2-Man Game",Team:"2030 Rage",Opponent:"Dolphins",Technique:"Give & Go",Cue:"Cut to space after the pass",Drill:"Give and Go 2v1 Drill",YouTube:"lacrosse give and go drill youth"},
+  {Category:"2-Man Game",Team:"2034 Hurricanes",Opponent:"Baymen",Technique:"Pick & Roll",Cue:"Roll hard to cage, call for ball",Drill:"Roll and Finish Drill",YouTube:"lacrosse 2-man game pick roll"},
+  {Category:"2-Man Game",Team:"2032 Cannons",Opponent:"Team 91",Technique:"Pick & Pop",Cue:"Read if D switches, pop to open grass",Drill:"Switch Read Pop Drill",YouTube:"lacrosse reading the switch 2-man"},
+  {Category:"2-Man Game",Team:"2028 Black",Opponent:"Igloo",Technique:"Give & Go",Cue:"Quick pass, immediate cut inside",Drill:"Inside Give and Go Drill",YouTube:"lacrosse give and go fundamentals"},
+  {Category:"2-Man Game",Team:"2035 Bombers",Opponent:"LI Express",Technique:"Pick & Slip",Cue:"Slip when D jumps the pick early",Drill:"Early Switch Slip Drill",YouTube:"lacrosse slip screen 2-man game"},
+
+  // MOTION OFFENSE (12)
+  {Category:"Motion Offense",Team:"2034 Snipers",Opponent:"Shore2Shore",Technique:"Ball Movement",Cue:"Move it quick, make the D shift",Drill:"Rapid Ball Movement Drill",YouTube:"lacrosse motion offense ball movement"},
+  {Category:"Motion Offense",Team:"2033 Renegades",Opponent:"Legacy",Technique:"Spacing",Cue:"Stay wide, maintain 15-yard spacing",Drill:"Spacing Awareness Drill",YouTube:"lacrosse offensive spacing concept"},
+  {Category:"Motion Offense",Team:"2032 Cannons",Opponent:"Rebels",Technique:"Cutting Patterns",Cue:"Cut with purpose, clear with purpose",Drill:"Pattern Cut 5v5 Drill",YouTube:"lacrosse cutting patterns offense"},
+  {Category:"Motion Offense",Team:"2031 Carnage",Opponent:"Edge",Technique:"Replacement",Cue:"Fill the vacated spot immediately",Drill:"Replace and Fill Drill",YouTube:"lacrosse replacement cutting motion"},
+  {Category:"Motion Offense",Team:"2030 Rage",Opponent:"Thunder",Technique:"Ball Movement",Cue:"Skip to backside, reverse the field",Drill:"Skip and Reverse Drill",YouTube:"D1 lacrosse motion offense"},
+  {Category:"Motion Offense",Team:"2036 Dawgs",Opponent:"LILJ",Technique:"Spacing",Cue:"Don't drift, own your space",Drill:"Cone Spacing Drill",YouTube:"lacrosse offense spacing youth"},
+  {Category:"Motion Offense",Team:"2028 Black",Opponent:"Prime Time",Technique:"Cutting Patterns",Cue:"Read the adjacent man, time your cut",Drill:"Read and React Cutting",YouTube:"lacrosse read and react offense"},
+  {Category:"Motion Offense",Team:"2035 Bombers",Opponent:"Crabs",Technique:"Replacement",Cue:"Sprint to replace, don't walk",Drill:"Sprint Replace Drill",YouTube:"lacrosse motion offense replacement"},
+  {Category:"Motion Offense",Team:"2034 Hurricanes",Opponent:"Hawks",Technique:"Ball Movement",Cue:"Touch and throw, keep it moving",Drill:"1-Touch Passing Drill",YouTube:"lacrosse quick ball movement offense"},
+  {Category:"Motion Offense",Team:"2031 Carnage",Opponent:"FCA",Technique:"Spacing",Cue:"Stretch the D wide, create seams",Drill:"Stretch and Attack Drill",YouTube:"lacrosse offensive spacing drill"},
+  {Category:"Motion Offense",Team:"2033 Renegades",Opponent:"Dolphins",Technique:"Cutting Patterns",Cue:"Cut when ball is moving, not sitting",Drill:"Ball Movement Trigger Cuts",YouTube:"lacrosse timing cuts offense"},
+  {Category:"Motion Offense",Team:"2030 Rage",Opponent:"Baymen",Technique:"Replacement",Cue:"Circle away from the ball, fill behind",Drill:"Circle Replacement Drill",YouTube:"lacrosse circle motion offense"},
+
+  // EMO / MAN-UP (10)
+  {Category:"EMO / Man-Up",Team:"2034 Snipers",Opponent:"Team 91",Technique:"3-3 Set",Cue:"Move ball around the horn, look for slip",Drill:"6v5 Horn Movement Drill",YouTube:"lacrosse EMO 3-3 set offense"},
+  {Category:"EMO / Man-Up",Team:"2032 Cannons",Opponent:"Igloo",Technique:"2-3-1 Set",Cue:"Top feeds crease, quick shot",Drill:"2-3-1 Quick Shot Drill",YouTube:"lacrosse man up 2-3-1 formation"},
+  {Category:"EMO / Man-Up",Team:"2028 Black",Opponent:"LI Express",Technique:"Reads",Cue:"Read the zone shift, attack the open seam",Drill:"Zone Read EMO Drill",YouTube:"lacrosse EMO reading the zone"},
+  {Category:"EMO / Man-Up",Team:"2036 Dawgs",Opponent:"Shore2Shore",Technique:"Quick Shots",Cue:"Catch and shoot, no extra cradles",Drill:"Catch and Shoot EMO Drill",YouTube:"lacrosse man up quick release"},
+  {Category:"EMO / Man-Up",Team:"2033 Renegades",Opponent:"Legacy",Technique:"3-3 Set",Cue:"Rotate to get two-on-one up top",Drill:"Top Rotation 6v5 Drill",YouTube:"lacrosse 6v5 man up offense"},
+  {Category:"EMO / Man-Up",Team:"2031 Carnage",Opponent:"Rebels",Technique:"2-3-1 Set",Cue:"Crease man seals, top delivers",Drill:"Crease Seal EMO Feed",YouTube:"lacrosse EMO crease play"},
+  {Category:"EMO / Man-Up",Team:"2035 Bombers",Opponent:"Edge",Technique:"Reads",Cue:"If D jumps passer, hit the skip",Drill:"Skip Read EMO Drill",YouTube:"lacrosse man up skip pass read"},
+  {Category:"EMO / Man-Up",Team:"2030 Rage",Opponent:"Thunder",Technique:"Quick Shots",Cue:"One touch and rip, trust your hands",Drill:"Quick Stick EMO Drill",YouTube:"lacrosse EMO quick stick shooting"},
+  {Category:"EMO / Man-Up",Team:"2034 Hurricanes",Opponent:"Prime Time",Technique:"3-3 Set",Cue:"Patient ball movement, wait for opening",Drill:"Patient EMO Passing Drill",YouTube:"lacrosse extra man offense tutorial"},
+  {Category:"EMO / Man-Up",Team:"2028 Black",Opponent:"Crabs",Technique:"2-3-1 Set",Cue:"X feeds through to crease, finish inside",Drill:"X to Crease EMO Drill",YouTube:"lacrosse man up offense plays"}
+];
+
+const COLS = ["#","Category","Team","Opponent","Technique","BTB Coaching Cue","Reinforcement Drill","YouTube Search Term"];
+
+const CAT_COLORS = [
+  "#C8102E","#E8453C","#FF6B5A","#D94F6B","#B5365A","#9E2A4F","#C75B3F","#E07850"
+];
+const PROG_COLORS = [
+  "#C8102E","#A00D24","#E8453C","#FF6B5A","#D94F6B","#B5365A","#9E2A4F","#C75B3F","#E07850"
+];
+
+/* ===== STATE ===== */
+let sortCol = null;
+let sortDir = 1;
+let catChart = null;
+let progChart = null;
+
+/* ===== INIT ===== */
+function init(){
+  populateFilters();
+  document.getElementById("filterCategory").addEventListener("change",applyFilters);
+  document.getElementById("filterProgram").addEventListener("change",applyFilters);
+  applyFilters();
+}
+
+function populateFilters(){
+  const cats = [...new Set(DATA.map(d=>d.Category))].sort();
+  const progs = [...new Set(DATA.map(d=>d.Team))].sort();
+  const catSel = document.getElementById("filterCategory");
+  const progSel = document.getElementById("filterProgram");
+  cats.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;catSel.appendChild(o)});
+  progs.forEach(p=>{const o=document.createElement("option");o.value=p;o.textContent=p;progSel.appendChild(o)});
+}
+
+function getFiltered(){
+  const cat = document.getElementById("filterCategory").value;
+  const prog = document.getElementById("filterProgram").value;
+  return DATA.filter(d=>(cat==="All"||d.Category===cat)&&(prog==="All"||d.Team===prog));
+}
+
+function applyFilters(){
+  const filtered = getFiltered();
+  updateKPIs(filtered);
+  updateCharts(filtered);
+  renderTable(filtered);
+}
+
+/* ===== KPIs ===== */
+function updateKPIs(data){
+  document.getElementById("kpiClips").textContent = data.length;
+  document.getElementById("kpiCats").textContent = new Set(data.map(d=>d.Category)).size;
+  document.getElementById("kpiProgs").textContent = new Set(data.map(d=>d.Team)).size;
+  document.getElementById("kpiDrills").textContent = new Set(data.map(d=>d.Drill)).size;
+}
+
+/* ===== CHARTS ===== */
+function updateCharts(data){
+  // Category doughnut
+  const catCounts = {};
+  data.forEach(d=>{catCounts[d.Category]=(catCounts[d.Category]||0)+1});
+  const catLabels = Object.keys(catCounts).sort();
+  const catValues = catLabels.map(c=>catCounts[c]);
+
+  if(catChart) catChart.destroy();
+  catChart = new Chart(document.getElementById("chartCategory"),{
+    type:"doughnut",
+    data:{
+      labels:catLabels,
+      datasets:[{data:catValues,backgroundColor:CAT_COLORS.slice(0,catLabels.length),borderColor:"#1A1A1A",borderWidth:2}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:"right",labels:{color:"#aaa",font:{size:11},padding:12,boxWidth:14}},
+        tooltip:{backgroundColor:"#222",titleColor:"#fff",bodyColor:"#ccc"}
+      }
+    }
+  });
+
+  // Program horizontal bar
+  const progCounts = {};
+  data.forEach(d=>{progCounts[d.Team]=(progCounts[d.Team]||0)+1});
+  const progLabels = Object.keys(progCounts).sort();
+  const progValues = progLabels.map(p=>progCounts[p]);
+
+  if(progChart) progChart.destroy();
+  progChart = new Chart(document.getElementById("chartProgram"),{
+    type:"bar",
+    data:{
+      labels:progLabels,
+      datasets:[{data:progValues,backgroundColor:"#C8102E",borderRadius:4,barThickness:18}]
+    },
+    options:{
+      indexAxis:"y",responsive:true,maintainAspectRatio:false,
+      scales:{
+        x:{grid:{color:"#222"},ticks:{color:"#888",font:{size:11}}},
+        y:{grid:{display:false},ticks:{color:"#ccc",font:{size:11}}}
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:"#222",titleColor:"#fff",bodyColor:"#ccc"}
+      }
+    }
+  });
+}
+
+/* ===== TABLE ===== */
+function renderTable(data){
+  // Build header
+  const thead = document.getElementById("tableHead");
+  thead.innerHTML = "";
+  COLS.forEach((col,i)=>{
+    const th = document.createElement("th");
+    const colKey = getColKey(col);
+    let label = col;
+    if(sortCol===i) label += sortDir===1?' <span class="sort-arrow">&#9650;</span>':' <span class="sort-arrow">&#9660;</span>';
+    th.innerHTML = label;
+    th.addEventListener("click",()=>sortTable(i));
+    thead.appendChild(th);
+  });
+
+  // Sort data
+  let sorted = [...data];
+  if(sortCol!==null){
+    const key = getColKey(COLS[sortCol]);
+    sorted.sort((a,b)=>{
+      const av = key==="#"? 0 : (a[key]||"");
+      const bv = key==="#"? 0 : (b[key]||"");
+      if(typeof av==="string") return av.localeCompare(bv)*sortDir;
+      return (av-bv)*sortDir;
+    });
+  }
+
+  // Build rows
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+  sorted.forEach((row,idx)=>{
+    const tr = document.createElement("tr");
+    COLS.forEach(col=>{
+      const td = document.createElement("td");
+      const key = getColKey(col);
+      td.textContent = key==="#"? (idx+1) : (row[key]||"");
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function getColKey(col){
+  const map = {
+    "#":"#",
+    "Category":"Category",
+    "Team":"Team",
+    "Opponent":"Opponent",
+    "Technique":"Technique",
+    "BTB Coaching Cue":"Cue",
+    "Reinforcement Drill":"Drill",
+    "YouTube Search Term":"YouTube"
+  };
+  return map[col]||col;
+}
+
+function sortTable(colIdx){
+  if(sortCol===colIdx){sortDir*=-1}
+  else{sortCol=colIdx;sortDir=1}
+  applyFilters();
+}
+
+/* ===== START ===== */
+document.addEventListener("DOMContentLoaded",init);
+</script>
+</body>
+</html>
