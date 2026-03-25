@@ -171,7 +171,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <button class="tab-btn" data-tab="scouting">Scouting System</button>
 </nav>
 
-<!-- ===================== TAB 1: TERMINOLOGY ===================== -->
 <div class="tab-content active" id="tab-terminology">
   <input type="text" class="search-bar" placeholder="Search terminology..." data-search="terminology">
 
@@ -187,6 +186,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <tr><td class="term-name">Swing</td><td>Ball movement across the top of the formation to shift the defense</td></tr>
       <tr><td class="term-name">Skip</td><td>Cross-field pass that skips over adjacent players to exploit weak-side openings</td></tr>
       <tr><td class="term-name">Crease Flash</td><td>Quick crease cut by an attacker to get open for a feed near the goal</td></tr>
+      <tr><td class="term-name">ISO</td><td>Isolation play; clearing space on one side so one player can 1v1 their defender with no help nearby. Called when you have a player who wins individual matchups.</td></tr>
+      <tr><td class="term-name">Backside Cut</td><td>Attack player on the weak side cuts hard to the crease when the ball is on the strong side, timing the cut with the feeder&#39;s head turning toward them.</td></tr>
+      <tr><td class="term-name">Weak Side Crash</td><td>Midfielder crashes from the top to the weak side crease just as the ball swings, occupying the defensive slide and creating a passing window.</td></tr>
+      <tr><td class="term-name">Pick and Roll</td><td>Screener sets the pick, then immediately rolls to the cage for the return pass. Used in the two-player game to get the screener open.</td></tr>
+      <tr><td class="term-name">Trail</td><td>Third player arriving late to a transition situation, filling behind the two-player fast break as the safety valve option.</td></tr>
+      <tr><td class="term-name">Shoot the Gap</td><td>Ball carrier drives directly through the seam between two defenders who haven&#39;t closed properly; requires decisiveness and straight-line acceleration.</td></tr>
+      <tr><td class="term-name">Reset</td><td>Deliberate return of possession to the top of the arc to reset offensive structure when nothing is open; communicated with a verbal call.</td></tr>
+      <tr><td class="term-name">Drive and Kick</td><td>Dodging player draws the slide and immediately kicks a pass to the open player left unguarded by the slide.</td></tr>
     </tbody>
   </table>
 
@@ -201,6 +208,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <tr><td class="term-name">Recover</td><td>Defender returning to their original assignment after a slide or rotation</td></tr>
       <tr><td class="term-name">Bump</td><td>Defensive switch where a defender bumps to a new assignment during rotation</td></tr>
       <tr><td class="term-name">Lock</td><td>Defender denies a pass to their mark; face-guarding to take away options</td></tr>
+      <tr><td class="term-name">Force Middle</td><td>Defender angles their body to push the ball carrier toward the center of the field where help defenders are waiting; opposite of force sideline.</td></tr>
+      <tr><td class="term-name">Force Line</td><td>Direct the ball carrier toward the sideline and out of the shooting lane; used when help defense is not set.</td></tr>
+      <tr><td class="term-name">Deny</td><td>Defender positions between their mark and the ball to prevent a direct pass; used on the most dangerous cutter.</td></tr>
+      <tr><td class="term-name">Help Side</td><td>Defensive position on the weak side, one step off the mark, between the mark and the goal; allows defender to see both their player and the ball.</td></tr>
+      <tr><td class="term-name">Cheat</td><td>Defensive technique of slightly overplaying the pass lane rather than staying directly on the mark; used against a non-threat on the ball side.</td></tr>
+      <tr><td class="term-name">Box Out</td><td>Defender pins their opponent away from a ground ball on a shot attempt; identical concept to basketball boxing out on a rebound.</td></tr>
     </tbody>
   </table>
 
@@ -213,6 +226,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <tr><td class="term-name">Funnel</td><td>Push the clear toward the sideline to limit passing options and space</td></tr>
       <tr><td class="term-name">Hot</td><td>The player applying direct pressure on the ball carrier during the ride</td></tr>
       <tr><td class="term-name">Release</td><td>Defender leaving the ride to get back and set up defensively</td></tr>
+      <tr><td class="term-name">Press</td><td>Immediate all-out pressure the moment possession changes; designed to force a turnover before the defense can set up.</td></tr>
+      <tr><td class="term-name">Zone Ride</td><td>Players ride areas of the field rather than specific opponents; used to funnel the ball into a trap zone.</td></tr>
     </tbody>
   </table>
 
@@ -224,6 +239,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <tr><td class="term-name">Wheel</td><td>Ball rotates through the defense in a circular pattern to find an opening</td></tr>
       <tr><td class="term-name">Reverse</td><td>Clear switches field direction to exploit the weak side of the ride</td></tr>
       <tr><td class="term-name">Outlet</td><td>First passing option on a clear; the designated receiver near the goalie</td></tr>
+      <tr><td class="term-name">Draw and Dump</td><td>Ball carrier attracts two defenders then immediately dumps to the open player; used when outnumbered in the clearing zone.</td></tr>
+      <tr><td class="term-name">Push</td><td>Goalie or defender attacks upfield rather than waiting; works when the ride is overloaded on one side and the middle is open.</td></tr>
     </tbody>
   </table>
 
@@ -248,22 +265,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     </tbody>
   </table>
 </div>
-
-<!-- ===================== TAB 2: OFFENSIVE SYSTEMS ===================== -->
 <div class="tab-content" id="tab-offense">
   <input type="text" class="search-bar" placeholder="Search offensive systems..." data-search="offense">
-
   <div class="legend">
     <div class="legend-item"><div class="legend-dot" style="background:var(--attack)"></div>Attack</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--midfield)"></div>Midfield</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--defense)"></div>Defense</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--goalie)"></div>Goalie</div>
   </div>
-
   <div class="card-grid" id="offenseGrid">
-
-    <!-- Offense 1: 3-2-2 Motion -->
-    <div class="card" data-searchable>
+<div class="card" data-searchable>
       <div class="card-num">1</div>
       <div class="card-title">3-2-2 Motion</div>
       <div class="field-diagram">
@@ -279,17 +290,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:62%;left:75%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Most common women's lacrosse offense</li>
-        <li>Triangle passing creates constant ball movement</li>
-        <li>Dodge and drift spacing principles</li>
-        <li>Continuous crease movement and cuts</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> The 3-2-2 is the foundation of modern women's lacrosse offense because it creates a constant triangle passing relationship at every level of the field. Three midfielders at the top force defenders to stay honest above restraining, while two attack pairs on each side create a high-low feeding game near the crease. Every dodge generates a natural "drift" by adjacent players, keeping the defense from overloading the ball side.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> M1-M2-M3 align 2-3 meters above the restraining line, spaced 6-7 meters apart. A1 and A2 station 4 meters behind the pipe on each wing. A3 and A4 set up crease-adjacent, 2 meters off the goal circle. On the call "Motion," all players begin continuous movement.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>When M dodges center-to-right → A2 drifts to top right, A4 crashes crease left</li><li>When ball is on the wing → Crease attacker sets a pick on the adjacent defender, then flashes to the ball-side pipe</li><li>When the first slide comes → Ball carrier immediately looks to the player left behind by the slide</li><li>When defense collapses → Reset to the top and swing to the weak side</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Drift wide — don't crowd the dodge</li><li>Fill behind the cut, don't stand and watch</li><li>Crease — you're always moving</li><li>Ball is fed, crash hard — no ball watching</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Base offense against any standard man defense. Use as the default set and layer other systems within it.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Players stop moving when they don't have the ball — enforce constant movement with a "motion police" rule in practice. Spacing collapses under pressure — use cones to enforce 5-meter minimum spacing.</p>
       <div class="used-by">Used by: Maryland, Northwestern</div>
-    </div>
-
-    <!-- Offense 2: 2-4-1 -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">2</div>
       <div class="card-title">2-4-1</div>
       <div class="field-diagram">
@@ -305,17 +313,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:70%;left:50%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Large driving lanes for dodging midfielders</li>
-        <li>Four across the middle creates width</li>
-        <li>Low attacker works as crease option</li>
-        <li>Effective against zone defenses</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> The 2-4-1 floods the midfield corridor with four players across the middle, creating impossible-to-cover driving lanes for dodging midfielders. The two high attackers provide wide outlet passes that reset the defense, while the single low attacker is a pure crease scorer who lives in the lane. Defense can't slide from the perimeter without leaving shooters open.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> A1 and A2 position at the top of the restraining area, 3 meters inside each boundary. M1 through M3 and A3 spread across the midfield line in a flat line. A4 stations below the goal circle at 3 o'clock or 9 o'clock. The horizontal spacing is the key — every player needs 4+ meters of separation.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>When the middle is open → M2 drives straight at goal, reads the goalie's feet to shoot or dump</li><li>When D sags off the top attackers → A1 or A2 attacks immediately from the top</li><li>When the ride sets a hard double on ball → Skip pass to the opposite high attacker for a catch-and-dodge</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Stay flat — don't drift up</li><li>Drive at the defender's hip, not past them</li><li>A4 — you're in the lane, stay in the lane</li><li>Width wins — spread your gap</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Excellent against zone defenses and teams with slow-footed midfield defenders. Use when your best dodgers are midfielders who need driving room.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Midfielders unconsciously drift toward the ball and collapse the formation. Put a "no crossing" rule at the hash marks. Low attacker A4 drifts outside the lane — she must stay disciplined in the hole and trust she'll get fed.</p>
       <div class="used-by">Used by: Various NCAA D1 programs</div>
-    </div>
-
-    <!-- Offense 3: Stack -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">3</div>
       <div class="card-title">Stack</div>
       <div class="field-diagram">
@@ -331,17 +336,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:68%;left:70%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Three attackers stacked on one side</li>
-        <li>Isolates elite dodgers in space</li>
-        <li>Sequential cuts off the stack</li>
-        <li>Creates confusion in slide responsibilities</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> The stack creates controlled chaos on one side of the field by stacking three attackers vertically. The sequential cuts off the stack force the defense to make split-second decisions — if they cheat to one cutter, the next one is open. A single high-quality isolation dodger can be set up to 1v1 with no nearby help because defense is occupied guarding the stack.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> M1, M2, M3 spread across the top. A1, A2, A3 stack vertically on the left side at 3, 4.5, and 6 meters behind the pipe. A4 positions as a weak-side anchor on the far right. The stack must be tight — 1.5 meters between players — to force defensive confusion.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>A1 cuts first — if open, she gets the ball. If denied, she clears out to create space</li><li>A2 reads A1's cut — if A1 is denied hard, A2 cuts backdoor immediately</li><li>A3 is the third option — cuts only if A1 and A2 are both covered</li><li>If all three cuts fail → reset and run the stack again from the other side</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Read the defender's hips, not their eyes</li><li>First cutter sets it up, second cutter finishes it</li><li>A4 — be patient on the weak side, your time is coming</li><li>Run it until they stop it</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Use when facing a team that hasn't scouted you or doesn't communicate their slide coverage. Excellent in the second half when defense is fatigued.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> All three cutters go at the same time and trash the spacing. Enforce a 1-second pause between cuts in practice. Cutters don't clear out after being denied — they stop and stand in the lane killing space.</p>
       <div class="used-by">Used by: UNC, Northwestern</div>
-    </div>
-
-    <!-- Offense 4: Double Crease -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">4</div>
       <div class="card-title">Double Crease</div>
       <div class="field-diagram">
@@ -357,17 +359,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:65%;left:62%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Two attackers stationed near the crease</li>
-        <li>Creates slide confusion for defense</li>
-        <li>Cross-crease passes for high percentage shots</li>
-        <li>Forces defenders to communicate constantly</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Two attackers stationed near the crease permanently occupy two defensive players and destroy slide coverage. When the defense commits to covering both crease players, the perimeter is open. When they cheat off the crease to slide, the cross-crease pass becomes a high-percentage shot from point blank range. Forces defense to choose between two bad options.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> A3 and A4 position 1-2 meters off each pipe at the goal circle edge. A1 and A2 on the wings. M1, M2, M3 at the top as initiators. Key: A3 and A4 must be active movers — they flash, set picks for each other, and time cuts with ball movement.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>When crease defender slides to ball → Feed the vacated crease attacker immediately</li><li>When both crease defenders stay home → The perimeter dodge has no slide support — take the gap</li><li>When the cross-crease pass is available → Deliver it at the moment the goalie is frozen by the original threat</li><li>Look for the backside crash by A4 when A3 draws the feed</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Crease players move with the ball — never static</li><li>Read the slide, find your teammate</li><li>Feeder — pump the crease, then cross-crease</li><li>Crash the net — if the ball hits the pipe, be right there</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Use against teams with slow-reacting defensive slides or poor crease communication. Strong situationally when up by one goal late.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Crease attackers stand flat and wait. Put them on a "30-second rule" — if they haven't moved in 30 seconds they run a lap. Feeders try to force the crease pass instead of reading and flowing.</p>
       <div class="used-by">Used by: Various NCAA programs</div>
-    </div>
-
-    <!-- Offense 5: Invert -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">5</div>
       <div class="card-title">Invert Offense</div>
       <div class="field-diagram">
@@ -383,17 +382,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:65%;left:50%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Attackers initiate from top positions</li>
-        <li>Midfielders fill underneath</li>
-        <li>Mismatches created by positional switches</li>
-        <li>Attackers use speed advantage at the top</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> By placing attackers at the top and midfielders underneath, the invert creates mismatches that defenders simply aren't trained for. Attack players' superior stick skills and change-of-direction ability at the top force midfield defenders into one-on-one situations they're not accustomed to. Meanwhile, midfielders crashing from underneath often find themselves less tightly marked because opponents expect attackers in those spots.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> A1, A2, A3 position at the top of the restraining area, spread wing to wing. M1, M2, M3 drop 2-3 meters deeper on each flank and the center. A4 plays crease. Transition into the invert is quick — attack players advance through the midfield without stopping, midfielders peel underneath.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>When the top-side attack player beats their defender → Immediately attack the cage, midfielders fill behind</li><li>When defenders switch to follow positions → Identify who has the mismatch and call the ISO</li><li>When defense adjusts by pushing up → Drop the ball to midfielders underneath who now have more room</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Attack at the top — you have the skills, trust it</li><li>Mids, once you're underneath, look for the back-door cut</li><li>Switch? Call 'switch' — we want to know</li><li>Don't revert to your natural spots — hold the invert</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Use when attack has elite individual skills that are wasted stuck behind the goal. Use to disrupt teams who scout your attack's typical positioning.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Attack players drift back to their comfortable spots below goal — physical reminders with cones at the restraining line. Midfielders push too high and collapse the formation — enforce the "below the hash" rule for mids in this set.</p>
       <div class="used-by">Used by: Boston College</div>
-    </div>
-
-    <!-- Offense 6: Two Player Game -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">6</div>
       <div class="card-title">Two Player Game</div>
       <div class="field-diagram">
@@ -409,17 +405,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:65%;left:60%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Heavy pick and slip usage</li>
-        <li>On-ball and off-ball screens</li>
-        <li>Ball carrier uses teammate pick to get free</li>
-        <li>Requires disciplined off-ball movement</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Pick-and-roll is basketball's most unstoppable two-person action and it works in lacrosse for the same reason: defenders can't guard both the ball handler and the rolling screener simultaneously. The ball carrier uses the screen to attack the seam; the screener immediately rolls to the cage creating a second scoring threat. Requires excellent communication and timing but creates advantages that man defense cannot stop without changing the scheme.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> Any two players can run the two-player game. The screener positions 1.5-2 meters from the ball carrier, between the ball and the goal. The five remaining players hold their positions and maintain spacing — they must not drift toward the action.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>Ball carrier reads the screen — if defender goes over the top, turn the corner</li><li>If defender goes under the screen → Ball carrier pulls up for the shot or shot-fake and drive</li><li>Screener reads the defender on the roll — if they're chasing the ball, flash to the crease hard</li><li>If defense switches → Identify the mismatch immediately and call 'ISO' on that player</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Set a real screen — shoulder on their hip</li><li>Ball carrier, wait for the screen to be set</li><li>Screener — roll hard, don't drift</li><li>If they switch, you've already won — use the mismatch</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Use against aggressive man defense that tends to over-commit to the ball. Run it at the top of the arc with your best ball-handling attacker and biggest wing attacker as the screener.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Screen is set too far away and there's no real contact — get physical with it in practice. Screener turns and faces the cage too early before the ball carrier has used the screen. Ball carrier doesn't wait for the screen to be set — enforce the "contact rule."</p>
       <div class="used-by">Used by: UNC</div>
-    </div>
-
-    <!-- Offense 7: Crease Rotation -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">7</div>
       <div class="card-title">Crease Rotation</div>
       <div class="field-diagram">
@@ -435,17 +428,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:72%;left:55%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Crease player constantly rotates positions</li>
-        <li>Confuses defensive slide packages</li>
-        <li>Creates open looks near the goal</li>
-        <li>Requires smart reads from crease attacker</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> A constantly moving crease player is impossible to defend because defenders can't face-guard and maintain crease protection simultaneously. By having one attacker continuously rotate around the crease circle — flashing to the ball, then away, then cutting back — the crease defender must choose between staying home and following, both of which create openings. High-percentage shots result when the feed hits the crease player at full extension.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> A3 is the designated crease rotator — she works a figure-eight pattern around the goal circle, timing her moves with the ball position. A1 and A2 are wing feeders. A4 spots up weak side as a safety valve and to crash on all shots. M1, M2, M3 at the top provide ball movement and feeding angles.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>Ball on left wing → A3 flashes right crease at pipe height</li><li>Ball swings to right wing → A3 flashes left immediately</li><li>When defender faces away from ball to deny → A3 back-door cuts to open pipe immediately</li><li>On a shot → A3 crashes the opposite pipe for the rebound</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Crease — you're a shark, never stop moving</li><li>Time your flash with the feed — arrive as the ball does</li><li>Feeder, watch the crease defender's hips, not the attacker</li><li>Crash every single shot</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Use against teams with a slow or heavy crease defender. Excellent in the second half when that defender is fatigued. Use when your best scorer is a cut-and-receive player rather than a top-side driver.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Crease attacker runs the rotation but then stops to look for the ball — keep moving. Feeders don't watch the crease movement and miss the window — practice with a verbal 'NOW' cue from the cutter to train the feed timing.</p>
       <div class="used-by">Used by: Various NCAA programs</div>
-    </div>
-
-    <!-- Offense 8: High Low Attack -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">8</div>
       <div class="card-title">High Low Attack</div>
       <div class="field-diagram">
@@ -461,17 +451,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:68%;left:58%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>High attacker feeds crease cutters</li>
-        <li>Vertical passing game creates seams</li>
-        <li>Low attackers time cuts with high feeds</li>
-        <li>Effective against flat defensive sets</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> The high-low exploits the vertical depth of the field to create passing seams that can't be taken away simultaneously. When a high attacker holds the ball at 8 meters, the low attacker is in a dead-ball zone where her defender can't be in perfect help position and tight marking simultaneously. The vertical gap forces defenses to choose between protecting the seam or defending the perimeter.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> A1 positions high at 7-9 meters, slightly off-center. A2 stations on the strong-side wing at mid-position. A3 and A4 stack vertically below the goal circle — one at the crease and one at the pipe. M1, M2 at the top as resetters. The vertical distance between A1 and the crease attackers is critical — at least 6 meters.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>When crease defender face-guards A4 → A3 cuts across the crease to the near pipe</li><li>When defense sags to crease level → A1 attacks immediately from 7 meters — she's unguarded</li><li>When A1 draws the slide → Feed to A2 on the wing who has a clear shooting lane</li><li>On all wing catches → Look high-to-low first, then reset if the seam is closed</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>High player — hold until you've drawn attention</li><li>Low players — one of you is always cutting, other is always crashing</li><li>Read the goalie's position, not just the defender</li><li>Patience — let the defense commit before you feed</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Use against teams that play a flat defensive shape. Excellent when you have a player who can catch and shoot from high and a physical crease player who battles for position.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> High attacker feeds too quickly before the low players have set up — enforce a "two-count hold" before feeding. Low players both cut simultaneously and take each other's space — designate a lead cutter and trailer.</p>
       <div class="used-by">Used by: Various NCAA programs</div>
-    </div>
-
-    <!-- Offense 9: Fast Break Transition -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">9</div>
       <div class="card-title">Fast Break Transition</div>
       <div class="field-diagram">
@@ -486,17 +473,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player defense" style="top:50%;left:70%">D2</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>3v2 and 4v3 advantage situations</li>
-        <li>Attack the defense before it is set</li>
-        <li>Quick ball movement to find the open player</li>
-        <li>Decisive finishing in transition</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Transition is the highest-value moment in lacrosse — the defense is outnumbered, unset, and running backward. Every great offense has a fast-break system designed to take advantage of these moments before the defense can recover. The key is early ball movement to advance ahead of the defense and decisive decision-making when outnumbered.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> The outlet player (near ball) calls 'Break!' to signal transition. Two attack players sprint in wide lanes at 4 o'clock and 8 o'clock positions. One trailing midfielder fills the center. Ball moves forward quickly — never hold when a forward outlet is available.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>3v2 — Ball carrier attacks the top of the restraining area, forces one defender to commit, then passes to the open player. The third player (trailer) fills for the skip pass or the rebound</li><li>4v3 — Wide players stretch the defense, ball moves high-to-low when help collapses. Never let a 4v3 stall into a settled possession</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Ball first, then body — get ahead of the defense</li><li>Wide — stay wide until you're in the lane</li><li>Attack the deeper of the two defenders</li><li>Trailer — you're the safety valve and the rebounder</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Every time possession changes and a numbers advantage exists. Attack transition within the first 5 seconds before defense organizes.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Players slow up when they cross midfield and let the defense reset — enforce a 'no brakes' rule. Ball carrier holds too long trying to make the perfect pass — the first pass is the best pass in transition.</p>
       <div class="used-by">Used by: All top NCAA programs</div>
-    </div>
-
-    <!-- Offense 10: Delay / Stall -->
-    <div class="card" data-searchable>
+    </div><div class="card" data-searchable>
       <div class="card-num">10</div>
       <div class="card-title">Delay / Stall Offense</div>
       <div class="field-diagram">
@@ -512,37 +496,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:55%;left:65%">A4</div>
         <div class="player goalie" style="top:90%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Late game possession management</li>
-        <li>Spread formation to use the full field</li>
-        <li>Only take high percentage shots</li>
-        <li>Force defense to come out and chase</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> The delay game is a strategic tool that forces the defense to come out of their set position and chase, which creates offensive opportunities. Keeping possession late in a game protects a lead while also drawing the defense into an uncomfortable 'press' position — at which point your normal offense can score against an unset defense.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> Maximum field spread — M1, M2, M3 spread the full width at the top. A1 and A2 hold wide on the wings at the boundary. A3 and A4 hold depth below goal area. Every player must be 5+ meters from their nearest teammate. The formation requires constant movement to maintain legal possession.</p>
+      <p style="margin:8px 0 4px"><strong>Key Reads:</strong></p><ul><li>If defense pressures → Move ball to open player immediately — don't force the dodge</li><li>If defense sags off → Take the free-dodge opportunity toward goal</li><li>If defense overloads one side → Skip to the weak side — best scoring chance in the stall</li><li>If possession is under threat → Reset to the goalie immediately</li></ul>
+      <p style="margin:8px 0 4px"><strong>Execution Cues:</strong></p><ul><li>Move your feet — don't be a statue</li><li>Make them come to you</li><li>If they sag, attack</li><li>Everybody is responsible for possession — no hero plays</li></ul>
+      <p style="margin:8px 0 4px"><strong>When to Call It:</strong> Final 2 minutes when protecting a one-goal lead. Also use it when your team needs a rest and a reset after a bad stretch.</p>
+      <p style="margin:8px 0 4px"><strong>Coaching Fix:</strong> Players take hero 1v1 dodges under pressure and lose the ball — establish a '0 turnovers' culture in the delay. Players clump together — hold the spread by rule.</p>
       <div class="used-by">Used by: All programs (situational)</div>
     </div>
-
   </div>
 </div>
-
-<!-- ===================== TAB 3: DEFENSIVE PACKAGES ===================== -->
 <div class="tab-content" id="tab-defense">
   <input type="text" class="search-bar" placeholder="Search defensive packages..." data-search="defense">
-
   <div class="legend">
     <div class="legend-item"><div class="legend-dot" style="background:var(--attack)"></div>Attack (Opponent)</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--defense)"></div>Defense</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--goalie)"></div>Goalie</div>
   </div>
-
   <div class="card-grid" id="defenseGrid">
-
-    <!-- Defense 1: Adjacent Slide -->
-    <div class="card" data-searchable>
+<div class="card" data-searchable>
       <div class="card-num">1</div>
       <div class="card-title">Adjacent Slide</div>
       <div class="field-diagram">
         <div class="crease"></div>
         <div class="goal-circle"></div>
+        <div class="center-line"></div>
         <div class="player attack" style="top:25%;left:50%">A</div>
         <div class="player defense" style="top:30%;left:50%">D1</div>
         <div class="player attack" style="top:35%;left:75%">A</div>
@@ -553,21 +531,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player defense" style="top:58%;left:38%">D4</div>
         <div class="player goalie" style="top:88%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Most common women's lax defense</li>
-        <li>Nearest defender slides to help on ball</li>
-        <li>Second adjacent rotates to cover</li>
-        <li>Maintains defensive shape through rotation</li>
-      </ul>
-    </div>
-
-    <!-- Defense 2: Double Slide -->
-    <div class="card" data-searchable>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Adjacent slide is the bedrock of women's lacrosse defense because it keeps every defender matched up and the crease protected through a clear chain-of-command. The principle is simple: the nearest defender to the ball carrier slides to help, and the next nearest defender covers the vacancy. This eliminates the decision-making delay that kills defensive rotations.</p>
+      <p style="margin:8px 0 4px"><strong>Triggers:</strong></p><ul><li>Ball carrier beats their defender off the hip → Adjacent slides immediately</li><li>Ball carrier receives in the 8-meter arc with speed → Adjacent slides on the catch</li><li>Ball carrier runs directly at the crease → Adjacent slides before contact is made</li></ul>
+      <p style="margin:8px 0 4px"><strong>Responsibilities:</strong> Ball Defender (D1): Stay connected, force to weak hand, never let a straight-line drive to goal. Adjacent (D2): Eyes on ball AND your mark simultaneously — fire the slide when D1's hip is beaten. Second Adjacent (D3): Rotate to cover D2's mark the moment D2 commits to the slide. Crease (D4): Protect the goal circle — you are the last line before the goalie.</p>
+      <p style="margin:8px 0 4px"><strong>Communication:</strong> "Ball!" (D1 calls as she engages) / "Slide!" (D2 calls as she fires) / "Got your girl!" (D3 confirming coverage) / "I've got crease!" (D4 maintaining position) / "Recover!" (called when the ball is passed and all defenders return)</p>
+      <p style="margin:8px 0 4px"><strong>Breakdown Drill:</strong> 4v3 Slide Drill — three defenders rotate slides while a fourth rotates as offensive feeder. Force 10 consecutive correct rotations before switching.</p>
+      <p style="margin:8px 0 4px"><strong>Use Against:</strong> Standard 3-2-2 motion offense, any dodging attack player working on the wing.</p>
+    </div><div class="card" data-searchable>
       <div class="card-num">2</div>
       <div class="card-title">Double Slide</div>
       <div class="field-diagram">
         <div class="crease"></div>
         <div class="goal-circle"></div>
+        <div class="center-line"></div>
         <div class="player attack" style="top:25%;left:40%">A</div>
         <div class="player defense" style="top:30%;left:42%">D1</div>
         <div class="player attack" style="top:35%;left:70%">A</div>
@@ -577,21 +553,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player defense" style="top:58%;left:33%">D4</div>
         <div class="player goalie" style="top:88%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Second defender protects crease after first slide</li>
-        <li>Layered defensive help system</li>
-        <li>Prevents easy crease goals on passes</li>
-        <li>Requires disciplined recovery rotations</li>
-      </ul>
-    </div>
-
-    <!-- Defense 3: Early Slide -->
-    <div class="card" data-searchable>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Double slide adds a second layer of protection by sending a second help defender to the crease immediately after the first slide fires. While the adjacent slide stops the dodge, the double slide removes the crease as a dumping option — the ball carrier has helped herself out of the dodge but has nowhere to go.</p>
+      <p style="margin:8px 0 4px"><strong>Triggers:</strong></p><ul><li>Ball carrier is an elite dodger who regularly beats the first slide</li><li>Offensive team's first option is always the crease feeder</li><li>Down by one late in game — cannot give up a crease shot</li></ul>
+      <p style="margin:8px 0 4px"><strong>Responsibilities:</strong> Same as Adjacent plus: D3 reads D2's slide and immediately peels to cover the crease, leaving their mark open at the perimeter. D4 (normally crease) bumps to cover D3's vacated mark nearest the goal. Perimeter defenders lock their marks tightly to prevent the skip pass.</p>
+      <p style="margin:8px 0 4px"><strong>Communication:</strong> "Double!" (pregame or halftime call to establish this package) / "Crease covered!" (D3 calling after taking crease position) / "Lock!" (reminder to all perimeter defenders to deny the kick-out)</p>
+      <p style="margin:8px 0 4px"><strong>Breakdown Drill:</strong> 5v4 Rotation Drill — offense runs double crease with a feeder at the top; defense practices the full rotation including the skip-pass lockdown.</p>
+      <p style="margin:8px 0 4px"><strong>Use Against:</strong> Teams with elite crease attackers who thrive off simple dump passes from dodgers. Strong against Double Crease offensive sets.</p>
+    </div><div class="card" data-searchable>
       <div class="card-num">3</div>
       <div class="card-title">Early Slide</div>
       <div class="field-diagram">
         <div class="crease"></div>
         <div class="goal-circle"></div>
+        <div class="center-line"></div>
         <div class="player attack" style="top:28%;left:45%">A</div>
         <div class="player defense" style="top:32%;left:48%">D1</div>
         <div class="player defense" style="top:30%;left:65%">D2</div>
@@ -600,21 +574,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player defense" style="top:60%;left:35%">D4</div>
         <div class="player goalie" style="top:88%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Used against elite dodgers</li>
-        <li>Aggressive early help before dodge develops</li>
-        <li>Takes away one-on-one opportunities</li>
-        <li>Risks leaving shooters open if slow to recover</li>
-      </ul>
-    </div>
-
-    <!-- Defense 4: Crease Slide -->
-    <div class="card" data-searchable>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> The early slide eliminates the dodge entirely by sending help before the ball carrier has beaten her defender. The psychological impact is significant — when attackers know the slide is coming before they finish the dodge, their attack decisions change and they become hesitant. The risk is giving up the perimeter pass to the player vacated by the early slide.</p>
+      <p style="margin:8px 0 4px"><strong>Triggers:</strong></p><ul><li>Call this against a ball carrier who you want to disrupt mentally — take away her confidence in the dodge before it starts</li><li>Use when your on-ball defender is a step slow and you know she'll be beaten</li><li>Best in red-zone situations below the 8-meter arc</li></ul>
+      <p style="margin:8px 0 4px"><strong>Responsibilities:</strong> D2 begins cheating toward the ball before the dodge is completed — she reads the ball carrier's body lean and hips, not the feet. D1 must communicate when the dodge is starting so D2 knows exactly when to fire. After the early slide, all rotations are identical to the adjacent slide package.</p>
+      <p style="margin:8px 0 4px"><strong>Communication:</strong> "Early!" (the predetermined call that tells D2 to cheat toward ball) / "Going!" (D1 signals the dodge is starting) / "Here!" (D2 confirmation she's arriving)</p>
+      <p style="margin:8px 0 4px"><strong>Breakdown Drill:</strong> 1v1 + 1 Defender Drill — ball carrier runs 1v1 while a third defender stands 3 meters away and practices firing the early slide on D1's 'Going!' call.</p>
+      <p style="margin:8px 0 4px"><strong>Use Against:</strong> Elite left-handed dodgers who attack the right side. Any player who has burned you twice in the same game on the same dodge.</p>
+    </div><div class="card" data-searchable>
       <div class="card-num">4</div>
       <div class="card-title">Crease Slide</div>
       <div class="field-diagram">
         <div class="crease"></div>
         <div class="goal-circle"></div>
+        <div class="center-line"></div>
         <div class="player attack" style="top:25%;left:45%">A</div>
         <div class="player defense" style="top:30%;left:48%">D1</div>
         <div class="player attack" style="top:40%;left:72%">A</div>
@@ -624,21 +596,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player defense" style="top:55%;left:30%">D4</div>
         <div class="player goalie" style="top:88%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Crease defender slides first to the ball</li>
-        <li>Most aggressive slide package</li>
-        <li>Quick help from inside out</li>
-        <li>Requires fast recovery to crease area</li>
-      </ul>
-    </div>
-
-    <!-- Defense 5: Zone Defense -->
-    <div class="card" data-searchable>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Rather than pulling a perimeter defender off their mark to slide, the crease slide sends the crease-stationed defender. This keeps all outside defenders locked on the shooters while the crease defender — who is already central — takes the shortest path to the dodge. Protects against the kick-out pass to perimeter shooters.</p>
+      <p style="margin:8px 0 4px"><strong>Triggers:</strong></p><ul><li>Ball carrier attacks through the top of the arc toward the center of the field</li><li>Works best when the crease defender is your most athletic defender</li></ul>
+      <p style="margin:8px 0 4px"><strong>Responsibilities:</strong> Crease Defender: Must read the dodge from a central position and fire the moment D1's hip is beat. After the slide, she is between the ball and the crease. All perimeter defenders stay locked on their marks — no help rotation needed. Goalie: Calls 'Help coming!' to alert the crease defender.</p>
+      <p style="margin:8px 0 4px"><strong>Communication:</strong> "Crease going!" (goalie triggers the crease slide) / "Top covered!" (crease defender calls as she arrives at ball) / "Goalie's mine!" (defender who replaces crease calls this)</p>
+      <p style="margin:8px 0 4px"><strong>Breakdown Drill:</strong> 4v4 Crease Slide Drill — goalie calls the slide from 5 different offensive positions and crease defender must fire each time.</p>
+      <p style="margin:8px 0 4px"><strong>Use Against:</strong> Teams that attack through the center of the formation and then dump to the crease. Ineffective against wide wing dodges where the crease is too far to be useful.</p>
+    </div><div class="card" data-searchable>
       <div class="card-num">5</div>
-      <div class="card-title">Zone Defense</div>
+      <div class="card-title">Zone Defense (2-3)</div>
       <div class="field-diagram">
         <div class="crease"></div>
         <div class="goal-circle"></div>
+        <div class="center-line"></div>
         <div class="player defense" style="top:30%;left:35%">D1</div>
         <div class="player defense" style="top:30%;left:65%">D2</div>
         <div class="player defense" style="top:50%;left:35%">D3</div>
@@ -648,21 +618,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player attack" style="top:60%;left:50%">A</div>
         <div class="player goalie" style="top:88%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Protects the middle of the field</li>
-        <li>Area-based coverage rather than player-to-player</li>
-        <li>Effective against teams that rely on cutting</li>
-        <li>Vulnerable to perimeter shooting</li>
-      </ul>
-    </div>
-
-    <!-- Defense 6: Lock Off -->
-    <div class="card" data-searchable>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> A 2-3 zone presents a shape the offense has never prepared for, disrupts normal ball movement patterns, and physically crowds the crease. The principle is protecting zones rather than players — each defender owns an area and anyone who enters that area becomes their responsibility. The objective is to force perimeter shots from bad angles.</p>
+      <p style="margin:8px 0 4px"><strong>Triggers:</strong></p><ul><li>Call zone when offense is better at individual dodging than team movement</li><li>When you're in foul trouble (zone limits contact situations)</li><li>When weather conditions affect passing accuracy</li></ul>
+      <p style="margin:8px 0 4px"><strong>Responsibilities:</strong> Top Two (D1, D2): Cover the area between the midfield and the arc — deny the high-feed. Middle Three (D3, D4, D5): D3 and D5 take the wings from the arc to the crease; D4 owns the crease and takes any player entering that space. Goalie: More aggressive — covers more of the cage and communicates which zone is at risk.</p>
+      <p style="margin:8px 0 4px"><strong>Communication:</strong> "Zone!" (call on defensive transition) / "Ball in my zone!" (each defender calls this when ball enters their area) / "Help right!" or "Help left!" (identifying weak-side threat) / "Hot at crease!" (D4 alerting D3/D5 to a crease cutter)</p>
+      <p style="margin:8px 0 4px"><strong>Breakdown Drill:</strong> 7v6 Zone Ball-Movement Drill — offense moves ball around the perimeter while defense learns to shift and close. Count shots allowed from inside the 8-meter.</p>
+      <p style="margin:8px 0 4px"><strong>Use Against:</strong> Best against ball-dominant, one-on-one offensive systems and teams that don't have a dedicated zone offense. Weak against good skip passing and patient ball movement.</p>
+    </div><div class="card" data-searchable>
       <div class="card-num">6</div>
-      <div class="card-title">Lock Off</div>
+      <div class="card-title">Press Defense</div>
       <div class="field-diagram">
         <div class="crease"></div>
         <div class="goal-circle"></div>
+        <div class="center-line"></div>
         <div class="player attack" style="top:30%;left:35%;border:2px solid #fff">A*</div>
         <div class="player defense" style="top:28%;left:28%">D1</div>
         <div class="player attack" style="top:35%;left:65%">A</div>
@@ -671,250 +639,206 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="player defense" style="top:60%;left:35%">D4</div>
         <div class="player goalie" style="top:88%;left:50%">G</div>
       </div>
-      <ul>
-        <li>Used against star attackers</li>
-        <li>Deny the ball completely -- face guard</li>
-        <li>Force offense to run through weaker players</li>
-        <li>Lock defender stays with assignment everywhere</li>
-      </ul>
+      <p style="margin:8px 0 4px"><strong>Concept:</strong> Press defense denies the offense any comfortable possession and forces bad decisions under pressure. Applied at midfield, it can trap ball carriers against the boundary, cause rushed passes, and generate turnovers that lead directly to transition goals. The risk is getting beaten down the field if the trap fails.</p>
+      <p style="margin:8px 0 4px"><strong>Triggers:</strong></p><ul><li>Use press after your team scores to prevent the offense from settling</li><li>Use when opponent's goalie has a weak stick and the clear is uncertain</li><li>Use when down late and needing possession</li></ul>
+      <p style="margin:8px 0 4px"><strong>Responsibilities:</strong> Two defenders pressure the ball from the front. Two wing defenders deny the nearest outlet. Two deep defenders play passing lanes rather than specific marks. The 'hot' defender applies direct ball pressure; the 'trap' defender cuts off the sideline escape.</p>
+      <p style="margin:8px 0 4px"><strong>Communication:</strong> "Press!" (called by a coach or captain) / "Hot!" (ball-pressure defender identifying herself) / "Trap!" (second defender announcing the double-team) / "Lane!" (deep defenders calling their passing lane assignment)</p>
+      <p style="margin:8px 0 4px"><strong>Breakdown Drill:</strong> 6v6 Press Trap Drill — defense practices forcing the ball to the boundary and executing the double-team while outlets are covered.</p>
+      <p style="margin:8px 0 4px"><strong>Use Against:</strong> Teams with tentative goalies, short stick midfielders uncomfortable with pressure, or programs that don't rep clearing against pressure.</p>
     </div>
-
-    <!-- Defense 7: Jump Slide -->
-    <div class="card" data-searchable>
-      <div class="card-num">7</div>
-      <div class="card-title">Jump Slide</div>
-      <div class="field-diagram">
-        <div class="crease"></div>
-        <div class="goal-circle"></div>
-        <div class="player attack" style="top:28%;left:45%">A</div>
-        <div class="player defense" style="top:32%;left:48%">D1</div>
-        <div class="player defense" style="top:25%;left:68%">D2</div>
-        <div class="player attack" style="top:38%;left:72%">A</div>
-        <div class="player defense" style="top:52%;left:55%">D3</div>
-        <div class="player defense" style="top:58%;left:35%">D4</div>
-        <div class="player goalie" style="top:88%;left:50%">G</div>
-      </div>
-      <ul>
-        <li>Aggressive early help before dodge starts</li>
-        <li>Defender "jumps" toward ball before contact</li>
-        <li>Disrupts offensive timing and rhythm</li>
-        <li>Requires quick recovery and communication</li>
-      </ul>
-    </div>
-
-    <!-- Defense 8: Switch Defense -->
-    <div class="card" data-searchable>
-      <div class="card-num">8</div>
-      <div class="card-title">Switch Defense</div>
-      <div class="field-diagram">
-        <div class="crease"></div>
-        <div class="goal-circle"></div>
-        <div class="player attack" style="top:30%;left:42%">A1</div>
-        <div class="player attack" style="top:30%;left:55%">A2</div>
-        <div class="player defense" style="top:34%;left:42%">D1</div>
-        <div class="player defense" style="top:34%;left:55%">D2</div>
-        <div class="player defense" style="top:52%;left:60%">D3</div>
-        <div class="player defense" style="top:55%;left:38%">D4</div>
-        <div class="player goalie" style="top:88%;left:50%">G</div>
-      </div>
-      <ul>
-        <li>Used against picks and screens</li>
-        <li>Defenders switch assignments on contact</li>
-        <li>Eliminates the need to fight over screens</li>
-        <li>Risk of size/speed mismatches after switch</li>
-      </ul>
-    </div>
-
   </div>
 </div>
-
-<!-- ===================== TAB 4: RIDE SYSTEMS ===================== -->
 <div class="tab-content" id="tab-rides">
   <input type="text" class="search-bar" placeholder="Search ride systems..." data-search="rides">
-
   <div class="section-title">Ride Systems</div>
   <div class="system-list" id="rideList">
-    <div class="system-item" data-searchable>
+<div class="system-item" data-searchable>
       <div class="sys-num">1</div>
       <div class="sys-body">
-        <h4>Pressure Ride</h4>
-        <p>Full pressure on the ball carrier and all adjacent passing options. Every defender within one pass attacks their mark. High intensity, high turnover potential, but risky if broken.</p>
+        <h4>3-2-3 Standard Ride</h4>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> The 3-2-3 gives every player a clear responsibility and covers the entire field without gambling on any one position. Three pressure players attack the clearing zone, two wing defenders deny the outlet passes, and three back defenders protect against a quick clear. It's the lacrosse equivalent of a 2-3 zone press — controlled aggression with built-in recovery.</p>
+        <p style="margin:8px 0 4px"><strong>Setup:</strong> On the change of possession, the three nearest players to the ball immediately become the 3-pressure front. Two midfielders hold the wing outlet lanes at the midfield line. Three back players stay deep and protect against the long clear. Communicate '3-2-3 ride!' immediately so everyone knows their assignment.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Front 3 — press when the goalie has the ball, force movement. Middle 2 — deny the pass to either wing outlet midfielder. Back 3 — read if the clear goes deep and adjust.</p>
+        <p style="margin:8px 0 4px"><strong>Hot Player:</strong> The front player nearest the ball is 'hot' — she applies direct pressure and forces the goalie or clearing defender to make a quick decision. She should not double-team alone — her job is to contain and direct, not strip.</p>
+        <p style="margin:8px 0 4px"><strong>Trap Mechanics:</strong> When the ball goes to a sideline defender, the nearest front player and one middle player create a double-team at the boundary. Both defenders must arrive simultaneously — a staggered trap gives the ball carrier time to split.</p>
+        <p style="margin:8px 0 4px"><strong>Release Rule:</strong> If the ball carrier completes two clean passes through the ride, call 'Release' — all six ride players collapse back to defensive positions. A busted ride is worse than no ride.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> 6v6 Half-Field Ride — defense practices the 3-2-3 against a live clearing unit for 5 minutes; track turnovers forced vs. clear completions.</p>
       </div>
-    </div>
-    <div class="system-item" data-searchable>
+    </div><div class="system-item" data-searchable>
       <div class="sys-num">2</div>
       <div class="sys-body">
-        <h4>10 Ride</h4>
-        <p>A specifically named player (the "10") applies primary pressure on the ball carrier. Remaining riders position themselves to cut off passing lanes while the 10 forces the action.</p>
+        <h4>Diamond Ride</h4>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> The diamond ride concentrates four players in a tight zone around the ball carrier to maximize double-team pressure. Unlike man rides where players follow specific opponents, the diamond shifts as a unit and traps the ball in the clearing zone corners. It's high-risk, high-reward — when it works it creates turnovers from point-blank range; when it breaks it gives up a numbers advantage the other way.</p>
+        <p style="margin:8px 0 4px"><strong>Setup:</strong> Four players form a diamond: one directly on the ball, one behind them, one on each side. The diamond must stay tight — no more than 3 meters between players. Three players stay back as outlets. The diamond shifts together as a unit as the ball moves.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Diamond 'locks' on the ball when the clearing defender picks up the ball. All four diamond players read the ball carrier's hips and close simultaneously. If the ball carrier moves right, the whole diamond slides right without breaking shape.</p>
+        <p style="margin:8px 0 4px"><strong>Hot Player:</strong> The top of the diamond is always hot — she is face-to-face with the ball carrier. The bottom of the diamond cheats toward the most dangerous outlet.</p>
+        <p style="margin:8px 0 4px"><strong>Trap Mechanics:</strong> If the ball reaches the sideline — perfect. Now the boundary acts as a 5th defender. The two side points of the diamond become the trap arms, the top and bottom tighten. Ball carrier has two feet of space and two seconds.</p>
+        <p style="margin:8px 0 4px"><strong>Release Rule:</strong> If the ball clears past the diamond midpoint, all players sprint back — do not chase. The three back players handle everything above midfield.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> 4-Player Diamond Trap Drill — four defenders drill the sliding diamond pattern around cones before adding a ball carrier.</p>
       </div>
-    </div>
-    <div class="system-item" data-searchable>
+    </div><div class="system-item" data-searchable>
       <div class="sys-num">3</div>
       <div class="sys-body">
-        <h4>Contain Ride</h4>
-        <p>No direct pressure on the ball. The ride slows the clear down, maintains shape, and forces the clearing team to use the clock. Low risk, used when protecting a lead.</p>
+        <h4>Man-to-Man Ride</h4>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> The man ride assigns each player a specific opponent on the clear and demands hard individual pressure on every ball movement. It's physically demanding but leaves no gaps — there is no zone to exploit, no seam to find, no unguarded release valve. Best applied by teams with superior conditioning and athleticism.</p>
+        <p style="margin:8px 0 4px"><strong>Setup:</strong> Each of the seven field players is assigned to an opponent immediately upon possession change. The assignment is based on proximity — take the nearest opponent. Goalie has no ride assignment. Call 'Man ride!' to confirm the assignment principle.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Each defender finds and closes on their assigned opponent as quickly as possible. No switching unless called by a defender who is beaten — 'Switch!' with a specific name means another defender takes over. Never leave your mark to help without communicating.</p>
+        <p style="margin:8px 0 4px"><strong>Hot Player:</strong> Whoever has the ball is the 'hot' assignment — that defender applies immediate face pressure. All other defenders deny their marks from receiving the clear pass.</p>
+        <p style="margin:8px 0 4px"><strong>Trap Mechanics:</strong> When 'Trap!' is called on the ball carrier, the nearest adjacent defender leaves her mark to double. This is a gamble — the adjacent defender's mark is now open for a pass. Both trap defenders must arrive before the ball carrier can pivot out.</p>
+        <p style="margin:8px 0 4px"><strong>Release Rule:</strong> Man ride releases automatically when the ball crosses the midfield line — all defenders sprint back and pick up their defensive assignments in the settled half-field defense.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> 7v7 Full Field Man Ride — live ride with both units at full speed; defense scores 1 point per forced turnover, offense scores 1 point per completed clear.</p>
       </div>
-    </div>
-    <div class="system-item" data-searchable>
+    </div><div class="system-item" data-searchable>
       <div class="sys-num">4</div>
       <div class="sys-body">
-        <h4>Midline Trap</h4>
-        <p>Allow the clear to develop, then trap the ball carrier as they cross the midfield line. Uses the midfield line as an extra defender. Effective against teams that clear through the middle.</p>
+        <h4>Zone Ride (Funnel)</h4>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> Instead of chasing opponents, the zone ride controls areas and funnels the ball into a pre-set trap zone near the sideline or end line. Defenders rotate and shift as the ball moves but never leave their zone responsibility to chase. The goal is to make the clear uncomfortable and force a poor decision, not necessarily to create an immediate double-team.</p>
+        <p style="margin:8px 0 4px"><strong>Setup:</strong> Split the defensive half into three lanes (left, center, right) and assign two players to each lane. Ball moves right — right-lane defenders press, center slides over, left provides depth. The funnel direction is always toward the nearest sideline.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Each zone player closes on anyone who enters their area with the ball. Zone players do not chase outside their area — if the ball is passed out of your zone, release it and adjust your zone position.</p>
+        <p style="margin:8px 0 4px"><strong>Hot Player:</strong> Whichever zone player is nearest to the ball becomes temporarily 'hot' — she applies light pressure while her zone partner cheats toward the boundary to create the funnel.</p>
+        <p style="margin:8px 0 4px"><strong>Trap Mechanics:</strong> Funnel the ball toward the boundary naturally. Don't force it — allow the clearing team to think they're making progress toward the sideline, then close the trap when they're within 1 meter of the line.</p>
+        <p style="margin:8px 0 4px"><strong>Release Rule:</strong> Zone ride releases when the ball crosses the attack zone of the clearing team. Reset zone positions immediately.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> 6v6 Zone Funnel Drill — cone off a clearing zone and practice funneling the clear into the designated trap corner.</p>
       </div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">5</div>
-      <div class="sys-body">
-        <h4>Corner Trap</h4>
-        <p>Force the ball carrier toward the sideline or endline corner and trap with a second rider. Uses the boundary as an extra defender. High turnover potential in the corners.</p>
-      </div>
+      <div class="sys-body"><h4>Corner Trap</h4><p>Force the ball carrier toward the sideline or endline corner and trap with a second rider. Uses the boundary as an extra defender. High turnover potential in the corners.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">6</div>
-      <div class="sys-body">
-        <h4>Double Ride</h4>
-        <p>Two riders converge on the ball carrier simultaneously. Extremely aggressive -- forces quick decisions. Leaves an open player, so requires excellent off-ball riding by teammates.</p>
-      </div>
+      <div class="sys-body"><h4>Double Ride</h4><p>Two riders converge on the ball carrier simultaneously. Extremely aggressive -- forces quick decisions. Leaves an open player, so requires excellent off-ball riding by teammates.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">7</div>
-      <div class="sys-body">
-        <h4>Zone Ride</h4>
-        <p>Area-based ride coverage. Riders own zones on the field rather than matching up with specific players. Good against structured clearing patterns. Requires communication.</p>
-      </div>
+      <div class="sys-body"><h4>Shadow Ride</h4><p>Match specific riders to specific clearing players based on scouting. The best rider shadows the opponent's best clearing option. Disrupts their primary outlet.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">8</div>
-      <div class="sys-body">
-        <h4>Shadow Ride</h4>
-        <p>Match specific riders to specific clearing players based on scouting. The best rider shadows the opponent's best clearing option. Disrupts their primary outlet.</p>
-      </div>
+      <div class="sys-body"><h4>Delayed Ride</h4><p>Let the clear begin without pressure, then apply pressure once the clearing team commits to a pattern. Baits the clear into a predictable shape before attacking it.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">9</div>
-      <div class="sys-body">
-        <h4>Delayed Ride</h4>
-        <p>Let the clear begin without pressure, then apply pressure once the clearing team commits to a pattern. Baits the clear into a predictable shape before attacking it.</p>
-      </div>
+      <div class="sys-body"><h4>Contain Ride</h4><p>No direct pressure on the ball. The ride slows the clear down, maintains shape, and forces the clearing team to use the clock. Low risk, used when protecting a lead.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">10</div>
-      <div class="sys-body">
-        <h4>Turnover Ride</h4>
-        <p>Immediate full-field pressure applied right after a turnover. Capitalizes on the opponent being out of position. Sprint to nearest player and deny the clear before it organizes.</p>
-      </div>
+      <div class="sys-body"><h4>Turnover Ride</h4><p>Immediate full-field pressure applied right after a turnover. Capitalizes on the opponent being out of position. Sprint to nearest player and deny the clear before it organizes.</p></div>
     </div>
   </div>
 </div>
-
-<!-- ===================== TAB 5: CLEAR SYSTEMS ===================== -->
 <div class="tab-content" id="tab-clears">
   <input type="text" class="search-bar" placeholder="Search clear systems..." data-search="clears">
-
   <div class="section-title">Clear Systems</div>
   <div class="system-list" id="clearList">
-    <div class="system-item" data-searchable>
+<div class="system-item" data-searchable>
       <div class="sys-num">1</div>
       <div class="sys-body">
         <h4>Break Clear</h4>
-        <p>Fast clear up the field immediately after a save or change of possession. Goalie outlets quickly to a defender who pushes the ball up field before the ride sets up. Speed over structure.</p>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> The break clear is the highest-value play in lacrosse — it converts defense to offense before the ride can organize. The principle is 'always push forward first' — any time the ride isn't fully set, the ball carrier attacks upfield rather than waiting. A single completed break clear can shift the entire momentum of a game.</p>
+        <p style="margin:8px 0 4px"><strong>Outlet Options:</strong> Primary: The nearest midfielder above the midfield line who has 2 meters of separation from her defender. Secondary: The attack player who stayed back (the 'outlet back') stationed below the midfield line on the ball side. Emergency: Goalie holds — the whole clear resets rather than forcing a dangerous pass.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Goalie reads: if two or more ride players are below the goal-area line → push the break. If the ride is fully organized and all outlets are covered → don't force it, use the wheel clear.</p>
+        <p style="margin:8px 0 4px"><strong>Time Rule:</strong> Push the break within 5 seconds of gaining possession. Every second beyond that gives the ride time to set up. If no break outlet is available within 3 seconds → call 'Wheel' and reset.</p>
+        <p style="margin:8px 0 4px"><strong>Against Specific Rides:</strong> Works best against the 3-2-3 standard ride when the middle two defenders haven't set their outlet coverage yet. If facing a diamond ride → break wide, diamond can't cover the perimeter.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> Clear Break Drill — goalie gets ball, midfielders sprint outlets, and the clear must be completed within 8 seconds or starts over.</p>
       </div>
-    </div>
-    <div class="system-item" data-searchable>
+    </div><div class="system-item" data-searchable>
       <div class="sys-num">2</div>
       <div class="sys-body">
         <h4>Wheel Clear</h4>
-        <p>Ball rotates through the defense in a circular pattern. Defenders pass to the next defender in a wheel motion, stretching the ride and finding gaps. Structured and reliable.</p>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> When the break isn't available, the wheel methodically moves the ball around the perimeter of the defensive formation until an opening appears. It's a patience game — the clearing team moves the ball faster than the ride can shift, eventually creating a clear lane or forcing the ride to overcommit to one side, opening the other.</p>
+        <p style="margin:8px 0 4px"><strong>Outlet Options:</strong> Primary: Defender on ball-side wing. Secondary: Goalie back to the other side. Tertiary: Opposite wing defender completing the wheel. The ball should never go backward — always lateral or forward.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Goalie reads: ride is set and front pressure is heavy → start the wheel by going to the ball-side wing. Wing defender reads: if her outlet to the midfield is open → immediately push the ball upfield rather than continuing to wheel.</p>
+        <p style="margin:8px 0 4px"><strong>Time Rule:</strong> The wheel has two full rotations maximum — if the ball completes two loops without finding an upfield outlet, the ride has you figured out and it's time to call a timeout or push a 50/50 ball upfield.</p>
+        <p style="margin:8px 0 4px"><strong>Against Specific Rides:</strong> Excellent against man rides where individual defenders can be isolated and beaten on the perimeter. Against zone rides, push the ball wide — zone rides defend the middle but leave the boundary open.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> Wheel Clear Circuit — 7 players practice the wheel rotation around cones without defenders; add defender pressure once timing is clean.</p>
       </div>
-    </div>
-    <div class="system-item" data-searchable>
+    </div><div class="system-item" data-searchable>
       <div class="sys-num">3</div>
       <div class="sys-body">
-        <h4>Reverse Clear</h4>
-        <p>Clear switches field direction against ride pressure. When the ride overloads one side, the clearing team reverses the ball to exploit the weak side. Requires quick, accurate passing.</p>
+        <h4>Draw and Dump</h4>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> Draw and dump exploits overaggressive rides by deliberately drawing the double-team and immediately releasing to the open player. The ball carrier is bait — her job is to attract two defenders, then the assist is the play. Best executed by composed players who don't panic under physical pressure.</p>
+        <p style="margin:8px 0 4px"><strong>Outlet Options:</strong> Primary: The player left open by the double-team — always in the direction the trap came from. Secondary: Deep safety valve who has sprint separation. Emergency: Goalie if both outlets are covered — reset possession.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Ball carrier reads: when two defenders commit to her → immediately release to the dump. Do not wait until the double-team has full containment — the moment the second defender's foot commits toward you, the ball is going.</p>
+        <p style="margin:8px 0 4px"><strong>Time Rule:</strong> Ball carrier has 1-2 seconds maximum once the double comes. Practice the release — not a panic pass, a controlled confident dump with hips turned to the outlet.</p>
+        <p style="margin:8px 0 4px"><strong>Against Specific Rides:</strong> Best counter to the diamond ride and any trap-based ride. Against man rides, the dump is the natural outlet because man defenders over-commit following the ball.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> 2v2 Trap and Dump Drill — two defenders trap the ball carrier; she has one second to identify and deliver the dump pass to the trailing partner.</p>
       </div>
-    </div>
-    <div class="system-item" data-searchable>
+    </div><div class="system-item" data-searchable>
       <div class="sys-num">4</div>
       <div class="sys-body">
-        <h4>Goalie Carry</h4>
-        <p>Goalie carries the ball to midfield personally. Effective when the ride drops off the goalie. Creates a numerical advantage as the goalie becomes an extra ball carrier.</p>
+        <h4>Push Clear</h4>
+        <p style="margin:8px 0 4px"><strong>Concept:</strong> The push clear attacks the seam of the ride directly — rather than moving around it or drawing pressure, the ball carrier charges upfield through the gap. It's a physical and psychological play that works when the ride has a coverage gap or when the ball carrier can win 1v1. A successful push clear is a direct fast-break opportunity.</p>
+        <p style="margin:8px 0 4px"><strong>Outlet Options:</strong> The push clear is a solo play — the ball carrier reads the gap and accelerates through. Supporting players open passing lanes on each side in case the carrier is cut off.</p>
+        <p style="margin:8px 0 4px"><strong>Triggers:</strong> Goalie reads: only one defender in the clearing lane and she can be beaten with speed → push. Never push into traffic or when you're not sure — a fumble in the clearing zone is a gift goal.</p>
+        <p style="margin:8px 0 4px"><strong>Time Rule:</strong> If the push lane closes within 2 steps, redirect to the wheel. Don't absorb the check — redirect.</p>
+        <p style="margin:8px 0 4px"><strong>Against Specific Rides:</strong> Excellent against the zone ride where zone players are slow to rotate. Works against any ride that has left the middle of the field open.</p>
+        <p style="margin:8px 0 4px"><strong>Drill:</strong> 1v1 Clear Lane Drill — goalie runs one-on-one clear against a single defender with the full field to attack; practice both the committed push and the redirect to wheel.</p>
       </div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">5</div>
-      <div class="sys-body">
-        <h4>Two-Pass Clear</h4>
-        <p>Quick two-pass clear designed to get through the ride with minimal touches. Goalie to outlet, outlet to midfielder streaking up field. Simple and fast.</p>
-      </div>
+      <div class="sys-body"><h4>Reverse Clear</h4><p>Clear switches field direction against ride pressure. When the ride overloads one side, the clearing team reverses the ball to exploit the weak side. Requires quick, accurate passing.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">6</div>
-      <div class="sys-body">
-        <h4>Midfield Break</h4>
-        <p>A midfielder drops back toward the defensive end to receive the clear pass. Creates an extra option in the defensive third and uses the midfielder's speed to push the ball forward.</p>
-      </div>
+      <div class="sys-body"><h4>Goalie Carry</h4><p>Goalie carries the ball to midfield personally. Effective when the ride drops off the goalie. Creates a numerical advantage as the goalie becomes an extra ball carrier.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">7</div>
-      <div class="sys-body">
-        <h4>Corner Clear</h4>
-        <p>Use the corners of the field to escape pressure. Defenders spread to the corners, creating wide passing lanes. The boundary provides protection from rides coming from the middle.</p>
-      </div>
+      <div class="sys-body"><h4>Two-Pass Clear</h4><p>Quick two-pass clear designed to get through the ride with minimal touches. Goalie to outlet, outlet to midfielder streaking up field. Simple and fast.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">8</div>
-      <div class="sys-body">
-        <h4>Spread Clear</h4>
-        <p>Spread formation across the entire width and depth of the field. Creates maximum spacing and forces the ride to cover a lot of ground. Find gaps in the ride coverage.</p>
-      </div>
+      <div class="sys-body"><h4>Corner Clear</h4><p>Use the corners of the field to escape pressure. Defenders spread to the corners, creating wide passing lanes. The boundary provides protection from rides coming from the middle.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">9</div>
-      <div class="sys-body">
-        <h4>Quick Clear</h4>
-        <p>Immediate clear after a save -- the goalie outlets before the ride even sets up. Requires pre-planned positions and instant recognition from defenders. Capitalizes on transition chaos.</p>
-      </div>
+      <div class="sys-body"><h4>Quick Clear</h4><p>Immediate clear after a save -- the goalie outlets before the ride even sets up. Requires pre-planned positions and instant recognition from defenders. Capitalizes on transition chaos.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num">10</div>
-      <div class="sys-body">
-        <h4>Slow Control</h4>
-        <p>Possession-style clear. No rush to get the ball up field. Move the ball deliberately, wait for the ride to break down, and find the open pass. Used against aggressive rides.</p>
-      </div>
+      <div class="sys-body"><h4>Slow Control</h4><p>Possession-style clear. No rush to get the ball up field. Move the ball deliberately, wait for the ride to break down, and find the open pass. Used against aggressive rides.</p></div>
     </div>
   </div>
 </div>
-
-<!-- ===================== TAB 6: DRAW CONTROL ===================== -->
 <div class="tab-content" id="tab-draw">
   <input type="text" class="search-bar" placeholder="Search draw control..." data-search="draw">
-
   <div class="section-title">Draw Techniques</div>
-  <div class="draw-grid">
-    <div class="draw-card" data-searchable>
-      <h4>Clamp</h4>
-      <p>Push your stick down over the ball on the whistle. The most common draw technique. Goal is to trap the ball and gain immediate control. Requires timing and wrist strength.</p>
+<div class="card" data-searchable style="max-width:100%;margin-bottom:16px">
+      <div class="card-title">Clamp</div>
+      <p style="margin:8px 0 4px"><strong>Technique:</strong> The clamp is the most controlled draw technique — the center pushes her stick head downward over the ball at the moment of release, clamping it to the ground. Once clamped, the center turns through the ball and picks it up in one motion. Requires exceptional hand speed and reflexes but gives the center direct possession.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> Center positions with feet parallel to the midfield line, slightly staggered for balance. Grip at the bottom-mid section for maximum control. Pre-read the referee's ball-drop tendency — some refs drop left, some drop straight. Wings set at maximum width — far end of the restraining line — to create the most space for the center to work.</p>
+      <p style="margin:8px 0 4px"><strong>Reads:</strong> If ball drops straight — standard clamp with immediate turn-through pickup. If ball drops slightly forward — adjust clamp angle to reach and still control. If opponent has faster clamp hands — shift to rake or push to negate their speed advantage.</p>
+      <p style="margin:8px 0 4px"><strong>Wing Assignment:</strong> Left wing (W1): when center clamps, sprint toward left boundary for outlet pass. Right wing (W2): mirror — sprint right boundary. Middle/wing defender: read clamp control — if clean, support the outlet. If contested, go directly to the 50/50.</p>
+      <p style="margin:8px 0 4px"><strong>Battle Plan:</strong> If losing clamp battles consistently → switch to push or rake to disrupt opponent's rhythm. Mix techniques so the opponent can't get a timed read on your center.</p>
+      <p style="margin:8px 0 4px"><strong>Drill:</strong> Partner Clamp Drill — two players face each other with a ball on the ground between their stick heads; practice clamping and turning through cleanly 10 times before adding competition.</p>
+    </div><div class="card" data-searchable style="max-width:100%;margin-bottom:16px">
+      <div class="card-title">Rake</div>
+      <p style="margin:8px 0 4px"><strong>Technique:</strong> The rake pulls the ball backward toward your own side at the moment of release, using a sweeping motion away from the opponent. It's effective when the opponent is faster than you at the clamp, because the rake redirects rather than competing directly. Requires the center to be already leaning backward at the draw.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> Center leans slightly toward her own goal — weight on her back foot. Arms extended with the stick head angled to pull backward across the midfield line. Wings set slightly closer to the center than for the clamp, positioned to receive a backward release.</p>
+      <p style="margin:8px 0 4px"><strong>Reads:</strong> Read the opponent's setup — if she's leaning forward (clamp or push), the rake redirects her momentum and beats her. If opponent is also raking, you'll get a contested 50/50 — make sure your wings are set to win the scramble.</p>
+      <p style="margin:8px 0 4px"><strong>Wing Assignment:</strong> Wings must read the rake direction — ball will go backward toward the defending team's possession side. Wing on the rake side crashes immediately for the outlet. Opposite wing fills behind center as second wave.</p>
+      <p style="margin:8px 0 4px"><strong>Battle Plan:</strong> If opponent is dominant at the clamp, the rake is your best counter — her body commitment to the clamp leaves her flat-footed when the ball goes the other way.</p>
+      <p style="margin:8px 0 4px"><strong>Drill:</strong> Rake Circuit Drill — three players practice rake, outlet pass, and secondary fill in a continuous loop; rotate centers every 5 draws.</p>
+    </div><div class="card" data-searchable style="max-width:100%;margin-bottom:16px">
+      <div class="card-title">Push</div>
+      <p style="margin:8px 0 4px"><strong>Technique:</strong> The push fires the ball forward past the opponent — the center uses a sharp wrist snap to accelerate the ball upfield toward the opponent's defensive zone. It's a high-risk technique because the ball goes away from your team, but when executed quickly it can catch the opponent's defense unprepared.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> Center leans slightly forward — weight on front foot. Stick head positioned to direct the push toward a specific zone. Wings position aggressively forward of the restraining line on the opponent's side to receive or contest the pushed ball.</p>
+      <p style="margin:8px 0 4px"><strong>Reads:</strong> The push is best when the opponent's wing defenders are set back near their own midfield line — the pushed ball reaches them before they can react. If the opponent is expecting the push, redirect to a clamp.</p>
+      <p style="margin:8px 0 4px"><strong>Wing Assignment:</strong> Both wings sprint forward on the push. W1 takes the right side, W2 takes the left — whichever is nearest the ball gets possession. The 'chase' mentality beats hesitation on a pushed ball every time.</p>
+      <p style="margin:8px 0 4px"><strong>Battle Plan:</strong> Use the push sparingly — once or twice per game — so the opponent never gets comfortable defending it. Combine it with the clamp to keep them guessing.</p>
+      <p style="margin:8px 0 4px"><strong>Drill:</strong> Push and Chase Drill — center pushes, two wings sprint to compete for the contested ball; full-speed repetitions only.</p>
+    </div><div class="card" data-searchable style="max-width:100%;margin-bottom:16px">
+      <div class="card-title">Wing Positioning and Strategy</div>
+      <p style="margin:8px 0 4px"><strong>Technique:</strong> Draw control is a five-player problem — the center makes the first play but the wings win or lose possession. Wing players must be in an athletic stance, reading the draw in real time, and ready to sprint in any direction within 0.5 seconds of release.</p>
+      <p style="margin:8px 0 4px"><strong>Setup:</strong> Wings stand at the widest point of the restraining line (maximum legal spacing). Stick heads held at waist height in a receiving position. Body weight forward on the balls of feet. Eyes on the ball at center circle, not on the opponent wing.</p>
+      <p style="margin:8px 0 4px"><strong>Reads:</strong> Center gives a pre-draw signal (verbal or visual) for the intended direction. Wings read: if ball comes directly toward them → controlled pickup and immediate clear. If ball goes to open ground → sprint to arrive first. If ball goes to opponent → contest immediately, no hesitation.</p>
+      <p style="margin:8px 0 4px"><strong>Wing Assignment:</strong> Designated 'go' wing (usually the stronger athlete) is assigned the aggressive crash toward the center. Designated 'stay' wing holds her position and becomes the safety valve or second crash.</p>
+      <p style="margin:8px 0 4px"><strong>Battle Plan:</strong> If the opponent is winning 60%+ of draws → call a midgame timeout and adjust. Put your best athlete on the 'go' wing, move her closer to center, and change the crash angle to disrupt the opponent's rhythm.</p>
+      <p style="margin:8px 0 4px"><strong>Drill:</strong> 5-Player Draw Simulation — run full draw sequences with center and four wing/back players at full speed; track possession percentage over 20 reps and identify the weakest link.</p>
     </div>
-    <div class="draw-card" data-searchable>
-      <h4>Rake</h4>
-      <p>Pull the ball backward toward your own side on the draw. Effective when you want to direct the ball to a wing player behind you. Requires a quick backward motion after the whistle.</p>
-    </div>
-    <div class="draw-card" data-searchable>
-      <h4>Push</h4>
-      <p>Send the ball forward past the opponent on the draw. Directs the ball toward your offensive wing players. Good when your wings are faster and positioned ahead of the opponent's.</p>
-    </div>
-    <div class="draw-card" data-searchable>
-      <h4>Self Control</h4>
-      <p>Center wins and possesses the ball in one motion. The draw taker controls the ball to themselves rather than directing it to a wing. Requires elite stick skills and body positioning.</p>
-    </div>
-    <div class="draw-card" data-searchable>
-      <h4>Directional Draw</h4>
-      <p>Pre-planned draw direction based on scouting and wing strengths. The center aims the ball toward the wing with the best chance of possession. Uses hand signals or verbal codes.</p>
-    </div>
-  </div>
-
-  <div class="section-title">Wing Positioning</div>
+  <div class="section-title">Wing Positioning Diagram</div>
   <div class="wing-diagram">
     <div class="center-circle"></div>
     <div class="player" style="top:50%;left:50%;background:var(--accent)">C</div>
@@ -924,7 +848,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="player" style="top:25%;left:65%;background:var(--attack)">A</div>
     <div class="player" style="top:75%;left:35%;background:var(--defense)">D</div>
     <div class="player" style="top:75%;left:65%;background:var(--defense)">D</div>
-    <div class="label" style="top:50%;left:18%">Left<br>Wing</div>
     <div class="label" style="top:88%;left:18%">Left Wing</div>
     <div class="label" style="top:88%;left:82%">Right Wing</div>
     <div class="label" style="top:88%;left:50%">Center Circle</div>
@@ -940,132 +863,122 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <div class="system-list">
     <div class="system-item" data-searchable>
       <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">P</div>
-      <div class="sys-body">
-        <h4>Push</h4>
-        <p>Direct the draw forward. Center pushes ball ahead toward offensive wings. Used when your attack-side wings are faster or better positioned.</p>
-      </div>
+      <div class="sys-body"><h4>Push</h4><p>Direct the draw forward. Center pushes ball ahead toward offensive wings. Used when your attack-side wings are faster or better positioned.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">B</div>
-      <div class="sys-body">
-        <h4>Back / Pull</h4>
-        <p>Rake the draw backward toward your defensive wings. Used when you have an advantage on the defensive side of the circle or want to play it safe.</p>
-      </div>
+      <div class="sys-body"><h4>Back / Pull</h4><p>Rake the draw backward toward your defensive wings. Used when you have an advantage on the defensive side of the circle or want to play it safe.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">S</div>
-      <div class="sys-body">
-        <h4>Self</h4>
-        <p>Center controls the draw to herself. No directional play -- the center wins and possesses. Called when your center has a clear skill advantage.</p>
-      </div>
+      <div class="sys-body"><h4>Self</h4><p>Center controls the draw to herself. No directional play -- the center wins and possesses. Called when your center has a clear skill advantage.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">L</div>
-      <div class="sys-body">
-        <h4>Left</h4>
-        <p>Direct the draw to the left wing. Specific directional call when the left wing has a positioning or matchup advantage.</p>
-      </div>
+      <div class="sys-body"><h4>Left</h4><p>Direct the draw to the left wing. Specific directional call when the left wing has a positioning or matchup advantage.</p></div>
     </div>
     <div class="system-item" data-searchable>
       <div class="sys-num" style="font-size:16px;width:36px;height:36px;border-radius:10px">R</div>
-      <div class="sys-body">
-        <h4>Right</h4>
-        <p>Direct the draw to the right wing. Specific directional call when the right wing has a positioning or matchup advantage.</p>
-      </div>
+      <div class="sys-body"><h4>Right</h4><p>Direct the draw to the right wing. Specific directional call when the right wing has a positioning or matchup advantage.</p></div>
     </div>
   </div>
 
   <div class="section-title">Teaching Progression</div>
   <div class="card" style="max-width:100%">
     <ul>
-      <li><strong>Stage 1 -- Grip & Stance:</strong> Teach proper hand placement, body positioning, and foot alignment at the center circle before any live draws.</li>
+      <li><strong>Stage 1 -- Grip &amp; Stance:</strong> Teach proper hand placement, body positioning, and foot alignment at the center circle before any live draws.</li>
       <li><strong>Stage 2 -- Timing:</strong> Practice reacting to the whistle. The draw is won or lost in the first tenth of a second. Repetition builds muscle memory.</li>
       <li><strong>Stage 3 -- Technique:</strong> Introduce clamp, rake, and push techniques individually. Master one before adding the next.</li>
       <li><strong>Stage 4 -- Directional Control:</strong> Once technique is solid, practice directing draws to specific wings. Add hand signals and verbal codes.</li>
       <li><strong>Stage 5 -- Live Reps:</strong> Full speed draws with wing players. Practice ground ball recovery, body positioning, and transition after the draw.</li>
-      <li><strong>Stage 6 -- Scouting & Adjustments:</strong> Study opponent tendencies. Adjust technique and direction based on the opposing center's habits.</li>
+      <li><strong>Stage 6 -- Scouting &amp; Adjustments:</strong> Study opponent tendencies. Adjust technique and direction based on the opposing center's habits.</li>
     </ul>
   </div>
 </div>
-
-<!-- ===================== TAB 7: PRACTICE PLANS ===================== -->
 <div class="tab-content" id="tab-practice">
   <input type="text" class="search-bar" placeholder="Search practice plans..." data-search="practice">
 
-  <!-- Practice 1 -->
   <div class="practice-card" data-searchable>
     <div class="practice-title">Practice 1: Fundamentals Focus</div>
     <div class="practice-duration">Total Time: 85 minutes</div>
     <div class="timeline">
-      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, jogging, ladder footwork</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Stickwork -- Partner passing (right/left hand), wall ball, catching on the move</div>
-      <div class="timeline-item"><span class="time-label">10 min</span> Ground Balls -- 1v1 ground ball drills, boxing out, scooping through</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> 4v3 Drill -- Offensive advantage drill, fast ball movement, finish at goal</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> Defense Install -- Adjacent slide walkthrough, live 6v6 with coaching stops</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Scrimmage -- Full field controlled scrimmage with coaching points</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Dynamic Warm-Up</strong> — Jogging, ladder footwork, dynamic stretching. Emphasis: athletic ready position and loose hips before any contact.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Partner Stickwork Progression</strong> — Right hand only (5 min) → left hand only (5 min) → alternate (5 min). Emphasis: soft hands on the catch, quick release.</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Ground Ball Circuit (All players)</strong> — 1v1 ground balls, boxing out, scooping through contact. Emphasis: chin up, wide base, scoop through the ball not at it.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>4v3 Fast Break Drill (Offense + Defense)</strong> — Continuous 4v3 from midfield. Emphasis: ball movement first, finish decisively, defense communicates slide before it fires.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>Adjacent Slide Install (Defense units)</strong> — Walkthrough 3 reps, then live 6v6 with coaching stops. Emphasis: "Ball! / Slide! / Got your girl!" communication chain every rep.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Controlled Scrimmage</strong> — Full field, coaching stops allowed. Emphasis: apply fundamentals from the day — no hero plays, possession first.</div>
     </div>
   </div>
 
-  <!-- Practice 2 -->
   <div class="practice-card" data-searchable>
     <div class="practice-title">Practice 2: Offensive Install</div>
     <div class="practice-duration">Total Time: 90 minutes</div>
     <div class="timeline">
-      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, ball handling, high knees with cradling</div>
-      <div class="timeline-item"><span class="time-label">10 min</span> Stickwork -- Quick stick passing, one-touch catches, off-hand work</div>
-      <div class="timeline-item"><span class="time-label">25 min</span> Offense Install -- 3-2-2 Motion walkthrough, triangle passing, dodge and drift</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> 2-Player Games -- Pick and roll, give and go, pick and slip progressions</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> Scrimmage -- Offensive focus scrimmage, must run 3 passes before shooting</div>
-      <div class="timeline-item"><span class="time-label">10 min</span> Conditioning -- Sprints, shuttle runs, cool down stretch</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Dynamic Warm-Up</strong> — Ball handling while jogging, high knees with cradling, change-of-direction starts. Emphasis: stick always moving, never static.</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Quick Stick Passing (All players)</strong> — One-touch catches at 5m, 8m, 12m distances. Emphasis: catch and release in one motion — no wind-up.</div>
+      <div class="timeline-item"><span class="time-label">25 min</span> <strong>3-2-2 Motion Install (Full offense)</strong> — Walk-through → half speed → full speed. Emphasis: triangle passing relationship, drift wide on the dodge, no ball-watching from crease.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Two-Player Game Progressions (Attack pairs)</strong> — Pick and roll → pick and slip → pick, slip, and cross-crease. Emphasis: screener must make shoulder-body contact before ball carrier drives.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>Offensive Scrimmage — Must run 3 passes before shooting (Full teams)</strong>. Emphasis: patience, ball movement, read the slide before shooting.</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Conditioning (All players)</strong> — 4x midfield-to-endline sprints, cool down stretch. Emphasis: finish hard on every sprint, don't coast.</div>
     </div>
   </div>
 
-  <!-- Practice 3 -->
   <div class="practice-card" data-searchable>
     <div class="practice-title">Practice 3: Defensive Focus</div>
     <div class="practice-duration">Total Time: 90 minutes</div>
     <div class="timeline">
-      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, defensive stance slides, reaction drills</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Footwork Drills -- Defensive footwork ladders, drop steps, hip turns, closing out</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> Slide Recognition -- 3v2 / 4v3 slide drill, communication emphasis, adjacent slide reps</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Defensive Rotations -- Full 7v7 rotation walkthrough, recovery drills, crease defense</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> 6v6 Live -- Live play with defensive coaching stops, rewarding communication</div>
-      <div class="timeline-item"><span class="time-label">10 min</span> Film Review -- Quick video review of defensive principles on tablet/screen</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Defensive Warm-Up (Defense + goalie)</strong> — Defensive stance slides, drop steps, hip turns, reaction starts. Emphasis: stay low, don't cross feet.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Defensive Footwork Ladders (Defense)</strong> — Closing out, drop step, contain angle. Emphasis: the angle of approach determines the force direction — practice force sideline and force middle separately.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>Slide Recognition Drill — 3v2/4v3 (Defense + Midfielders)</strong> — Communication emphasis: call "Ball! / Slide! / Got your girl!" on every single rep. Emphasis: no silent slides — if no one called it, run it again.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Full 7v7 Defensive Rotation Walkthrough</strong> — Goalie calls all slides from the cage. Emphasis: everyone must hear the goalie's call and confirm with a response before the rep is complete.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>6v6 Live — Defense earns a point for each forced turnover</strong>. Emphasis: reward communication, reward ground balls, reward physical positioning over the ball.</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Film Review (All players)</strong> — Tablet/screen review of today's live reps. Emphasis: identify one thing each defender did well and one adjustment for next time.</div>
     </div>
   </div>
 
-  <!-- Practice 4 -->
   <div class="practice-card" data-searchable>
-    <div class="practice-title">Practice 4: Draw & Transition</div>
+    <div class="practice-title">Practice 4: Draw and Transition</div>
     <div class="practice-duration">Total Time: 90 minutes</div>
     <div class="timeline">
-      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, sprint work, reaction starts</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> Draw Drills -- Clamp/rake/push technique, wing positioning, live draw reps</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Fast Break Drill -- 3v2 and 4v3 transition, outlet passing, finishing in transition</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Ride / Clear -- Pressure ride vs. break clear reps, clearing under pressure</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> Transition Scrimmage -- Draw to goal scrimmage, every possession starts with a draw</div>
-      <div class="timeline-item"><span class="time-label">10 min</span> Cool Down -- Light jog, static stretching, team huddle</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Dynamic Warm-Up</strong> — Sprint work, reaction starts, direction changes. Emphasis: explosive first step — draws and transitions are won in the first step.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>Draw Technique Station (Center + wings)</strong> — Clamp (7 min) → Rake (7 min) → Push (6 min). Emphasis: center reads the referee's drop tendency; wings read center's pre-draw signal before the whistle.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Fast Break Drill — 3v2 and 4v3 (All players)</strong> — Continuous from midfield, both directions. Emphasis: ball carrier attacks the deeper of the two defenders; trailer fills opposite the pass.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Ride and Clear Reps — 6v6 (Full teams)</strong> — 3-2-3 ride vs. Break clear. Emphasis: clear must go within 5 seconds of possession; ride must communicate "3-2-3!" before the goalie picks up the ball.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>Draw-to-Goal Transition Scrimmage (Full teams)</strong> — Every possession starts with a draw. Count possession percentage for each draw unit. Emphasis: possession off the draw is a mini-fast break — attack immediately.</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Cool Down (All players)</strong> — Light jog, static stretching, team huddle. Emphasis: review draw possession numbers — set a goal for the next session.</div>
     </div>
   </div>
 
-  <!-- Practice 5 -->
   <div class="practice-card" data-searchable>
     <div class="practice-title">Practice 5: Game Prep</div>
     <div class="practice-duration">Total Time: 90 minutes</div>
     <div class="timeline">
-      <div class="timeline-item"><span class="time-label">10 min</span> Warm-Up -- Dynamic stretching, game-speed movements, pre-game routine</div>
-      <div class="timeline-item"><span class="time-label">10 min</span> Stickwork -- Game-speed passing, shooting on the move, quick release shots</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Offensive Review -- Walk through primary offense, review reads and triggers</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Defensive Review -- Walk through defensive packages, review slide assignments</div>
-      <div class="timeline-item"><span class="time-label">15 min</span> Special Units -- Draw unit reps, ride/clear reps, EMO/woman-down situations</div>
-      <div class="timeline-item"><span class="time-label">20 min</span> Controlled Scrimmage -- Game-like scrimmage with officials' signals and sub patterns</div>
-      <div class="timeline-item"><span class="time-label">5 min</span> Walk Through -- Final walk through of game plan, Q&A, team break</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Pre-Game Warm-Up Routine (All players)</strong> — Game-speed movements, short sprints, stick skills. Emphasis: this IS the pre-game routine — same sequence, same timing, same energy every game.</div>
+      <div class="timeline-item"><span class="time-label">10 min</span> <strong>Game-Speed Stickwork (All players)</strong> — Shooting on the move, quick release shots from different angles. Emphasis: game-speed only — no slow warm-up shots.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Offensive Walk-Through (Offense)</strong> — Review primary formation reads, key triggers, when to call ISO vs. reset. Emphasis: every player names her read out loud before the drill begins.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Defensive Walk-Through (Defense + goalie)</strong> — Review slide package, communication calls, crease assignments. Emphasis: goalie calls all slides in walk-through — she must own the calls.</div>
+      <div class="timeline-item"><span class="time-label">15 min</span> <strong>Special Units (Draw unit + ride/clear units)</strong> — Draw unit: 5 live draws, track possession. Ride/clear: 3 reps of primary ride vs. primary clear at full speed. EMO/woman-down: 2 reps each. Emphasis: game-ready execution, no walk-throughs.</div>
+      <div class="timeline-item"><span class="time-label">20 min</span> <strong>Controlled Scrimmage with Officials' Signals (Full teams)</strong> — Subs rotate on sub patterns, officials' calls simulated. Emphasis: game-like environment — use game calls, game rotations.</div>
+      <div class="timeline-item"><span class="time-label">5 min</span> <strong>Final Walk-Through (All players)</strong> — Review game plan, answer questions, team break. Emphasis: every player leaves knowing her #1 job on offense, defense, draw, and ride/clear.</div>
     </div>
   </div>
 </div>
-
-<!-- ===================== TAB 8: SCOUTING SYSTEM ===================== -->
 <div class="tab-content" id="tab-scouting">
+  <div class="section-title">Scouting Notes Guide</div>
+  <div style="overflow-x:auto;margin-bottom:24px">
+    <table class="term-table">
+      <thead><tr><th>Category</th><th>What to Watch</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="term-name">Draw Control</td><td>Center technique (clamp/rake/push), win %, wing positioning</td><td>Track which technique wins</td></tr>
+        <tr><td class="term-name">Offensive Set</td><td>Primary formation, dodge tendencies, best scorer&#39;s position</td><td>Does #__ run the same dodge every time?</td></tr>
+        <tr><td class="term-name">Defensive Slide</td><td>Adjacent, crease, early? How fast is the slide?</td><td>Can our center dodge beat the slide timing?</td></tr>
+        <tr><td class="term-name">Clear Tendencies</td><td>Break or wheel? Who handles ball under pressure?</td><td>Weakest stick on their clear unit?</td></tr>
+        <tr><td class="term-name">Ride System</td><td>Man or zone? Trap location?</td><td>Where do they commit and where is the gap?</td></tr>
+        <tr><td class="term-name">Personnel</td><td>#, position, dominant hand, athleticism rating</td><td>Highlight red = must-cover, yellow = manageable</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="section-title">New Scout Report</div>
   <div class="scout-form" id="scoutForm">
